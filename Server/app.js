@@ -1,0 +1,24 @@
+const express = require("express");
+const app = express();
+const sequelize = require("./DBConnection");
+
+// Load models
+require("./Models/LibUser");
+require("./Models/LibAuthor");
+require("./Models/LibBook");
+
+// Check connection
+sequelize
+  .authenticate()
+  .then(() => console.log("Connected to DB"))
+  .catch((err) => console.error("DB Error:", err));
+
+// Sync models
+sequelize
+  .sync({ alter: false })
+  .then(() => console.log("Models synced"))
+  .catch((err) => console.error("Sync Error:", err));
+
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
