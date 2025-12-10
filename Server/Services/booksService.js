@@ -5,9 +5,11 @@ const LibUser = require("../Models/LibUser");
 
 module.exports = {
   getAllBooks: async () => {
-    return await LibBook.findAll({
+    const allBooks = await LibBook.findAll({
       attributes: ["id", "name", "price", "user_id"],
     });
+
+    return allBooks;
   },
 
   borrowBook: async (userId, bookId) => {
@@ -48,7 +50,7 @@ module.exports = {
 
   returnTimeoutUsers: async () => {
     const users = await LibBook.findAll({
-      attributes: [],
+      attributes: ["borrow_date"],
       where: {
         borrow_date: {
           [Op.lt]: Sequelize.literal("CURRENT_DATE - INTERVAL '14 days'"),
@@ -63,15 +65,18 @@ module.exports = {
       ],
     });
 
-    const names = users.map((b) => b.user.username);
+    const usersData = users.map((b) => ({
+      username: b.user.username,
+      borrowDate: b.borrow_date,
+    }));
 
-    return names;
+    return usersData[0];
   },
 
   getMostPopularBooks: async () => {
     const popularBooks = await LibBook.findAll({
       attributes: ["name", "borrows"],
-      order: [["borrows", "DESC"]], // מהכי הרבה להכי מעט
+      order: [["borrows", "DESC"]], // Show in descending
       limit: 10,
     });
 
