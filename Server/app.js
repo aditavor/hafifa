@@ -7,6 +7,8 @@ require("./Models/LibUser");
 require("./Models/LibAuthor");
 require("./Models/LibBook");
 
+app.use(express.json());
+
 // Check connection
 sequelize
   .authenticate()
@@ -18,6 +20,9 @@ sequelize
   .sync({ alter: false })
   .then(() => console.log("Models synced"))
   .catch((err) => console.error("Sync Error:", err));
+
+// Routes
+app.use("/books", require("./Routes/booksRoute"));
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
