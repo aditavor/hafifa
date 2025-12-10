@@ -24,6 +24,7 @@ sequelize
 // Routes
 app.use("/books", require("./Routes/booksRoute"));
 app.use("/users", require("./Routes/usersRouter"));
+app.use("/authors", require("./Routes/authorsRouter"));
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
