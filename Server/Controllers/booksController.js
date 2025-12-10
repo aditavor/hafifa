@@ -50,4 +50,32 @@ module.exports = {
       res.status(500).json({ error: err.message });
     }
   },
+
+  postBook: async (req, res) => {
+    try {
+      const { name, price, authorId, userId } = req.body;
+      const result = await bookService.postBook(
+        {
+          name,
+          author_id: authorId,
+          price,
+        },
+        userId
+      );
+
+      console.log(result);
+
+      if (result.success) {
+        return res.status(201).json({
+          message: "Book created successfully",
+          book: result.data,
+        });
+      }
+      return res.status(400).json({
+        error: "Failed to create book",
+      });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
 };
