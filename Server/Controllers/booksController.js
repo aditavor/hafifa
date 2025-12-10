@@ -85,4 +85,13 @@ module.exports = {
       res.status(500).json({ error: err.message });
     }
   },
+
+  getMostPopularBooks: async (req, res) => {
+    try {
+      const users = await bookService.getMostPopularBooks();
+      res.json(users);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
 };

@@ -67,4 +67,14 @@ module.exports = {
 
     return names;
   },
+
+  getMostPopularBooks: async () => {
+    const popularBooks = await LibBook.findAll({
+      attributes: ["name", "borrows"],
+      order: [["borrows", "DESC"]], // מהכי הרבה להכי מעט
+      limit: 10,
+    });
+
+    return popularBooks;
+  },
 };

@@ -14,4 +14,7 @@ router.put("/:bookId/return", booksController.returnBook);
 // Post a new book
 router.post("/", booksController.postBook);
 
+// Get top 10 most popular books
+router.get("/mostPopular", booksController.getMostPopularBooks);
+
 module.exports = router;
