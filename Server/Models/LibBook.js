@@ -41,7 +41,7 @@ const LibBook = sequelize.define(
       },
     },
 
-    return_date: {
+    borrow_date: {
       type: DataTypes.DATE,
       allowNull: true,
     },
@@ -49,16 +49,23 @@ const LibBook = sequelize.define(
     borrows: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: 0,
     },
   },
   {
     tableName: "lib_books",
     schema: "hafifa",
     timestamps: false,
+    indexes: [
+      {
+        unique: true,
+        fields: ["name", "author_id"],
+      },
+    ],
   }
 );
 
-// Book and author connection 
+// Book and author connection
 LibBook.belongsTo(LibAuthor, {
   foreignKey: "author_id",
   as: "author",
