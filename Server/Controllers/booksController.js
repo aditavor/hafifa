@@ -63,8 +63,6 @@ module.exports = {
         userId
       );
 
-      console.log(result);
-
       if (result.success) {
         return res.status(201).json({
           message: "Book created successfully",
@@ -74,6 +72,15 @@ module.exports = {
       return res.status(400).json({
         error: "Failed to create book",
       });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+
+  returnTimeoutUsers: async (req, res) => {
+    try {
+      const users = await bookService.returnTimeoutUsers();
+      res.json(users);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
