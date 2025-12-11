@@ -1,12 +1,15 @@
 const express = require("express");
 const app = express();
 const sequelize = require("./DBConnection");
+const cors = require("cors");
 
 // Load models
 require("./Models/LibUser");
 require("./Models/LibAuthor");
 require("./Models/LibBook");
 
+// Midllewares
+app.use(cors());
 app.use(express.json());
 
 // Check connection
