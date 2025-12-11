@@ -6,9 +6,9 @@ module.exports = {
       const { username, password } = req.body;
 
       // Check if the username exists
-      const exists = await userService.findByUsername(username); 
+      const exists = await userService.findByUsername(username);
       if (exists) {
-          return res.status(400).json({ message: "User already exists" });
+        return res.status(400).json({ message: "User already exists" });
       }
 
       // Create new user
@@ -16,7 +16,7 @@ module.exports = {
 
       return res.json({
         message: "User created successfully",
-        user: { username: newUser.username },
+        user: { id: user.id, is_worker: user.is_worker },
       });
     } catch (err) {
       return res.status(500).json({ error: err.message });
@@ -44,7 +44,7 @@ module.exports = {
 
       return res.json({
         message: "Login successful",
-        user: { id: user.id, username: user.username },
+        user: { id: user.id, is_worker: user.is_worker },
       });
     } catch (err) {
       return res.status(500).json({ error: err.message });
