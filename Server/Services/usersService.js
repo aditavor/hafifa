@@ -9,4 +9,12 @@ module.exports = {
 
     return workerState.is_worker;
   },
+
+  findByUsername: async (username) => {
+    return await LibUser.findOne({ where: { username } });
+  },
+
+  createUser: async (username, password) => {
+    return await LibUser.create({ username, password });
+  },
 };
