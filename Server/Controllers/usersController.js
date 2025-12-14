@@ -3,7 +3,7 @@ const userService = require("../Services/usersService");
 module.exports = {
   register: async (req, res) => {
     try {
-      const { username, password } = req.body;
+      const { username, password, is_worker } = req.body;
 
       // Check if the username exists
       const exists = await userService.findByUsername(username);
@@ -12,11 +12,15 @@ module.exports = {
       }
 
       // Create new user
-      const newUser = await userService.createUser(username, password);
+      const newUser = await userService.createUser(
+        username,
+        password,
+        is_worker
+      );
 
-      return res.json({
+      return res.status(201).json({
         message: "User created successfully",
-        user: { id: user.id, is_worker: user.is_worker },
+        user: { id: newUser.id, is_worker: newUser.is_worker },
       });
     } catch (err) {
       return res.status(500).json({ error: err.message });
