@@ -1,0 +1,26 @@
+.searchbar {
+  position: relative;
+  width: 280px;
+
+  input {
+    width: 100%;
+    padding: 6px 35px 6px 33px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: border 0.2s ease;
+
+    &:focus {
+      border-color: gray;
+      outline: none;
+    }
+  }
+
+  .searchIcon {
+    position: absolute;
+    left: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.5;
+  }
+}

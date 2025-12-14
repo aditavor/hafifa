@@ -1,0 +1,12 @@
+$primary: #4a4a4a;
+
+body {
+  margin: 0;
+  font-family: "Assistant", sans-serif;
+  background: #f7f7f7;
+  direction: ltr;
+
+  h1 {
+    color: $primary;
+  }
+}

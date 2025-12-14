@@ -41,6 +41,11 @@ const LibBook = sequelize.define(
       },
     },
 
+    pages: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
     borrow_date: {
       type: DataTypes.DATE,
       allowNull: true,
