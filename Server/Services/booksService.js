@@ -6,7 +6,7 @@ const LibUser = require("../Models/LibUser");
 module.exports = {
   getAllBooks: async () => {
     const allBooks = await LibBook.findAll({
-      attributes: ["id", "name", "price", "user_id"],
+      attributes: ["id", "name", "price", "user_id", "borrows", "pages"],
     });
 
     return allBooks;

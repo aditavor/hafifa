@@ -53,12 +53,13 @@ module.exports = {
 
   postBook: async (req, res) => {
     try {
-      const { name, price, authorId, userId } = req.body;
+      const { name, price, authorId, userId, pages } = req.body;
       const result = await bookService.postBook(
         {
           name,
           author_id: authorId,
           price,
+          pages
         },
         userId
       );
