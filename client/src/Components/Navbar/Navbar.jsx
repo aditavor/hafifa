@@ -8,7 +8,7 @@ function Navbar() {
         <div className="logo">Bookod</div>
         <ul className="nav-links">
           <li>
-            <Link to="/" onClick={() => localStorage.clear()}>
+            <Link to="/login" onClick={() => localStorage.clear()}>
               LogOut
             </Link>
           </li>
