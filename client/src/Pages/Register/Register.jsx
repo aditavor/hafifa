@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./Register.scss";
 
 function Register() {
@@ -11,6 +12,7 @@ function Register() {
   const [securityCode, setSecurityCode] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const SECURITY_CODE = "YYYYYYYY";
+  let registeredAsWorker = false;
 
   const handleOnChange = () => {
     if (!isChecked) {
@@ -43,6 +45,10 @@ function Register() {
       return;
     }
 
+    if (securityCode === SECURITY_CODE) {
+      registeredAsWorker = true;
+    }
+
     try {
       const res = await fetch("http://localhost:3000/users/register", {
         method: "POST",
@@ -50,7 +56,7 @@ function Register() {
         body: JSON.stringify({
           username,
           password,
-          is_worker: securityCode === SECURITY_CODE,
+          is_worker: registeredAsWorker,
         }),
       });
 
@@ -63,6 +69,14 @@ function Register() {
 
       localStorage.setItem("user_id", data.user.id);
       localStorage.setItem("is_worker", data.user.is_worker);
+      const message = `Registered to user ${data.user.username} ${
+        registeredAsWorker ? "as worker" : ""
+      }`;
+      toast.success(message, {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+      });
       navigate("/home");
     } catch (err) {
       setError("Error. please try again");
@@ -122,7 +136,7 @@ function Register() {
         )}
 
         <div className="register">
-          <p>Already have an account? </p>
+          <p>Already have an account?</p>
           <Link to="/login" className="link">
             Login
           </Link>
