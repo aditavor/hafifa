@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.scss";
+import { toast } from "react-toastify";
 
 function Login() {
   const navigate = useNavigate();
@@ -33,6 +34,11 @@ function Login() {
 
       localStorage.setItem("user_id", data.user.id);
       localStorage.setItem("is_worker", data.user.is_worker);
+      toast.success("Logged in to " + username, {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+      });
       navigate("/home");
     } catch (err) {
       setError("Error. please try again");
