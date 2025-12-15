@@ -69,7 +69,7 @@ function Register() {
 
       localStorage.setItem("user_id", data.user.id);
       localStorage.setItem("is_worker", data.user.is_worker);
-      const message = `Registered to user ${data.user.username} ${
+      const message = `Registered to user ${username} ${
         registeredAsWorker ? "as worker" : ""
       }`;
       toast.success(message, {
