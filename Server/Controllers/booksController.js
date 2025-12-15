@@ -53,16 +53,13 @@ module.exports = {
 
   postBook: async (req, res) => {
     try {
-      const { name, price, authorId, userId, pages } = req.body;
-      const result = await bookService.postBook(
-        {
-          name,
-          author_id: authorId,
-          price,
-          pages
-        },
-        userId
-      );
+      const { name, price, authorId, pages } = req.body;
+      const result = await bookService.postBook({
+        name,
+        author_id: authorId,
+        price,
+        pages,
+      });
 
       if (result.success) {
         return res.status(201).json({
@@ -74,6 +71,11 @@ module.exports = {
         error: "Failed to create book",
       });
     } catch (err) {
+      if (err.name === "SequelizeUniqueConstraintError") {
+        return res.status(409).json({
+          message: "This value already exists",
+        });
+      }
       res.status(500).json({ error: err.message });
     }
   },
