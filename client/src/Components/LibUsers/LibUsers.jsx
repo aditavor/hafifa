@@ -13,7 +13,7 @@ function LibUsers({ users, errorMessage }) {
               headers:
                 "Email: " +
                 customer.email +
-                (customer.bookName ? "\nBook: " + customer.bookName : ""),
+                (customer.bookName ? "\n\nBook: " + customer.bookName : ""),
             }}
             isBook={false}
           />
