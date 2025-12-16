@@ -1,5 +1,5 @@
 import SearchBar from "../SearchBar/SearchBar";
-import Book from "../Book/Book";
+import Card from "../Card/Card";
 import "./LibBooks.scss";
 import { useState, useEffect } from "react";
 
@@ -51,15 +51,16 @@ function LibBooks({ books, setBooks }) {
       <SearchBar value={search} onChange={setSearch} />
       <div className="books">
         {filteredBooks.map((book) => (
-          <Book
+          <Card
             key={book.id}
-            book={{
+            data={{
               id: book.id,
               name: book.name,
-              pages: book.pages,
+              headers: "Pages: " + book.pages,
               userId: book.user_id,
             }}
             onBorrow={handleBorrow}
+            isBook={true}
           />
         ))}
       </div>
