@@ -37,15 +37,12 @@ module.exports = {
     return rowsUpdated;
   },
 
-  postBook: async (bookData, user_id) => {
-    const isWorker = await usersService.isUserWorker(user_id);
-    if (isWorker === true) {
-      const newBook = await LibBook.create(bookData);
-      return {
-        success: true,
-        data: newBook,
-      };
-    }
+  postBook: async (bookData) => {
+    const newBook = await LibBook.create(bookData);
+    return {
+      success: true,
+      data: newBook,
+    };
   },
 
   returnTimeoutUsers: async () => {

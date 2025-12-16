@@ -3,8 +3,7 @@ import Book from "../Book/Book";
 import "./LibBooks.scss";
 import { useState, useEffect } from "react";
 
-function LibBooks() {
-  const [books, setBooks] = useState([]);
+function LibBooks({ books, setBooks }) {
   const [search, setSearch] = useState("");
 
   const fetchBooks = async () => {
