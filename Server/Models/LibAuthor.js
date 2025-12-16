@@ -12,6 +12,7 @@ const LibAuthor = sequelize.define(
 
     name: {
       type: DataTypes.TEXT,
+      primaryKey: true,
       allowNull: false,
     },
   },
