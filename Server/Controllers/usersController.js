@@ -61,7 +61,7 @@ module.exports = {
       const users = await userService.getReaders();
       return res.json(users || []);
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     }
   },
 };

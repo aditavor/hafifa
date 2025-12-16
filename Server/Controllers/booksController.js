@@ -4,9 +4,9 @@ module.exports = {
   getAllBooks: async (req, res) => {
     try {
       const books = await bookService.getAllBooks();
-      res.json(books);
+      return res.json(books || []);
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     }
   },
 
@@ -85,16 +85,16 @@ module.exports = {
       const users = await bookService.returnTimeoutUsers();
       return res.json(users || []);
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     }
   },
 
   getMostPopularBooks: async (req, res) => {
     try {
       const users = await bookService.getMostPopularBooks();
-      res.json(users);
+      return res.json(users || []);
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     }
   },
 };
