@@ -1,6 +1,5 @@
 import SearchBar from "../SearchBar/SearchBar";
 import Card from "../Card/Card";
-import "./LibBooks.scss";
 import { useState, useEffect } from "react";
 
 function LibBooks({ books, setBooks }) {
@@ -49,7 +48,7 @@ function LibBooks({ books, setBooks }) {
   return (
     <div className="container">
       <SearchBar value={search} onChange={setSearch} />
-      <div className="books">
+      <div className="container-item">
         {filteredBooks.map((book) => (
           <Card
             key={book.id}
