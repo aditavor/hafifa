@@ -83,59 +83,57 @@ function AddBook({ authors, handleBookAdded }) {
         </button>
       </div>
       {open && (
-        <div className="add-book-card">
-          <div className="modal-overlay" onClick={() => setOpen(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <button className="close-btn" onClick={() => setOpen(false)}>
-                ✕
-              </button>
+        <div className="modal-overlay" onClick={() => setOpen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setOpen(false)}>
+              ✕
+            </button>
 
-              <form className="simple-form" onSubmit={handleSubmit}>
-                {error && <p className="submit-error">{error}</p>}
-                <label>
-                  Enter book name
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </label>
+            <form className="simple-form" onSubmit={handleSubmit}>
+              {error && <p className="submit-error">{error}</p>}
+              <label>
+                Enter book name
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </label>
 
-                <label>
-                  Enter book price (₪)
-                  <input
-                    type="number"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                  />
-                </label>
+              <label>
+                Enter book price (₪)
+                <input
+                  type="number"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </label>
 
-                <label>
-                  Enter book pages
-                  <input
-                    type="number"
-                    value={pages}
-                    onChange={(e) => setPages(e.target.value)}
-                  />
-                </label>
+              <label>
+                Enter book pages
+                <input
+                  type="number"
+                  value={pages}
+                  onChange={(e) => setPages(e.target.value)}
+                />
+              </label>
 
-                <label>
-                  Select an author
-                  <select
-                    value={authorId}
-                    onChange={(e) => setAuthorId(e.target.value)}
-                  >
-                    <option value=""></option>
-                    {authors.map((author) => (
-                      <option key={author.id} value={author.id}>
-                        {author.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <button type="submit">Submit</button>
-              </form>
-            </div>
+              <label>
+                Select an author
+                <select
+                  value={authorId}
+                  onChange={(e) => setAuthorId(e.target.value)}
+                >
+                  <option value=""></option>
+                  {authors.map((author) => (
+                    <option key={author.id} value={author.id}>
+                      {author.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <button type="submit">Submit</button>
+            </form>
           </div>
         </div>
       )}

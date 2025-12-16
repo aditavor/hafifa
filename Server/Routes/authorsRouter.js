@@ -1,11 +1,10 @@
 const express = require("express");
+const authorsController = require("../Controllers/authorsController");
 const router = express.Router();
-const LibAuthor = require("../Models/LibAuthor");
 
 // Get all authors
-router.get("/", async (req, res) => {
-  const authors = await LibAuthor.findAll();
-  return res.json(authors || []);
-});
+router.get("/", authorsController.getAllAuthors);
+
+router.post("/", authorsController.postAuthor);
 
 module.exports = router;
