@@ -1,17 +1,19 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./Pages/Home/Home.jsx";
+import Library from "./Pages/Library/Library.jsx";
 import Login from "./Pages/Login/Login.jsx";
 import Register from "./Pages/Register/Register.jsx";
 import { ToastContainer } from "react-toastify";
 import Customers from "./Pages/Customers/Customers.jsx";
 import "react-toastify/dist/ReactToastify.css";
 import Publishers from "./Pages/Publishers/Publishers.jsx";
+import Home from "./Pages/Home/Home.jsx";
 
 function App() {
   return (
     <BrowserRouter>
       <ToastContainer />
       <Routes>
+        <Route path="/library" element={<Library />} />
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/customers" element={<Customers />} />

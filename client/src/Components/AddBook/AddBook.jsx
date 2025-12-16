@@ -124,7 +124,9 @@ function AddBook({ authors, handleBookAdded }) {
                   value={authorId}
                   onChange={(e) => setAuthorId(e.target.value)}
                 >
-                  <option value=""></option>
+                  <option value="">
+                    {authors.length !== 0 ? "" : "No publishers in library"}
+                  </option>
                   {authors.map((author) => (
                     <option key={author.id} value={author.id}>
                       {author.name}
