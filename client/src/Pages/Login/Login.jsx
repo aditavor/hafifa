@@ -39,7 +39,7 @@ function Login() {
         autoClose: 3000,
         hideProgressBar: false,
       });
-      navigate("/home");
+      navigate("/library");
     } catch (err) {
       setError("Error. please try again");
     }
