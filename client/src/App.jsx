@@ -5,6 +5,7 @@ import Register from "./Pages/Register/Register.jsx";
 import { ToastContainer } from "react-toastify";
 import Customers from "./Pages/Customers/Customers.jsx";
 import "react-toastify/dist/ReactToastify.css";
+import Publishers from "./Pages/Publishers/Publishers.jsx";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/customers" element={<Customers />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/publishers" element={<Publishers />} />
       </Routes>
     </BrowserRouter>
   );
