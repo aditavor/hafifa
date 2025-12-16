@@ -8,6 +8,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [validatePassword, setValidatePassword] = useState("");
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [securityCode, setSecurityCode] = useState("");
   const [isChecked, setIsChecked] = useState(false);
@@ -26,11 +27,16 @@ function Register() {
     return usernameRegex.test(username);
   };
 
+  const validateEmailFormat = () => {
+    const emailRegex = /^[A-Za-z0-9]{8,24}$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (!username || !password) {
+    if (!username || !password || !email) {
       setError("Enter username and password");
       return;
     }
@@ -45,6 +51,11 @@ function Register() {
       return;
     }
 
+    if (!validateEmailFormat()) {
+      setError("Email format is invalid");
+      return;
+    }
+
     if (securityCode === SECURITY_CODE) {
       registeredAsWorker = true;
     }
@@ -56,6 +67,7 @@ function Register() {
         body: JSON.stringify({
           username,
           password,
+          email,
           is_worker: registeredAsWorker,
         }),
       });
@@ -96,6 +108,14 @@ function Register() {
           className="register-input"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+        />
+
+        <label className="register-label">Email</label>
+        <input
+          type="text"
+          className="register-input"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <label className="register-label">Password</label>

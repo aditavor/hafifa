@@ -18,6 +18,10 @@ const LibUser = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    email: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
     is_worker: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
