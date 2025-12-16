@@ -47,7 +47,7 @@ module.exports = {
 
   returnTimeoutUsers: async () => {
     const users = await LibBook.findAll({
-      attributes: ["borrow_date"],
+      attributes: ["name", "borrow_date"],
       where: {
         borrow_date: {
           [Op.lt]: Sequelize.literal("CURRENT_DATE - INTERVAL '14 days'"),
@@ -57,17 +57,20 @@ module.exports = {
         {
           model: LibUser,
           as: "user",
-          attributes: ["username"],
+          attributes: ["username", "email", "id"],
         },
       ],
     });
 
     const usersData = users.map((b) => ({
       username: b.user.username,
+      email: b.user.email,
+      id: b.user.id,
+      bookName: b.name,
       borrowDate: b.borrow_date,
     }));
 
-    return usersData[0];
+    return usersData;
   },
 
   getMostPopularBooks: async () => {
