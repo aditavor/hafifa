@@ -1,5 +1,6 @@
 import "./AddBook.scss";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 function AddBook({ authors, handleBookAdded }) {
   const [open, setOpen] = useState(false);
@@ -38,6 +39,7 @@ function AddBook({ authors, handleBookAdded }) {
       }
 
       handleBookAdded(data.book);
+
       toast.success("Created new book " + name, {
         position: "bottom-right",
         autoClose: 3000,
