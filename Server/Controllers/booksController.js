@@ -83,7 +83,7 @@ module.exports = {
   returnTimeoutUsers: async (req, res) => {
     try {
       const users = await bookService.returnTimeoutUsers();
-      res.json(users);
+      return res.json(users || []);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

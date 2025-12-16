@@ -59,7 +59,7 @@ module.exports = {
   getReaders: async (req, res) => {
     try {
       const users = await userService.getReaders();
-      res.json(users);
+      return res.json(users || []);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
