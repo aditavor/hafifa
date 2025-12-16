@@ -67,13 +67,17 @@ function Publishers() {
     <>
       <Navbar />
       <div className="page-container">
-        <h2 className="title" >Library publishers:</h2>
+        <h2 className="title">Library publishers:</h2>
         <ul className="list">
-          {authors.map((author) => (
-            <li key={author.id} className="list-item">
-              <span>{author.name}</span>
-            </li>
-          ))}
+          {authors.length !== 0 ? (
+            authors.map((author) => (
+              <li key={author.id} className="list-item">
+                <span>{author.name}</span>
+              </li>
+            ))
+          ) : (
+            <p>No Publishers in library</p>
+          )}
           {localStorage.getItem("is_worker") === "true" && (
             <li
               className="add-btn"

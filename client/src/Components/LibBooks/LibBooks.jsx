@@ -49,19 +49,27 @@ function LibBooks({ books, setBooks }) {
     <div className="container">
       <SearchBar value={search} onChange={setSearch} />
       <div className="container-item">
-        {filteredBooks.map((book) => (
-          <Card
-            key={book.id}
-            data={{
-              id: book.id,
-              name: book.name,
-              headers: "Pages: " + book.pages,
-              userId: book.user_id,
-            }}
-            onBorrow={handleBorrow}
-            isBook={true}
-          />
-        ))}
+        {books.length > 0 ? (
+          filteredBooks.length > 0 ? (
+            filteredBooks.map((book) => (
+              <Card
+                key={book.id}
+                data={{
+                  id: book.id,
+                  name: book.name,
+                  headers: "Pages: " + book.pages,
+                  userId: book.user_id,
+                }}
+                onBorrow={handleBorrow}
+                isBook={true}
+              />
+            ))
+          ) : (
+            <p>No match results</p>
+          )
+        ) : (
+          <p>No Books in library</p>
+        )}
       </div>
     </div>
   );
