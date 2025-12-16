@@ -28,7 +28,7 @@ function Register() {
   };
 
   const validateEmailFormat = () => {
-    const emailRegex = /^[A-Za-z0-9]{8,24}$/;
+    const emailRegex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   };
 
@@ -162,7 +162,7 @@ function Register() {
           </Link>
         </div>
         <button type="submit" className="register-button">
-          Login
+          Register
         </button>
       </form>
     </div>
