@@ -16,7 +16,7 @@ module.exports = {
 
   getReaders: async () => {
     return await LibUser.findAll({
-      attributes: ["username", "email", "is_worker"],
+      attributes: ["id", "username", "email", "is_worker"],
     });
   },
 };

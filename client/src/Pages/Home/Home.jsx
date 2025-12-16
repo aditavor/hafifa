@@ -1,7 +1,6 @@
 import AddBook from "../../Components/AddBook/AddBook";
 import Navbar from "../../Components/Navbar/Navbar";
 import LibBooks from "../../Components/LibBooks/LibBooks";
-import "./Home.scss";
 import { useEffect, useState } from "react";
 
 function Home() {

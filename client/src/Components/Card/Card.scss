@@ -1,4 +1,4 @@
-.book-card {
+.card {
   width: 220px;
   height: 140px;
   padding: 16px;
@@ -11,7 +11,7 @@
   flex-shrink: 0;
 }
 
-.book-header {
+.card-header {
   display: flex;
   align-items: center;
 
@@ -33,9 +33,10 @@
   }
 }
 
-.pages {
+.headers {
   margin: 0;
   font-size: 16px;
+  white-space: pre-line;
 }
 
 .borrow-btn {
