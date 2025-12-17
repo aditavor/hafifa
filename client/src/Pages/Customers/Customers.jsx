@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
-import Card from "../../Components/Card/Card";
-import "./Customers.scss";
 import Collapse from "../../Components/Collaspe/Collapse";
 import LibUsers from "../../Components/LibUsers/LibUsers";
 
