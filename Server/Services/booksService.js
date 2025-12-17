@@ -78,6 +78,9 @@ module.exports = {
       attributes: ["id", "name", "borrows"],
       order: [["borrows", "DESC"]], // Show in descending
       limit: 10,
+      where: {
+        borrows: { [Op.gt]: 0 },
+      },
     });
 
     return popularBooks;
