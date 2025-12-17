@@ -82,4 +82,15 @@ module.exports = {
 
     return popularBooks;
   },
+
+  booksUserOwn: async (userId) => {
+    const books = await LibBook.findAll({
+      attributes: ["name", "borrow_date"],
+      where: {
+        user_id: userId,
+      },
+    });
+
+    return books;
+  },
 };
