@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "./Login.scss";
+import "../authentication.scss";
 import { toast } from "react-toastify";
 
 function Login() {
@@ -46,35 +46,35 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <form className="login-card" onSubmit={handleSubmit}>
-        <h2 className="login-title">Login</h2>
+    <div className="auth-container">
+      <form className="auth-card" onSubmit={handleSubmit}>
+        <h2 className="auth-title">Login</h2>
 
-        {error && <p className="login-error">{error}</p>}
+        {error && <p className="auth-error">{error}</p>}
 
-        <label className="login-label">Username</label>
+        <label className="auth-label">Username</label>
         <input
           type="text"
-          className="login-input"
+          className="auth-input"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
 
-        <label className="login-label">Password</label>
+        <label className="auth-label">Password</label>
         <input
           type="password"
-          className="login-input"
+          className="auth-input"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <div className="register">
+        <div className="auth">
           <p>Dont have an account? </p>
           <Link to="/Register" className="link">
             Register
           </Link>
         </div>
-        <button type="submit" className="login-button">
+        <button type="submit" className="auth-button">
           Login
         </button>
       </form>
