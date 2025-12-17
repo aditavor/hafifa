@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../authentication.scss";
-import "./Register.scss";
 
 function Register() {
   const navigate = useNavigate();
@@ -90,7 +89,7 @@ function Register() {
         autoClose: 3000,
         hideProgressBar: false,
       });
-      navigate("/library");
+      navigate("/home");
     } catch (err) {
       setError("Error. please try again");
     }

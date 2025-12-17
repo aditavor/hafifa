@@ -21,7 +21,7 @@ function Home() {
     <>
       <Navbar />
       <div className="page-container">
-        <h1 className="title">Welcome to the library</h1>
+        <h1 className="title">Welcome to Bookod</h1>
         <button className="to-library" onClick={() => navigate("/library")}>
           View library's books
         </button>
