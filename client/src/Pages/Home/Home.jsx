@@ -25,7 +25,7 @@ function Home() {
         <button className="to-library" onClick={() => navigate("/library")}>
           View library's books
         </button>
-        <h3 className="title">Our Top 10 Bestsellers:</h3>
+        <h3 className="title">Our Bestsellers:</h3>
         <ul className="list">
           {books.length !== 0 ? (
             books.map((book) => (
