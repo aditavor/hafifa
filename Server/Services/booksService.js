@@ -75,11 +75,22 @@ module.exports = {
 
   getMostPopularBooks: async () => {
     const popularBooks = await LibBook.findAll({
-      attributes: ["name", "borrows"],
+      attributes: ["id", "name", "borrows"],
       order: [["borrows", "DESC"]], // Show in descending
       limit: 10,
     });
 
     return popularBooks;
+  },
+
+  booksUserOwn: async (userId) => {
+    const books = await LibBook.findAll({
+      attributes: ["id", "name", "borrow_date"],
+      where: {
+        user_id: userId,
+      },
+    });
+
+    return books;
   },
 };

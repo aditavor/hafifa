@@ -15,7 +15,6 @@ function LibUsers({ users, errorMessage }) {
                 customer.email +
                 (customer.bookName ? "\n\nBook: " + customer.bookName : ""),
             }}
-            isBook={false}
           />
         ))
       ) : (

@@ -15,4 +15,7 @@ router.post("/register", userController.register);
 // Login to existing account
 router.post("/login", userController.login);
 
+// Get users books
+router.get("/:userId/books", booksController.booksUserOwn);
+
 module.exports = router;

@@ -45,6 +45,8 @@ function LibBooks({ books, setBooks }) {
     fetchBooks();
   };
 
+  const isUserWorker = localStorage.getItem("is_worker") === "true";
+
   return (
     <div className="container">
       <SearchBar value={search} onChange={setSearch} />
@@ -57,10 +59,12 @@ function LibBooks({ books, setBooks }) {
                 data={{
                   id: book.id,
                   name: book.name,
-                  headers: "Pages: " + book.pages,
-                  userId: book.user_id,
+                  headers: "Pages: " + book.pages
                 }}
-                onBorrow={handleBorrow}
+                btnData={"Borrow Book"}
+                onClickBtn={handleBorrow}
+                showIcon={isUserWorker}
+                showBtn={book.user_id === null}
                 isBook={true}
               />
             ))

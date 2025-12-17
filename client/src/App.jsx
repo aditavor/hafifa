@@ -7,6 +7,7 @@ import Customers from "./Pages/Customers/Customers.jsx";
 import "react-toastify/dist/ReactToastify.css";
 import Publishers from "./Pages/Publishers/Publishers.jsx";
 import Home from "./Pages/Home/Home.jsx";
+import Personal from "./Pages/Personal/Personal.jsx";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/customers" element={<Customers />} />
         <Route path="/register" element={<Register />} />
         <Route path="/publishers" element={<Publishers />} />
+        <Route path="/personal" element={<Personal />} />
       </Routes>
     </BrowserRouter>
   );

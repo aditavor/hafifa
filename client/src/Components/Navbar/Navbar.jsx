@@ -23,7 +23,7 @@ function Navbar() {
           <Link to="/library">Library</Link>
         </li>
         <li>
-          <Link to="/persnal">Personal</Link>
+          <Link to="/personal">Personal</Link>
         </li>
         {localStorage.getItem("is_worker") === "true" && (
           <li>

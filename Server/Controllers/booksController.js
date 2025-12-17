@@ -97,4 +97,14 @@ module.exports = {
       return res.status(500).json({ error: err.message });
     }
   },
+
+  booksUserOwn: async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const books = await bookService.booksUserOwn(userId);
+      return res.json(books || []);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  },
 };
