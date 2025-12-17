@@ -62,7 +62,7 @@ function LibBooks({ books, setBooks }) {
                   headers: "Pages: " + book.pages
                 }}
                 btnData={"Borrow Book"}
-                onBorrow={handleBorrow}
+                onClickBtn={handleBorrow}
                 showIcon={isUserWorker}
                 showBtn={book.user_id === null}
                 isBook={true}

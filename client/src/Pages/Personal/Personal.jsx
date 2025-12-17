@@ -16,7 +16,7 @@ function Personal() {
     fetchBooks();
   }, []);
 
-  const handleBorrow = async (bookId, bookName) => {
+  const handleReturn = async (bookId, bookName) => {
     try {
       const res = await fetch(
         "http://localhost:3000/books/" + bookId + "/return",
@@ -56,13 +56,13 @@ function Personal() {
                     headers: "Borrow Date: " + book.borrow_date,
                   }}
                   btnData={"Return Book"}
-                  onBorrow={handleBorrow}
+                  onClickBtn={handleReturn}
                   showIcon={false}
                   showBtn={true}
                 />
               ))
             ) : (
-              <p>No Books in library</p>
+              <p>You didnt borrowed any book</p>
             )}
           </div>
         </div>

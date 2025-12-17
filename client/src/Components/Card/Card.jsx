@@ -1,6 +1,6 @@
 import "./Card.scss";
 
-function Card({ data, onBorrow, btnData, showIcon, showBtn }) {
+function Card({ data, onClickBtn, btnData, showIcon, showBtn }) {
   return (
     <div className="card">
       <div className="card-header">
@@ -11,7 +11,7 @@ function Card({ data, onBorrow, btnData, showIcon, showBtn }) {
       {showBtn && (
         <button
           className="borrow-btn"
-          onClick={() => onBorrow(data.id, data.name)}
+          onClick={() => onClickBtn(data.id, data.name)}
         >
           {btnData}
         </button>
