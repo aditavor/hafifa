@@ -1,6 +1,6 @@
 .card {
   width: 220px;
-  height: 140px;
+  height: 130px;
   padding: 16px;
   border-radius: 12px;
   background: #fff;
@@ -12,13 +12,8 @@
 }
 
 .card-header {
-  display: flex;
-  align-items: center;
-
   h3 {
     font-size: 19px;
-    margin: 0;
-    padding-right: 25px;
   }
 
   .trash-icon {
@@ -34,7 +29,6 @@
 }
 
 .headers {
-  margin: 0;
   font-size: 16px;
   white-space: pre-line;
 }

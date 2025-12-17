@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import "../authentication.scss";
 import "./Register.scss";
 
 function Register() {
@@ -96,40 +97,40 @@ function Register() {
   };
 
   return (
-    <div className="register-container">
-      <form className="register-card" onSubmit={handleSubmit}>
-        <h2 className="register-title">Register</h2>
+    <div className="auth-container">
+      <form className="auth-card" onSubmit={handleSubmit}>
+        <h2 className="auth-title">Register</h2>
 
-        {error && <p className="register-error">{error}</p>}
+        {error && <p className="auth-error">{error}</p>}
 
-        <label className="register-label">Username</label>
+        <label className="auth-label">Username</label>
         <input
           type="text"
-          className="register-input"
+          className="auth-input"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
 
-        <label className="register-label">Email</label>
+        <label className="auth-label">Email</label>
         <input
           type="text"
-          className="register-input"
+          className="auth-input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <label className="register-label">Password</label>
+        <label className="auth-label">Password</label>
         <input
           type="password"
-          className="register-input"
+          className="auth-input"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <label className="register-label">Vaidate Password</label>
+        <label className="auth-label">Vaidate Password</label>
         <input
           type="password"
-          className="register-input"
+          className="auth-input"
           value={validatePassword}
           onChange={(e) => setValidatePassword(e.target.value)}
         />
@@ -145,23 +146,23 @@ function Register() {
 
         {isChecked && (
           <>
-            <label className="register-label">Security code- ONE try...</label>
+            <label className="auth-label">Security code- ONE try...</label>
             <input
               type="text"
-              className="register-input"
+              className="auth-input"
               value={securityCode}
               onChange={(e) => setSecurityCode(e.target.value)}
             />
           </>
         )}
 
-        <div className="register">
+        <div className="auth">
           <p>Already have an account?</p>
           <Link to="/login" className="link">
-            Register
+            Login
           </Link>
         </div>
-        <button type="submit" className="register-button">
+        <button type="submit" className="auth-button">
           Register
         </button>
       </form>
