@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import Navbar from "../../Components/Navbar/Navbar";
 import Card from "../../Components/Card/Card";
+import { toast } from "react-toastify";
+import { userId } from "../../Utils/systemUtils";
 
 function Personal() {
   const [books, setBooks] = useState([]);
-  const userId = localStorage.getItem("user_id");
 
   const fetchBooks = async () => {
-    let res = await fetch("http://localhost:3000/users/" + userId + "/books");
+    let res = await fetch("http://localhost:3000/users/" + userId() + "/books");
     let data = await res.json();
     setBooks(data);
   };
@@ -31,17 +31,24 @@ function Personal() {
         return;
       }
 
-      console.log(`Returned: ${bookName}`);
+      handleBookReturned(bookId);
+
+      toast.success("Book " + bookName + " borrowed successfully", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+      });
     } catch (err) {
       console.error(err);
     }
+  };
 
-    fetchBooks();
+  const handleBookReturned = (bookId) => {
+    setBooks(books.filter((book) => book.id !== bookId));
   };
 
   return (
     <>
-      <Navbar />
       <div className="page-container">
         <h2 className="title">Books you borrowed:</h2>
         <div className="container">

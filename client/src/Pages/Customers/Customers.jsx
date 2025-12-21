@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Navbar from "../../Components/Navbar/Navbar";
 import Collapse from "../../Components/Collaspe/Collapse";
 import LibUsers from "../../Components/LibUsers/LibUsers";
 
@@ -23,7 +22,6 @@ function Customers() {
 
   return (
     <>
-      <Navbar />
       <div className="page-container">
         <div className="container">
           <Collapse title="Customers">

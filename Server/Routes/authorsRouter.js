@@ -5,6 +5,6 @@ const router = express.Router();
 // Get all authors
 router.get("/", authorsController.getAllAuthors);
 
-router.post("/", authorsController.postAuthor);
+router.post("/", authorsController.createAuthor);
 
 module.exports = router;

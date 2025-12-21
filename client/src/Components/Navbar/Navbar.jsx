@@ -1,7 +1,16 @@
 import { Link } from "react-router-dom";
 import "./Navbar.scss";
+import { isWorker } from "../../Utils/systemUtils";
 
 function Navbar() {
+  const links = [
+    { id: 0, link: "/", name: "Home" },
+    { id: 1, link: "/library", name: "Library" },
+    { id: 2, link: "/personal", name: "Personal" },
+    ...(isWorker() ? [{ id: 3, link: "/customers", name: "Customers" }] : []),
+    { id: 4, link: "/publishers", name: "Publishers" },
+  ];
+
   return (
     <nav className="navbar">
       <div className="logo-section">
@@ -16,23 +25,11 @@ function Navbar() {
       </div>
 
       <ul className="nav-links">
-        <li>
-          <Link to="/home">Home</Link>
-        </li>
-        <li>
-          <Link to="/library">Library</Link>
-        </li>
-        <li>
-          <Link to="/personal">Personal</Link>
-        </li>
-        {localStorage.getItem("is_worker") === "true" && (
-          <li>
-            <Link to="/customers">Customers</Link>
+        {links.map((link) => (
+          <li key={link.id}>
+            <Link to={link.link}>{link.name}</Link>
           </li>
-        )}
-        <li>
-          <Link to="/publishers">Publishers</Link>
-        </li>
+        ))}
       </ul>
     </nav>
   );

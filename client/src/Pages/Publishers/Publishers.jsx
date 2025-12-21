@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import Navbar from "../../Components/Navbar/Navbar";
 import "./Publishers.scss";
+import AddAuthorModal from "../../Components/AddAuthorModal/AddAuthorModal";
+import { isWorker } from "../../Utils/systemUtils";
 
 function Publishers() {
   const [authors, setAuthors] = useState([]);
   const [authorName, setAuthorName] = useState([]);
   const [open, setOpen] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
 
   const fetchAuthors = async () => {
     const res = await fetch("http://localhost:3000/authors");
@@ -45,7 +46,7 @@ function Publishers() {
 
       handleAuthorAdded(data.author);
 
-      toast.success("Added new author " + name, {
+      toast.success("Added new author " + authorName, {
         position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -65,7 +66,6 @@ function Publishers() {
 
   return (
     <>
-      <Navbar />
       <div className="page-container">
         <h2 className="title">Library publishers:</h2>
         <ul className="list">
@@ -78,7 +78,7 @@ function Publishers() {
           ) : (
             <p>No Publishers in library</p>
           )}
-          {localStorage.getItem("is_worker") === "true" && (
+          {isWorker() && (
             <li
               className="add-btn"
               onClick={() => {
@@ -91,26 +91,13 @@ function Publishers() {
           )}
         </ul>
         {open && (
-          <div className="modal-overlay" onClick={() => setOpen(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <button className="close-btn" onClick={() => setOpen(false)}>
-                ✕
-              </button>
-
-              <form className="simple-form" onSubmit={handleSubmit}>
-                {error && <p className="submit-error">{error}</p>}
-                <label>
-                  Enter author name
-                  <input
-                    type="text"
-                    value={authorName}
-                    onChange={(e) => setAuthorName(e.target.value)}
-                  />
-                </label>
-                <button type="submit">Submit</button>
-              </form>
-            </div>
-          </div>
+          <AddAuthorModal
+            error={error}
+            setOpen={setOpen}
+            authorName={authorName}
+            setAuthorName={setAuthorName}
+            handleSubmit={handleSubmit}
+          />
         )}
       </div>
     </>

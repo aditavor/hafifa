@@ -1,6 +1,5 @@
 const LibBook = require("../Models/LibBook");
 const { Op, Sequelize } = require("sequelize");
-const usersService = require("./usersService");
 const LibUser = require("../Models/LibUser");
 
 module.exports = {
@@ -13,28 +12,28 @@ module.exports = {
   },
 
   borrowBook: async (userId, bookId) => {
-    const [rowsUpdated] = await LibBook.update(
+    const [, [updatedBook]] = await LibBook.update(
       {
         user_id: userId,
         borrows: Sequelize.literal("borrows + 1"),
         borrow_date: Sequelize.literal("CURRENT_DATE"),
       },
-      { where: { id: bookId, user_id: { [Op.is]: null } } }
+      { where: { id: bookId, user_id: { [Op.is]: null } }, returning: true }
     );
 
-    return rowsUpdated;
+    return updatedBook ?? null;
   },
 
   returnBook: async (bookId) => {
-    const [rowsUpdated] = await LibBook.update(
+    const [, [updatedBook]] = await LibBook.update(
       {
         user_id: null,
         borrow_date: null,
       },
-      { where: { id: bookId, user_id: { [Op.not]: null } } }
+      { where: { id: bookId, user_id: { [Op.not]: null } }, returning: true }
     );
 
-    return rowsUpdated;
+    return updatedBook ?? null;
   },
 
   postBook: async (bookData) => {
@@ -86,7 +85,7 @@ module.exports = {
     return popularBooks;
   },
 
-  booksUserOwn: async (userId) => {
+  getUserBooks: async (userId) => {
     const books = await LibBook.findAll({
       attributes: ["id", "name", "borrow_date"],
       where: {

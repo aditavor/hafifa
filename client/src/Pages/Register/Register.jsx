@@ -89,7 +89,7 @@ function Register() {
         autoClose: 3000,
         hideProgressBar: false,
       });
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       setError("Error. please try again");
     }

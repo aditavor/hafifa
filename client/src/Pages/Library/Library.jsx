@@ -1,7 +1,7 @@
 import AddBook from "../../Components/AddBook/AddBook";
-import Navbar from "../../Components/Navbar/Navbar";
 import LibBooks from "../../Components/LibBooks/LibBooks";
 import { useEffect, useState } from "react";
+import { isWorker } from "../../Utils/systemUtils";
 
 function Library() {
   const [authors, setAuthors] = useState([]);
@@ -23,9 +23,8 @@ function Library() {
 
   return (
     <>
-      <Navbar />
       <div className="page-container">
-        {localStorage.getItem("is_worker") === "true" && (
+        {isWorker() && (
           <AddBook authors={authors} handleBookAdded={handleBookAdded}/>
         )}
         <LibBooks books={books} setBooks={setBooks} />

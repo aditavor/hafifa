@@ -14,17 +14,16 @@ module.exports = {
     try {
       const { userId } = req.body;
       const { bookId } = req.params;
-      const rowsUpdated = await bookService.borrowBook(userId, bookId);
+      const updatedBook = await bookService.borrowBook(userId, bookId);
 
-      if (rowsUpdated === 0) {
+      if (!updatedBook) {
         return res.status(400).json({
-          message: "Book is already borrowed",
+          message: "Cant borrow book with id: " + bookId,
         });
       } else {
         res.status(202).json({
-          message: "Book borrowed successfully",
-          bookId,
-          userId,
+          message: "Book " + bookId + " borrowed successfully",
+          book: updatedBook,
         });
       }
     } catch (err) {
@@ -35,15 +34,16 @@ module.exports = {
   returnBook: async (req, res) => {
     try {
       const { bookId } = req.params;
-      const rowsUpdated = await bookService.returnBook(bookId);
+      const updatedBook = await bookService.returnBook(bookId);
 
-      if (rowsUpdated !== 0) {
-        return res.status(202).json({
-          message: "Book " + bookId + " returned",
+      if (!updatedBook) {
+        return res.status(409).json({
+          message: "Cant return book with id: " + bookId,
         });
       } else {
-        res.status(409).json({
-          message: "Cant return book with id: " + bookId,
+        res.status(202).json({
+          message: "Book " + bookId + " returned successfully",
+          book: updatedBook,
         });
       }
     } catch (err) {
@@ -91,17 +91,17 @@ module.exports = {
 
   getMostPopularBooks: async (req, res) => {
     try {
-      const users = await bookService.getMostPopularBooks();
-      return res.json(users || []);
+      const books = await bookService.getMostPopularBooks();
+      return res.json(books || []);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
   },
 
-  booksUserOwn: async (req, res) => {
+  getUserBooks: async (req, res) => {
     try {
       const { userId } = req.params;
-      const books = await bookService.booksUserOwn(userId);
+      const books = await bookService.getUserBooks(userId);
       return res.json(books || []);
     } catch (err) {
       return res.status(500).json({ error: err.message });

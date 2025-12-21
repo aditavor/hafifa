@@ -16,6 +16,6 @@ router.post("/register", userController.register);
 router.post("/login", userController.login);
 
 // Get users books
-router.get("/:userId/books", booksController.booksUserOwn);
+router.get("/:userId/books", booksController.getUserBooks);
 
 module.exports = router;

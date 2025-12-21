@@ -10,9 +10,14 @@ module.exports = {
     }
   },
 
-  postAuthor: async (req, res) => {
+  createAuthor: async (req, res) => {
     try {
       const { name } = req.body;
+      if (!name) {
+        return res.status(400).json({
+          message: "Missing data",
+        });
+      }
       const result = await authorsService.postAuthor({
         name,
       });

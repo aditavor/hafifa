@@ -1,51 +1,59 @@
 import SearchBar from "../SearchBar/SearchBar";
 import Card from "../Card/Card";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { toast } from "react-toastify";
+import { userId, isWorker } from "../../Utils/systemUtils";
+import { getAllBooks, borrowBook } from "../../api/api";
 
 function LibBooks({ books, setBooks }) {
   const [search, setSearch] = useState("");
 
   const fetchBooks = async () => {
-    const res = await fetch("http://localhost:3000/books");
-    const data = await res.json();
-    setBooks(data);
+    const { data, status } = await getAllBooks();
+    if (status === 200) {
+      setBooks(data);
+    }
   };
 
   useEffect(() => {
     fetchBooks();
   }, []);
 
-  const filteredBooks = books.filter((book) =>
-    book.name.toLowerCase().includes(search.toLowerCase())
+  const filteredBooks = useMemo(
+    () => filerBooks(books, search),
+    [books, search]
   );
 
+  const isAvailable = (book) => !book.user_id;
+
   const handleBorrow = async (bookId, bookName) => {
-    const userId = localStorage.getItem("user_id");
+    const id = userId();
 
     try {
-      const res = await fetch(
-        "http://localhost:3000/books/" + bookId + "/borrow",
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId }),
-        }
-      );
+      const { data, status } = await borrowBook(bookId, id);
 
-      if (!res.ok) {
+      if (status !== 202) {
         console.error("Failed to borrow book");
         return;
       }
 
-      console.log(`Borrowed: ${bookName}`);
+      handleBookBorrowed(data.book);
+
+      toast.success("Book " + data.book.name + " borrowed successfully", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+      });
     } catch (err) {
       console.error(err);
     }
-
-    fetchBooks();
   };
 
-  const isUserWorker = localStorage.getItem("is_worker") === "true";
+  const handleBookBorrowed = (newBook) => {
+    setBooks((prev) =>
+      prev.map((book) => (book.id === newBook.id ? newBook : book))
+    );
+  };
 
   return (
     <div className="container">
@@ -59,12 +67,12 @@ function LibBooks({ books, setBooks }) {
                 data={{
                   id: book.id,
                   name: book.name,
-                  headers: "Pages: " + book.pages
+                  headers: "Pages: " + book.pages,
                 }}
                 btnData={"Borrow Book"}
                 onClickBtn={handleBorrow}
-                showIcon={isUserWorker}
-                showBtn={book.user_id === null}
+                showIcon={isWorker()}
+                showBtn={isAvailable(book)}
                 isBook={true}
               />
             ))
@@ -80,3 +88,9 @@ function LibBooks({ books, setBooks }) {
 }
 
 export default LibBooks;
+
+const filerBooks = (books, search) => {
+  return books.filter((book) =>
+    book.name.toLowerCase().includes(search.toLowerCase())
+  );
+};

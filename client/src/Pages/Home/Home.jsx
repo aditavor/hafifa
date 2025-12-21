@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Navbar from "../../Components/Navbar/Navbar";
 import "./Home.scss";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +7,7 @@ function Home() {
   const [books, setBooks] = useState([]);
 
   const fetchBooks = async () => {
-    const res = await fetch("http://localhost:3000/books/mostPopular");
+    const res = await fetch("http://localhost:3000/books/bestSellers");
     const data = await res.json();
     setBooks(data);
   };
@@ -19,7 +18,6 @@ function Home() {
 
   return (
     <>
-      <Navbar />
       <div className="page-container">
         <h1 className="title">Welcome to Bookod</h1>
         <button className="to-library" onClick={() => navigate("/library")}>

@@ -39,7 +39,7 @@ function Login() {
         autoClose: 3000,
         hideProgressBar: false,
       });
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       setError("Error. please try again");
     }
@@ -70,7 +70,7 @@ function Login() {
 
         <div className="auth">
           <p>Dont have an account? </p>
-          <Link to="/Register" className="link">
+          <Link to="/register" className="link">
             Register
           </Link>
         </div>
