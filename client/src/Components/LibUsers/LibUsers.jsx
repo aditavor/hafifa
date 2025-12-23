@@ -2,7 +2,7 @@ import Card from "../Card/Card";
 
 function LibUsers({ users, errorMessage }) {
   return (
-    <div className="container-item">
+    <>
       {users.length !== 0 ? (
         users.map((customer) => (
           <Card
@@ -20,7 +20,7 @@ function LibUsers({ users, errorMessage }) {
       ) : (
         <p>{errorMessage}</p>
       )}
-    </div>
+    </>
   );
 }
 

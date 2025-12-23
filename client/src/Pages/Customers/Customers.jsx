@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Collapse from "../../Components/Collaspe/Collapse";
 import LibUsers from "../../Components/LibUsers/LibUsers";
 import { getAllUsers, returnTimeoutUsers } from "../../api/api";
 
@@ -29,19 +28,11 @@ function Customers() {
   return (
     <>
       <div className="page-container">
+        <h2 className="title">Library customers:</h2>
         <div className="container">
-          <Collapse title="Customers">
+          <div className="container-item">
             <LibUsers users={customers} errorMessage={"no users"}></LibUsers>
-          </Collapse>
-        </div>
-
-        <div className="container">
-          <Collapse title="Customers in late">
-            <LibUsers
-              users={timeoutCustomer}
-              errorMessage={"no users in late"}
-            ></LibUsers>
-          </Collapse>
+          </div>
         </div>
       </div>
     </>
