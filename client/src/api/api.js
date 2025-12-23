@@ -10,21 +10,35 @@ export const getAllBooks = async () => {
 };
 
 export const borrowBook = async (bookId, id) => {
-  const res = await axios.put(path + "books/" + bookId + "/borrow", {
-    userId: id,
-  });
-  return {
-    data: res.data,
-    status: res.status,
-  };
+  try {
+    const res = await axios.put(path + "books/" + bookId + "/borrow", {
+      userId: id,
+    });
+    return {
+      data: res.data,
+      status: res.status,
+    };
+  } catch (err) {
+    return {
+      data: err.response?.data,
+      status: err.response?.status || 500,
+    };
+  }
 };
 
 export const returnBook = async (bookId) => {
-  const res = await axios.put(path + "books/" + bookId + "/return");
-  return {
-    data: res.data,
-    status: res.status,
-  };
+  try {
+    const res = await axios.put(path + "books/" + bookId + "/return");
+    return {
+      data: res.data,
+      status: res.status,
+    };
+  } catch (err) {
+    return {
+      data: err.response?.data,
+      status: err.response?.status || 500,
+    };
+  }
 };
 
 export const usersBooks = async (userId) => {
@@ -68,43 +82,71 @@ export const getAllAuthors = async () => {
 };
 
 export const addPost = async (name, price, authorId, pages) => {
-  const res = await axios.post(path + "books", {
-    name,
-    price,
-    authorId,
-    pages,
-  });
-  return {
-    data: res.data,
-    status: res.status,
-  };
+  try {
+    const res = await axios.post(path + "books", {
+      name,
+      price,
+      authorId,
+      pages,
+    });
+    return {
+      data: res.data,
+      status: res.status,
+    };
+  } catch (err) {
+    return {
+      data: err.response?.data,
+      status: err.response?.status || 500,
+    };
+  }
 };
 
 export const login = async (username, password) => {
-  const res = await axios.post(path + "users/login", { username, password });
-  return {
-    data: res.data,
-    status: res.status,
-  };
+  try {
+    const res = await axios.post(path + "users/login", { username, password });
+    return {
+      data: res.data,
+      status: res.status,
+    };
+  } catch (err) {
+    return {
+      data: err.response?.data,
+      status: err.response?.status || 500,
+    };
+  }
 };
 
 export const register = async (username, password, email, is_worker) => {
-  const res = await axios.post(path + "users/register", {
-    username,
-    password,
-    email,
-    is_worker,
-  });
-  return {
-    data: res.data,
-    status: res.status,
-  };
+  try {
+    const res = await axios.post(path + "users/register", {
+      username,
+      password,
+      email,
+      is_worker,
+    });
+    return {
+      data: res.data,
+      status: res.status,
+    };
+  } catch (err) {
+    return {
+      data: err.response?.data,
+      status: err.response?.status || 500,
+    };
+  }
 };
 
 export const addAuthor = async (name) => {
-  const res = await axios.post(path + "authors", { name });
-  return {
-    data: res.data,
-    status: res.status,
-  };
+  try {
+    const res = await axios.post(path + "authors", { name });
+    return {
+      data: res.data,
+      status: res.status,
+    };
+  } catch (err) {
+    return {
+      data: err.response?.data,
+      status: err.response?.status || 500,
+    };
+  }
 };

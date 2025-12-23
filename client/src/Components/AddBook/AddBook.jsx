@@ -20,24 +20,20 @@ function AddBook({ authors, handleBookAdded }) {
       return;
     }
 
-    try {
-      const { data, status } = await addPost(name, price, authorId, pages);
+    const { data, status } = await addPost(name, price, authorId, pages);
 
-      if (status !== 201) {
-        setError(data.message || "Adding book error");
-        return;
-      }
-
-      handleBookAdded(data.book);
-
-      toast.success("Created new book " + name, {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-      });
-    } catch (err) {
-      setError("Error. please try again");
+    if (status !== 201) {
+      setError(data.message || "Adding book error");
+      return;
     }
+
+    handleBookAdded(data.book);
+
+    toast.success("Created new book " + name, {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+    });
 
     setOpen(false);
     clearForm();

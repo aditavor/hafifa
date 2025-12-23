@@ -73,7 +73,7 @@ module.exports = {
     } catch (err) {
       if (err.name === "SequelizeUniqueConstraintError") {
         return res.status(409).json({
-          message: "This value already exists",
+          message: "This book already exists",
         });
       }
       res.status(500).json({ error: err.message });

@@ -28,24 +28,20 @@ function Publishers() {
       return;
     }
 
-    try {
-      const { data, status } = await addAuthor(authorName);
+    const { data, status } = await addAuthor(authorName);
 
-      if (status !== 201) {
-        setError(data.message || "Add author error");
-        return;
-      }
-
-      handleAuthorAdded(data.author);
-
-      toast.success("Added new author " + authorName, {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-      });
-    } catch (err) {
-      setError("Error. please try again");
+    if (status !== 201) {
+      setError(data.message || "Add author error");
+      return;
     }
+
+    handleAuthorAdded(data.author);
+
+    toast.success("Added new author " + authorName, {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+    });
 
     setOpen(false);
     setAuthorName("");
@@ -76,6 +72,7 @@ function Publishers() {
               onClick={() => {
                 setOpen(true);
                 setAuthorName("");
+                setError("");
               }}
             >
               + Add A Publisher

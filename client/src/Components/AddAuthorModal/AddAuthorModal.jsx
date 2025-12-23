@@ -1,4 +1,10 @@
-function AddAuthorModal({error, setOpen, authorName, setAuthorName, handleSubmit}) {
+function AddAuthorModal({
+  error,
+  setOpen,
+  authorName,
+  setAuthorName,
+  handleSubmit,
+}) {
   return (
     <div className="modal-overlay" onClick={() => setOpen(false)}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>

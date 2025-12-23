@@ -58,7 +58,7 @@ module.exports = {
           as: "user",
           attributes: ["username", "email", "id"],
         },
-      ],
+      ]
     });
 
     const usersData = users.map((b) => ({

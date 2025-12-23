@@ -61,33 +61,29 @@ function Register() {
       registeredAsWorker = true;
     }
 
-    try {
-      const { data, status } = await register(
-        username,
-        password,
-        email,
-        registeredAsWorker
-      );
+    const { data, status } = await register(
+      username,
+      password,
+      email,
+      registeredAsWorker
+    );
 
-      if (status !== 201) {
-        setError(data.message || "Register error");
-        return;
-      }
-
-      localStorage.setItem("user_id", data.user.id);
-      localStorage.setItem("is_worker", data.user.is_worker);
-      const message = `Registered to user ${username} ${
-        registeredAsWorker ? "as worker" : ""
-      }`;
-      toast.success(message, {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-      });
-      navigate("/");
-    } catch (err) {
-      setError("Error. please try again");
+    if (status !== 201) {
+      setError(data.message || "Register error");
+      return;
     }
+
+    localStorage.setItem("user_id", data.user.id);
+    localStorage.setItem("is_worker", data.user.is_worker);
+    const message = `Registered to user ${username} ${
+      registeredAsWorker ? "as worker" : ""
+    }`;
+    toast.success(message, {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+    });
+    navigate("/");
   };
 
   return (
