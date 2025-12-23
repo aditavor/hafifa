@@ -9,10 +9,15 @@ function Publishers() {
   const [authorName, setAuthorName] = useState([]);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const fetchAuthors = async () => {
+    setLoading(true);
+
     const { data } = await getAllAuthors();
     setAuthors(data);
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -57,7 +62,9 @@ function Publishers() {
       <div className="page-container">
         <h2 className="title">Library publishers:</h2>
         <ul className="list">
-          {authors.length !== 0 ? (
+          {loading ? (
+            <p>Loading...</p>
+          ) : authors.length !== 0 ? (
             authors.map((author) => (
               <li key={author.id} className="list-item">
                 <span>{author.name}</span>

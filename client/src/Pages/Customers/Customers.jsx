@@ -6,18 +6,25 @@ import { getAllUsers, returnTimeoutUsers } from "../../api/api";
 function Customers() {
   const [customers, setCustomers] = useState([]);
   const [timeoutCustomer, setTimeoutCustomer] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchCustomers = async () => {
+    setLoading(true);
+
     const { data: users } = await getAllUsers();
     setCustomers(users);
 
     const { data: timeoutUsers } = await returnTimeoutUsers();
     setTimeoutCustomer(timeoutUsers);
+
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchCustomers();
   }, []);
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <>

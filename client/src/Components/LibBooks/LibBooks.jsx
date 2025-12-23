@@ -7,12 +7,17 @@ import { getAllBooks, borrowBook } from "../../api/api";
 
 function LibBooks({ books, setBooks }) {
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const fetchBooks = async () => {
+    setLoading(true);
+
     const { data, status } = await getAllBooks();
     if (status === 200) {
       setBooks(data);
     }
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -54,6 +59,7 @@ function LibBooks({ books, setBooks }) {
       prev.map((book) => (book.id === newBook.id ? newBook : book))
     );
   };
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div className="container">

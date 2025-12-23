@@ -6,10 +6,15 @@ import { returnBook, usersBooks } from "../../api/api";
 
 function Personal() {
   const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchBooks = async () => {
-    const { data, status } = await usersBooks(userId());
+    setLoading(true);
+
+    const { data } = await usersBooks(userId());
     setBooks(data);
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -47,7 +52,9 @@ function Personal() {
         <h2 className="title">Books you borrowed:</h2>
         <div className="container">
           <div className="container-item">
-            {books.length > 0 ? (
+            {loading ? (
+              <p>Loading...</p>
+            ) : books.length > 0 ? (
               books.map((book) => (
                 <Card
                   key={book.id}
