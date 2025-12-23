@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./Publishers.scss";
 import AddAuthorModal from "../../Components/AddAuthorModal/AddAuthorModal";
 import { isWorker } from "../../Utils/systemUtils";
+import { addAuthor, getAllAuthors } from "../../api/api";
 
 function Publishers() {
   const [authors, setAuthors] = useState([]);
@@ -10,8 +11,7 @@ function Publishers() {
   const [error, setError] = useState("");
 
   const fetchAuthors = async () => {
-    const res = await fetch("http://localhost:3000/authors");
-    const data = await res.json();
+    const { data } = await getAllAuthors();
     setAuthors(data);
   };
 
@@ -29,17 +29,9 @@ function Publishers() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/authors", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: authorName,
-        }),
-      });
+      const { data, status } = await addAuthor(authorName);
 
-      const data = await res.json();
-
-      if (!res.ok) {
+      if (status !== 201) {
         setError(data.message || "Add author error");
         return;
       }

@@ -1,6 +1,7 @@
 import "./AddBook.scss";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { addPost } from "../../api/api";
 
 function AddBook({ authors, handleBookAdded }) {
   const [open, setOpen] = useState(false);
@@ -20,21 +21,10 @@ function AddBook({ authors, handleBookAdded }) {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/books", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          price: Number(price),
-          authorId,
-          pages: Number(pages),
-        }),
-      });
+      const { data, status } = await addPost(name, price, authorId, pages);
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || "Login error");
+      if (status !== 201) {
+        setError(data.message || "Adding book error");
         return;
       }
 

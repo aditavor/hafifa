@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../authentication.scss";
 import { toast } from "react-toastify";
+import { login } from "../../api/api";
 
 function Login() {
   const navigate = useNavigate();
@@ -19,15 +20,8 @@ function Login() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
+      const { data, status } = await login(username, password);
+      if (status !== 200) {
         setError(data.message || "Login error");
         return;
       }

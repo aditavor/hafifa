@@ -18,3 +18,93 @@ export const borrowBook = async (bookId, id) => {
     status: res.status,
   };
 };
+
+export const returnBook = async (bookId) => {
+  const res = await axios.put(path + "books/" + bookId + "/return");
+  return {
+    data: res.data,
+    status: res.status,
+  };
+};
+
+export const usersBooks = async (userId) => {
+  const res = await axios.get(path + "users/" + userId + "/books");
+  return {
+    data: res.data,
+    status: res.status,
+  };
+};
+
+export const getAllUsers = async () => {
+  const res = await axios.get(path + "users");
+  return {
+    data: res.data,
+    status: res.status,
+  };
+};
+
+export const returnTimeoutUsers = async () => {
+  const res = await axios.get(path + "users/returnTimeout");
+  return {
+    data: res.data,
+    status: res.status,
+  };
+};
+
+export const bestSellersBooks = async () => {
+  const res = await axios.get(path + "books/bestSellers");
+  return {
+    data: res.data,
+    status: res.status,
+  };
+};
+
+export const getAllAuthors = async () => {
+  const res = await axios.get(path + "authors");
+  return {
+    data: res.data,
+    status: res.status,
+  };
+};
+
+export const addPost = async (name, price, authorId, pages) => {
+  const res = await axios.post(path + "books", {
+    name,
+    price,
+    authorId,
+    pages,
+  });
+  return {
+    data: res.data,
+    status: res.status,
+  };
+};
+
+export const login = async (username, password) => {
+  const res = await axios.post(path + "users/login", { username, password });
+  return {
+    data: res.data,
+    status: res.status,
+  };
+};
+
+export const register = async (username, password, email, is_worker) => {
+  const res = await axios.post(path + "users/register", {
+    username,
+    password,
+    email,
+    is_worker,
+  });
+  return {
+    data: res.data,
+    status: res.status,
+  };
+};
+
+export const addAuthor = async (name) => {
+  const res = await axios.post(path + "authors", { name });
+  return {
+    data: res.data,
+    status: res.status,
+  };
+};

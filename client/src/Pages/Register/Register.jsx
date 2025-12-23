@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../authentication.scss";
+import { register } from "../../api/api";
 
 function Register() {
   const navigate = useNavigate();
@@ -61,20 +62,14 @@ function Register() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/users/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username,
-          password,
-          email,
-          is_worker: registeredAsWorker,
-        }),
-      });
+      const { data, status } = await register(
+        username,
+        password,
+        email,
+        registeredAsWorker
+      );
 
-      const data = await res.json();
-
-      if (!res.ok) {
+      if (status !== 201) {
         setError(data.message || "Register error");
         return;
       }

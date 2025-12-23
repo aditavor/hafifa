@@ -2,14 +2,14 @@ import AddBook from "../../Components/AddBook/AddBook";
 import LibBooks from "../../Components/LibBooks/LibBooks";
 import { useEffect, useState } from "react";
 import { isWorker } from "../../Utils/systemUtils";
+import { getAllAuthors } from "../../api/api";
 
 function Library() {
   const [authors, setAuthors] = useState([]);
   const [books, setBooks] = useState([]);
 
   const fetchAuthors = async () => {
-    const res = await fetch("http://localhost:3000/authors");
-    const data = await res.json();
+    const { data } = await getAllAuthors();
     setAuthors(data);
   };
 
@@ -25,7 +25,7 @@ function Library() {
     <>
       <div className="page-container">
         {isWorker() && (
-          <AddBook authors={authors} handleBookAdded={handleBookAdded}/>
+          <AddBook authors={authors} handleBookAdded={handleBookAdded} />
         )}
         <LibBooks books={books} setBooks={setBooks} />
       </div>

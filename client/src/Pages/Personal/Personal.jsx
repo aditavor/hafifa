@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import Card from "../../Components/Card/Card";
 import { toast } from "react-toastify";
 import { userId } from "../../Utils/systemUtils";
+import { returnBook, usersBooks } from "../../api/api";
 
 function Personal() {
   const [books, setBooks] = useState([]);
 
   const fetchBooks = async () => {
-    let res = await fetch("http://localhost:3000/users/" + userId() + "/books");
-    let data = await res.json();
+    const { data, status } = await usersBooks(userId());
     setBooks(data);
   };
 
@@ -18,15 +18,9 @@ function Personal() {
 
   const handleReturn = async (bookId, bookName) => {
     try {
-      const res = await fetch(
-        "http://localhost:3000/books/" + bookId + "/return",
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const { status } = await returnBook(bookId);
 
-      if (!res.ok) {
+      if (status !== 202) {
         console.error("Failed to return book");
         return;
       }

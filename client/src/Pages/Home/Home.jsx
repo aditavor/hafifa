@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import "./Home.scss";
 import { useNavigate } from "react-router-dom";
+import { bestSellersBooks } from "../../api/api";
 
 function Home() {
   const navigate = useNavigate();
   const [books, setBooks] = useState([]);
 
   const fetchBooks = async () => {
-    const res = await fetch("http://localhost:3000/books/bestSellers");
-    const data = await res.json();
-    setBooks(data);
+    const { data } = await bestSellersBooks()
+     setBooks(data);
   };
 
   useEffect(() => {
