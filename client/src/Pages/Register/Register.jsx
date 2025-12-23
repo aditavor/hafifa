@@ -3,6 +3,11 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../authentication.scss";
 import { register } from "../../api/api";
+import {
+  saveLoggedUser,
+  validateEmailFormat,
+  validateUsernameFormat,
+} from "../../Utils/authUtils";
 
 function Register() {
   const navigate = useNavigate();
@@ -13,24 +18,12 @@ function Register() {
   const [error, setError] = useState("");
   const [securityCode, setSecurityCode] = useState("");
   const [isChecked, setIsChecked] = useState(false);
-  const SECURITY_CODE = "YYYYYYYY";
-  let registeredAsWorker = false;
 
   const handleOnChange = () => {
     if (!isChecked) {
       setSecurityCode("");
     }
     setIsChecked(!isChecked); // Toggle the state
-  };
-
-  const validateUsernameFormat = () => {
-    const usernameRegex = /^[A-Za-z0-9]{8,24}$/;
-    return usernameRegex.test(username);
-  };
-
-  const validateEmailFormat = () => {
-    const emailRegex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email);
   };
 
   const handleSubmit = async (e) => {
@@ -47,25 +40,21 @@ function Register() {
       return;
     }
 
-    if (!validateUsernameFormat()) {
+    if (!validateUsernameFormat(username)) {
       setError("Username must be 8-24 letters and number");
       return;
     }
 
-    if (!validateEmailFormat()) {
+    if (!validateEmailFormat(email)) {
       setError("Email format is invalid");
       return;
-    }
-
-    if (securityCode === SECURITY_CODE) {
-      registeredAsWorker = true;
     }
 
     const { data, status } = await register(
       username,
       password,
       email,
-      registeredAsWorker
+      securityCode
     );
 
     if (status !== 201) {
@@ -73,16 +62,17 @@ function Register() {
       return;
     }
 
-    localStorage.setItem("user_id", data.user.id);
-    localStorage.setItem("is_worker", data.user.is_worker);
+    saveLoggedUser(data.user.id, data.user.is_worker);
     const message = `Registered to user ${username} ${
-      registeredAsWorker ? "as worker" : ""
+      data.user.is_worker ? "as worker" : ""
     }`;
+
     toast.success(message, {
       position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
     });
+
     navigate("/");
   };
 

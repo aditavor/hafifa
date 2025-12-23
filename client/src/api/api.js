@@ -116,13 +116,13 @@ export const login = async (username, password) => {
   }
 };
 
-export const register = async (username, password, email, is_worker) => {
+export const register = async (username, password, email, securityCode) => {
   try {
     const res = await axios.post(path + "users/register", {
       username,
       password,
       email,
-      is_worker,
+      securityCode,
     });
     return {
       data: res.data,

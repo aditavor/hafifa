@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "../authentication.scss";
 import { toast } from "react-toastify";
 import { login } from "../../api/api";
+import { saveLoggedUser } from "../../Utils/authUtils";
 
 function Login() {
   const navigate = useNavigate();
@@ -19,24 +20,20 @@ function Login() {
       return;
     }
 
-    try {
-      const { data, status } = await login(username, password);
-      if (status !== 200) {
-        setError(data.message || "Login error");
-        return;
-      }
-
-      localStorage.setItem("user_id", data.user.id);
-      localStorage.setItem("is_worker", data.user.is_worker);
-      toast.success("Logged in to " + username, {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-      });
-      navigate("/");
-    } catch (err) {
-      setError("Error. please try again");
+    const { data, status } = await login(username, password);
+    if (status !== 200) {
+      setError(data.message || "Login error");
+      return;
     }
+
+    saveLoggedUser(data.user.id, data.user.is_worker);
+
+    toast.success("Logged in to " + username, {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+    });
+    navigate("/");
   };
 
   return (
