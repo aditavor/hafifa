@@ -18,7 +18,11 @@ function Library() {
             handleBookAdded={addBook}
           />
         )}
-        <LibBooks books={books} updateBook={updateBook} />
+        <LibBooks
+          books={books}
+          updateBook={updateBook}
+          loading={booksLoading}
+        />
       </div>
     </>
   );

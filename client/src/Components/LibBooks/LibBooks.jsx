@@ -38,13 +38,13 @@ function LibBooks({ books, loading, updateBook }) {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-
   return (
     <div className="container">
       <SearchBar value={search} onChange={setSearch} />
       <div className="container-item">
-        {books.length > 0 ? (
+        {loading ? (
+          <p>Loading...</p>
+        ) : books.length > 0 ? (
           filteredBooks.length > 0 ? (
             filteredBooks.map((book) => (
               <Card

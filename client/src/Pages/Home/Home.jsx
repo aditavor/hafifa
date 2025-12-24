@@ -6,10 +6,13 @@ import { bestSellersBooks } from "../../api/api";
 function Home() {
   const navigate = useNavigate();
   const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchBooks = async () => {
-    const { data } = await bestSellersBooks()
-     setBooks(data);
+    setLoading(true);
+    const { data } = await bestSellersBooks();
+    setBooks(data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -25,7 +28,9 @@ function Home() {
         </button>
         <h3 className="title">Our Bestsellers:</h3>
         <ul className="list">
-          {books.length !== 0 ? (
+          {loading ? (
+            <p>Loading...</p>
+          ) : books.length !== 0 ? (
             books.map((book) => (
               <li key={book.id} className="list-item">
                 <div>

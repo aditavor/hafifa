@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { addPost } from "../../api/api";
 import Modal from "../Modal/Modal";
 
-function AddBook({ authors, handleBookAdded }) {
+function AddBook({ authors, loading, handleBookAdded }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [authorId, setAuthorId] = useState("");
@@ -106,14 +106,20 @@ function AddBook({ authors, handleBookAdded }) {
                 value={authorId}
                 onChange={(e) => setAuthorId(e.target.value)}
               >
-                <option value="">
-                  {authors.length !== 0 ? "" : "No publishers in library"}
-                </option>
-                {authors.map((author) => (
-                  <option key={author.id} value={author.id}>
-                    {author.name}
-                  </option>
-                ))}
+                {loading ? (
+                  <option value="">Loading...</option>
+                ) : authors.length === 0 ? (
+                  <option value="">No publishers in library</option>
+                ) : (
+                  <>
+                    <option value=""></option>
+                    {authors.map((author) => (
+                      <option key={author.id} value={author.id}>
+                        {author.name}
+                      </option>
+                    ))}
+                  </>
+                )}
               </select>
             </label>
             <button type="submit">Submit</button>
