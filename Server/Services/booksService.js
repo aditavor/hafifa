@@ -1,6 +1,5 @@
 const LibBook = require("../Models/LibBook");
 const { Op, Sequelize } = require("sequelize");
-const LibUser = require("../Models/LibUser");
 
 exports.getAllBooks = async () => {
   const allBooks = await LibBook.findAll({
@@ -8,6 +7,20 @@ exports.getAllBooks = async () => {
   });
 
   return allBooks;
+};
+
+exports.getUserstimeoutBooks = async (userId) => {
+  const books = await LibBook.findAll({
+    attributes: ["id", "name", "borrow_date"],
+    where: {
+      user_id: userId,
+      borrow_date: {
+        [Op.lt]: Sequelize.literal("CURRENT_DATE - INTERVAL '14 days'"),
+      },
+    },
+  });
+
+  return books;
 };
 
 exports.borrowBook = async (userId, bookId) => {

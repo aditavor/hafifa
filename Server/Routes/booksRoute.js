@@ -5,6 +5,9 @@ const booksController = require("../Controllers/booksController");
 // Get all books
 router.get("/", booksController.getAllBooks);
 
+// Get all user's timeout books
+router.get("/:userId/timeout", booksController.getUserstimeoutBooks);
+
 // Borrow a book
 router.put("/:bookId/borrow", booksController.borrowBook);
 

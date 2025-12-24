@@ -9,6 +9,16 @@ exports.getAllBooks = async (req, res) => {
   }
 };
 
+exports.getUserstimeoutBooks = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const books = await bookService.getUserstimeoutBooks(userId);
+    return res.json(books || []);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
 exports.borrowBook = async (req, res) => {
   try {
     const { userId } = req.body;

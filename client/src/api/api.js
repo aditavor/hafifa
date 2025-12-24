@@ -9,6 +9,14 @@ export const getAllBooks = async () => {
   };
 };
 
+export const getUserstimeoutBooks = async (userId) => {
+  const res = await axios.get(path + "books/" + userId + "/timeout");
+  return {
+    data: res.data,
+    status: res.status,
+  };
+};
+
 export const borrowBook = async (bookId, id) => {
   try {
     const res = await axios.put(path + "books/" + bookId + "/borrow", {
@@ -41,7 +49,7 @@ export const returnBook = async (bookId) => {
   }
 };
 
-export const usersBooks = async (userId) => {
+export const getUsersBooks = async (userId) => {
   const res = await axios.get(path + "users/" + userId + "/books");
   return {
     data: res.data,
