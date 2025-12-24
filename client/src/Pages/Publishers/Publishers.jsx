@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import "./Publishers.scss";
-import AddAuthorModal from "../../Components/AddAuthorModal/AddAuthorModal";
+import AddAuthor from "../../Components/AddAuthor/AddAuthor";
 import { isWorker } from "../../Utils/systemUtils";
 import { addAuthor, getAllAuthors } from "../../api/api";
+import Modal from "../../Components/Modal/Modal";
+import { toast } from "react-toastify";
 
 function Publishers() {
   const [authors, setAuthors] = useState([]);
@@ -87,13 +89,15 @@ function Publishers() {
           )}
         </ul>
         {open && (
-          <AddAuthorModal
-            error={error}
-            setOpen={setOpen}
-            authorName={authorName}
-            setAuthorName={setAuthorName}
-            handleSubmit={handleSubmit}
-          />
+          <Modal setOpen={setOpen}>
+            <AddAuthor
+              error={error}
+              setOpen={setOpen}
+              authorName={authorName}
+              setAuthorName={setAuthorName}
+              handleSubmit={handleSubmit}
+            />
+          </Modal>
         )}
       </div>
     </>
