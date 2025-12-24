@@ -4,11 +4,14 @@ import "./index.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import App from "./App.jsx";
 import { BooksProvider } from "./context/Books/BooksProvider.jsx";
+import { AuthorsProvider } from "./context/Authors/AuthorsProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BooksProvider>
-      <App />
+      <AuthorsProvider>
+        <App />
+      </AuthorsProvider>
     </BooksProvider>
   </StrictMode>
 );
