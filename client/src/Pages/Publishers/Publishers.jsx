@@ -1,29 +1,16 @@
 import { useEffect, useState } from "react";
 import AddAuthor from "../../Components/AddAuthor/AddAuthor";
 import { isWorker } from "../../Utils/systemUtils";
-import { addAuthor, getAllAuthors } from "../../api/api";
+import { addAuthor } from "../../api/api";
 import Modal from "../../Components/Modal/Modal";
 import { toast } from "react-toastify";
+import { useAuthors } from "../../context/Authors/useAuthors";
 
 function Publishers() {
-  const [authors, setAuthors] = useState([]);
   const [authorName, setAuthorName] = useState([]);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  const fetchAuthors = async () => {
-    setLoading(true);
-
-    const { data } = await getAllAuthors();
-    setAuthors(data);
-
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchAuthors();
-  }, []);
+  const { authors, loading, addAuthor: addAuthorCtx } = useAuthors();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,21 +28,16 @@ function Publishers() {
       return;
     }
 
-    handleAuthorAdded(data.author);
-
     toast.success("Added new author " + authorName, {
       position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
     });
 
+    addAuthorCtx(data.author);
     setOpen(false);
     setAuthorName("");
     setError("");
-  };
-
-  const handleAuthorAdded = (newAuthor) => {
-    setAuthors((prev) => [...prev, newAuthor]);
   };
 
   return (

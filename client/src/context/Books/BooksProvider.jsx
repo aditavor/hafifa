@@ -29,7 +29,7 @@ export function BooksProvider({ children }) {
 
   return (
     <BooksContext.Provider
-      value={{ books, loading, fetchBooks, addBook, updateBook }}
+      value={{ books, loading, addBook, updateBook }}
     >
       {children}
     </BooksContext.Provider>
