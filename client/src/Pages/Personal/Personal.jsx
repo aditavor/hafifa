@@ -3,10 +3,12 @@ import Card from "../../Components/Card/Card";
 import { toast } from "react-toastify";
 import { userId } from "../../Utils/systemUtils";
 import { returnBook, getUsersBooks } from "../../api/api";
+import { useBooks } from "../../context/Books/useBooks";
 
 function Personal() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { updateBook } = useBooks();
 
   const fetchBooks = async () => {
     setLoading(true);
@@ -21,18 +23,18 @@ function Personal() {
     fetchBooks();
   }, []);
 
-  const handleReturn = async (bookId, bookName) => {
+  const handleReturn = async (bookId) => {
     try {
-      const { status } = await returnBook(bookId);
+      const { data, status } = await returnBook(bookId);
 
       if (status !== 202) {
         console.error("Failed to return book");
         return;
       }
 
-      handleBookReturned(bookId);
+      handleBookReturned(data.book);
 
-      toast.success("Book " + bookName + " borrowed successfully", {
+      toast.success("Book " + data.book.name + " borrowed successfully", {
         position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -42,8 +44,9 @@ function Personal() {
     }
   };
 
-  const handleBookReturned = (bookId) => {
-    setBooks(books.filter((book) => book.id !== bookId));
+  const handleBookReturned = (returnedBook) => {
+    updateBook(returnedBook);
+    setBooks(books.filter((book) => book.id !== returnedBook.id));
   };
 
   return (
