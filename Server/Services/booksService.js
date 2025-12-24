@@ -43,34 +43,6 @@ exports.postBook = async (bookData) => {
   };
 };
 
-exports.returnTimeoutUsers = async () => {
-  const users = await LibBook.findAll({
-    attributes: ["name", "borrow_date"],
-    where: {
-      borrow_date: {
-        [Op.lt]: Sequelize.literal("CURRENT_DATE - INTERVAL '14 days'"),
-      },
-    },
-    include: [
-      {
-        model: LibUser,
-        as: "user",
-        attributes: ["username", "email", "id"],
-      },
-    ],
-  });
-
-  const usersData = users.map((b) => ({
-    username: b.user.username,
-    email: b.user.email,
-    id: b.user.id,
-    bookName: b.name,
-    borrowDate: b.borrow_date,
-  }));
-
-  return usersData;
-};
-
 exports.getMostPopularBooks = async () => {
   const popularBooks = await LibBook.findAll({
     attributes: ["id", "name", "borrows"],

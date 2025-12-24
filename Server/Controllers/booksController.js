@@ -79,15 +79,6 @@ exports.postBook = async (req, res) => {
   }
 };
 
-exports.returnTimeoutUsers = async (req, res) => {
-  try {
-    const users = await bookService.returnTimeoutUsers();
-    return res.json(users || []);
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
-};
-
 exports.getMostPopularBooks = async (req, res) => {
   try {
     const books = await bookService.getMostPopularBooks();

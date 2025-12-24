@@ -57,14 +57,6 @@ export const getAllUsers = async () => {
   };
 };
 
-export const returnTimeoutUsers = async () => {
-  const res = await axios.get(path + "users/returnTimeout");
-  return {
-    data: res.data,
-    status: res.status,
-  };
-};
-
 export const bestSellersBooks = async () => {
   const res = await axios.get(path + "books/bestSellers");
   return {
