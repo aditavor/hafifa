@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./Publishers.scss";
 import AddAuthor from "../../Components/AddAuthor/AddAuthor";
 import { isWorker } from "../../Utils/systemUtils";
 import { addAuthor, getAllAuthors } from "../../api/api";
