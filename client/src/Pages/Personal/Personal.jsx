@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "../../Components/Card/Card";
 import { toast } from "react-toastify";
 import { userId } from "../../Utils/systemUtils";
-import { returnBook, usersBooks } from "../../api/api";
+import { returnBook, getUsersBooks } from "../../api/api";
 
 function Personal() {
   const [books, setBooks] = useState([]);
@@ -11,7 +11,7 @@ function Personal() {
   const fetchBooks = async () => {
     setLoading(true);
 
-    const { data } = await usersBooks(userId());
+    const { data } = await getUsersBooks(userId());
     setBooks(data);
 
     setLoading(false);
