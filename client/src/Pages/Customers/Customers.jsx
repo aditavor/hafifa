@@ -1,20 +1,29 @@
 import { useEffect, useState } from "react";
-import LibUsers from "../../Components/LibUsers/LibUsers";
-import { getAllUsers, returnTimeoutUsers } from "../../api/api";
+import { getAllUsers, getUserstimeoutBooks } from "../../api/api";
+import Card from "../../Components/Card/Card";
+import Modal from "../../Components/Modal/Modal";
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
-  const [timeoutCustomer, setTimeoutCustomer] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [usersBookOpen, setUsersBookOpen] = useState(false);
+  const [openUsersBooks, setOpenUsersBooks] = useState([]);
 
   const fetchCustomers = async () => {
     setLoading(true);
 
-    const { data: users } = await getAllUsers();
-    setCustomers(users);
+    const { data } = await getAllUsers();
+    setCustomers(data);
 
-    const { data: timeoutUsers } = await returnTimeoutUsers();
-    setTimeoutCustomer(timeoutUsers);
+    setLoading(false);
+  };
+
+  const viewUserBooks = async (userId) => {
+    setLoading(true);
+
+    setUsersBookOpen(true);
+    const { data: books } = await getUserstimeoutBooks(userId);
+    setOpenUsersBooks(books);
 
     setLoading(false);
   };
@@ -23,17 +32,50 @@ function Customers() {
     fetchCustomers();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-
   return (
     <>
       <div className="page-container">
         <h2 className="title">Library customers:</h2>
         <div className="container">
           <div className="container-item">
-            <LibUsers users={customers} errorMessage={"no users"}></LibUsers>
+            {loading ? (
+              <p>Loading...</p>
+            ) : customers.length !== 0 ? (
+              customers.map((customer) => (
+                <Card
+                  key={customer.id}
+                  data={{
+                    id: customer.id,
+                    name: customer.username,
+                    headers: "Email: " + customer.email,
+                  }}
+                  btnData="View Books"
+                  showBtn={customer.isLate}
+                  onClickBtn={() => viewUserBooks(customer.id)}
+                />
+              ))
+            ) : (
+              <p>No Users</p>
+            )}
           </div>
         </div>
+
+        {usersBookOpen && (
+          <Modal setOpen={setUsersBookOpen}>
+            <ul className="list">
+              {loading ? (
+                <p>Loading...</p>
+              ) : (
+                openUsersBooks.map((book) => (
+                  <li key={book.id} className="list-item">
+                    <p className="name">book: {book.name}</p>
+                    <p>borrow date: {book.borrow_date}</p>
+                  </li>
+                ))
+              )}
+            </ul>
+          </Modal>
+        )}
       </div>
     </>
   );
