@@ -3,35 +3,19 @@ import Card from "../Card/Card";
 import { useState, useEffect, useMemo } from "react";
 import { toast } from "react-toastify";
 import { userId, isWorker } from "../../Utils/systemUtils";
-import { getAllBooks, borrowBook } from "../../api/api";
+import { borrowBook } from "../../api/api";
 
-function LibBooks({ books, setBooks }) {
+function LibBooks({ books, loading, updateBook }) {
   const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  const fetchBooks = async () => {
-    setLoading(true);
-
-    const { data, status } = await getAllBooks();
-    if (status === 200) {
-      setBooks(data);
-    }
-
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchBooks();
-  }, []);
 
   const filteredBooks = useMemo(
-    () => filerBooks(books, search),
+    () => filterBooks(books, search),
     [books, search]
   );
 
   const isAvailable = (book) => !book.user_id;
 
-  const handleBorrow = async (bookId, bookName) => {
+  const handleBorrow = async (bookId) => {
     const id = userId();
 
     try {
@@ -42,7 +26,7 @@ function LibBooks({ books, setBooks }) {
         return;
       }
 
-      handleBookBorrowed(data.book);
+      updateBook(data.book);
 
       toast.success("Book " + data.book.name + " borrowed successfully", {
         position: "bottom-right",
@@ -54,11 +38,6 @@ function LibBooks({ books, setBooks }) {
     }
   };
 
-  const handleBookBorrowed = (newBook) => {
-    setBooks((prev) =>
-      prev.map((book) => (book.id === newBook.id ? newBook : book))
-    );
-  };
   if (loading) return <p>Loading...</p>;
 
   return (
@@ -76,7 +55,7 @@ function LibBooks({ books, setBooks }) {
                   headers: "Pages: " + book.pages,
                 }}
                 btnData={"Borrow Book"}
-                onClickBtn={handleBorrow}
+                onClickBtn={() => handleBorrow(book.id)}
                 showIcon={isWorker()}
                 showBtn={isAvailable(book)}
                 isBook={true}
@@ -95,7 +74,7 @@ function LibBooks({ books, setBooks }) {
 
 export default LibBooks;
 
-const filerBooks = (books, search) => {
+const filterBooks = (books, search) => {
   return books.filter((book) =>
     book.name.toLowerCase().includes(search.toLowerCase())
   );
