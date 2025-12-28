@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "./Navbar.scss";
 import { isWorker } from "../../Utils/systemUtils";
+import { useBalance } from "../../context/Balance/useBalance";
 
 function Navbar() {
   const links = [
@@ -11,6 +12,8 @@ function Navbar() {
     { id: 4, link: "/publishers", name: "Publishers" },
   ];
 
+  const { balance } = useBalance();
+
   return (
     <nav className="navbar">
       <div className="logo-section">
@@ -20,6 +23,9 @@ function Navbar() {
             <Link to="/login" onClick={() => localStorage.clear()}>
               LogOut
             </Link>
+          </li>
+          <li>
+            <span>Balance: {balance}</span>
           </li>
         </ul>
       </div>
