@@ -1,6 +1,6 @@
 import SearchBar from "../SearchBar/SearchBar";
 import Card from "../Card/Card";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { toast } from "react-toastify";
 import { userId, isWorker } from "../../Utils/systemUtils";
 import { borrowBook } from "../../api/api";
@@ -12,8 +12,6 @@ function LibBooks({ books, loading, updateBook }) {
     () => filterBooks(books, search),
     [books, search]
   );
-
-  const isAvailable = (book) => !book.user_id;
 
   const handleBorrow = async (bookId) => {
     const id = userId();
@@ -79,3 +77,5 @@ const filterBooks = (books, search) => {
     book.name.toLowerCase().includes(search.toLowerCase())
   );
 };
+
+const isAvailable = (book) => !book.user_id;
