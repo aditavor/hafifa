@@ -8,6 +8,7 @@ import {
   validateEmailFormat,
   validateUsernameFormat,
 } from "../../Utils/authUtils";
+import { useBalance } from "../../context/Balance/useBalance";
 
 function Register() {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ function Register() {
   const [error, setError] = useState("");
   const [securityCode, setSecurityCode] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+  const { setBalance } = useBalance();
 
   const handleOnChange = () => {
     if (!isChecked) {
@@ -62,7 +64,13 @@ function Register() {
       return;
     }
 
-    saveLoggedUser(data.user.id, data.user.is_worker);
+    saveLoggedUser(
+      data.user.id,
+      data.user.is_worker,
+      data.user.balance,
+      setBalance
+    );
+
     const message = `Registered to user ${username} ${
       data.user.is_worker ? "as worker" : ""
     }`;

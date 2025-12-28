@@ -8,7 +8,8 @@ export const validateEmailFormat = (email) => {
   return emailRegex.test(email);
 };
 
-export const saveLoggedUser = (userId, isWorker) => {
+export const saveLoggedUser = (userId, isWorker, balance, setBalance) => {
   localStorage.setItem("user_id", userId);
   localStorage.setItem("is_worker", isWorker);
+  setBalance(balance)
 };
