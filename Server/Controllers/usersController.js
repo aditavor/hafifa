@@ -21,7 +21,7 @@ exports.register = async (req, res) => {
 
     return res.status(201).json({
       message: "User created successfully",
-      user: { id: newUser.id, is_worker: newUser.is_worker },
+      user: { id: newUser.id, is_worker: newUser.is_worker, balance: newUser.balance },
     });
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -45,7 +45,7 @@ exports.login = async (req, res) => {
 
     return res.json({
       message: "Login successful",
-      user: { id: user.id, is_worker: user.is_worker },
+      user: { id: user.id, is_worker: user.is_worker, balance: user.balance },
     });
   } catch (err) {
     return res.status(500).json({ error: err.message });
