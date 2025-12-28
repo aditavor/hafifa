@@ -16,12 +16,16 @@ exports.register = async (req, res) => {
       username,
       password,
       email,
-      securityCode===SECURITY_CODE
+      securityCode === SECURITY_CODE
     );
 
     return res.status(201).json({
       message: "User created successfully",
-      user: { id: newUser.id, is_worker: newUser.is_worker, balance: newUser.balance },
+      user: {
+        id: newUser.id,
+        is_worker: newUser.is_worker,
+        balance: newUser.balance,
+      },
     });
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -56,6 +60,32 @@ exports.getReaders = async (req, res) => {
   try {
     const users = await userService.getReaders();
     return res.json(users || []);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getBalance = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const balance = await userService.getBalance(userId);
+    return res.json(balance);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+exports.updateBalance = async (req, res) => {
+  try {
+    const { userId, amount } = req.params;
+    const balance = await userService.updateBalance(userId, amount);
+
+    if (balance) {
+      res.status(202).json({
+        message: "Balance updated successfully",
+        balance: amount,
+      });
+    } 
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
