@@ -91,7 +91,9 @@ exports.postBook = async (req, res) => {
 
 exports.getMostPopularBooks = async (req, res) => {
   try {
+    console.log("Getting most popular books");
     const books = await bookService.getMostPopularBooks();
+    console.log("Successfully got " + books.length + " books");
     return res.json(books || []);
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -100,8 +102,12 @@ exports.getMostPopularBooks = async (req, res) => {
 
 exports.getUserBooks = async (req, res) => {
   try {
+    console.log("Getting user's books");
     const { userId } = req.params;
     const books = await bookService.getUserBooks(userId);
+    console.log(
+      "Successfully got " + books.length + " books for user- " + userId
+    );
     return res.json(books || []);
   } catch (err) {
     return res.status(500).json({ error: err.message });

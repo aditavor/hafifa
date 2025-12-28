@@ -2,7 +2,9 @@ const authorsService = require("../Services/authorsService");
 
 exports.getAllAuthors = async (req, res) => {
   try {
+    console.log("Getting all authors");
     const authors = await authorsService.getAllAuthors();
+    console.log("Successfully got " + authors.length + " authors");
     return res.json(authors || []);
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -11,6 +13,7 @@ exports.getAllAuthors = async (req, res) => {
 
 exports.createAuthor = async (req, res) => {
   try {
+    console.log("Creating author");
     const { name } = req.body;
     if (!name) {
       return res.status(400).json({
@@ -22,6 +25,8 @@ exports.createAuthor = async (req, res) => {
     });
 
     if (result.success) {
+      console.log("Successfully created author: " + name);
+
       return res.status(201).json({
         message: "Author created successfully",
         author: result.data,

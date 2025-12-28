@@ -12,12 +12,16 @@ exports.register = async (req, res) => {
     }
 
     // Create new user
+    console.log("Creating user");
+
     const newUser = await userService.createUser(
       username,
       password,
       email,
-      securityCode===SECURITY_CODE
+      securityCode === SECURITY_CODE
     );
+
+    console.log("Successfully created user " + username);
 
     return res.status(201).json({
       message: "User created successfully",
@@ -33,6 +37,7 @@ exports.login = async (req, res) => {
     const { username, password } = req.body;
 
     // Find the user
+    console.log("Logging in to user " + username);
     const user = await userService.findByUsername(username);
     if (!user) {
       return res.status(400).json({ message: "Invalid username or password" });
@@ -42,6 +47,8 @@ exports.login = async (req, res) => {
     if (password !== user.password) {
       return res.status(400).json({ message: "Invalid username or password" });
     }
+
+    console.log("Successfully logged in to user " + username);
 
     return res.json({
       message: "Login successful",
