@@ -34,7 +34,7 @@ function Personal() {
 
       handleBookReturned(data.book);
 
-      toast.success("Book " + data.book.name + " borrowed successfully", {
+      toast.success("Book " + data.book.name + " returned successfully", {
         position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
