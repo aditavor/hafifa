@@ -23,7 +23,7 @@ function Home() {
     <>
       <div className="page-container">
         <h1 className="title">Welcome to Bookod</h1>
-        <button className="to-library" onClick={() => navigate("/library")}>
+        <button className="lib-btn" onClick={() => navigate("/library")}>
           View library's books
         </button>
         <h3 className="title">Our Bestsellers:</h3>

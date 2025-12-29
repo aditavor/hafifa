@@ -84,7 +84,7 @@ function Personal() {
             )}
           </div>
         </div>
-        <button className="to-library" onClick={() => setOpen(true)}>
+        <button className="lib-btn" onClick={() => setOpen(true)}>
           Add To Balance
         </button>
         {open && (
