@@ -48,26 +48,7 @@ function LibBooks({ books, loading, updateBook }) {
     }
   };
 
-  const handleDelete = async (bookId) => {
-    try {
-      const { data, status } = await borrowBook(bookId, id);
-
-      if (status !== 202) {
-        console.error("Failed to delete book");
-        return;
-      }
-
-      updateBook(data.book);
-
-      toast.success("Book " + data.book.name + " borrowed successfully", {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const handleDelete = async (bookId) => {};
 
   return (
     <div className="container">
@@ -85,13 +66,22 @@ function LibBooks({ books, loading, updateBook }) {
                   name: book.name,
                   headers: "Pages: " + book.pages + "\nPrice: " + book.price,
                 }}
-                btnData={"Borrow Book"}
-                onClickBtn={() =>
-                  handleBorrow(book.id, book.name, Number(book.price))
-                }
                 showIcon={isWorker() && isAvailable(book)}
-                showBtn={isAvailable(book)}
-                isBook={true}
+                buttons={
+                  isAvailable(book)
+                    ? [
+                        {
+                          label: "Borrow Book",
+                          onClick: () =>
+                            handleBorrow(
+                              book.id,
+                              book.name,
+                              Number(book.price)
+                            ),
+                        },
+                      ]
+                    : []
+                }
               />
             ))
           ) : (

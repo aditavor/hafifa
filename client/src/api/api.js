@@ -1,6 +1,5 @@
 const path = "http://localhost:3000/";
 import axios from "axios";
-import { userId } from "../Utils/systemUtils";
 
 export const getAllBooks = async () => {
   const res = await axios.get(path + "books");

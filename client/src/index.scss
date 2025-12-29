@@ -142,7 +142,7 @@ body {
 
 .list-item {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   padding: 12px;
   margin-bottom: 8px;
   background: white;
@@ -159,4 +159,13 @@ body {
   &:hover {
     color: red;
   }
+}
+
+.lib-btn {
+  background: white;
+  color: black;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  width: fit-content;
 }
