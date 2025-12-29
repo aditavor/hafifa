@@ -27,6 +27,11 @@ const LibUser = sequelize.define(
       allowNull: false,
       defaultValue: false,
     },
+    balance: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+      defaultValue: 500,
+    },
   },
   {
     tableName: "lib_users",

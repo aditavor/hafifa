@@ -4,12 +4,14 @@ import "../authentication.scss";
 import { toast } from "react-toastify";
 import { login } from "../../api/api";
 import { saveLoggedUser } from "../../Utils/authUtils";
+import { useBalance } from "../../context/Balance/useBalance";
 
 function Login() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
+  const { setBalance } = useBalance();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +28,12 @@ function Login() {
       return;
     }
 
-    saveLoggedUser(data.user.id, data.user.is_worker);
+    saveLoggedUser(
+      data.user.id,
+      data.user.is_worker,
+      data.user.balance,
+      setBalance
+    );
 
     toast.success("Logged in to " + username, {
       position: "bottom-right",

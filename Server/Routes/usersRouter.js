@@ -15,4 +15,10 @@ router.post("/login", userController.login);
 // Get users books
 router.get("/:userId/books", booksController.getUserBooks);
 
+// Get user balance
+router.get("/:userId/balance", userController.getBalance);
+
+// Update user balance
+router.put("/:userId/balance/:amount", userController.updateBalance);
+
 module.exports = router;

@@ -34,3 +34,18 @@ exports.getReaders = async () => {
     ],
   });
 };
+
+exports.getBalance = async (userId) => {
+  return await LibUser.findByPk(userId, {
+    attributes: ["balance"],
+  });
+};
+
+exports.updateBalance = async (userId, amount) => {
+  const balance = await LibUser.update(
+    { balance: amount },
+    { where: { id: userId } }
+  );
+
+  return balance;
+};

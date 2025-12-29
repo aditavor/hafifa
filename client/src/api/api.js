@@ -1,5 +1,6 @@
 const path = "http://localhost:3000/";
 import axios from "axios";
+import { userId } from "../Utils/systemUtils";
 
 export const getAllBooks = async () => {
   const res = await axios.get(path + "books");
@@ -149,4 +150,29 @@ export const addAuthor = async (name) => {
       status: err.response?.status || 500,
     };
   }
+};
+
+export const updateBalance = async (userId, amount) => {
+  try {
+    const res = await axios.put(
+      path + "users/" + userId + "/balance/" + amount
+    );
+    return {
+      data: res.data,
+      status: res.status,
+    };
+  } catch (err) {
+    return {
+      data: err.response?.data,
+      status: err.response?.status || 500,
+    };
+  }
+};
+
+export const getUsersBalance = async (userId) => {
+  const res = await axios.get(path + "users/" + userId + "/balance");
+  return {
+    data: res.data,
+    status: res.status,
+  };
 };
