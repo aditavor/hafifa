@@ -5,9 +5,7 @@ export function useBalance() {
   const balance = useContext(BalanceContext);
 
   if (!balance) {
-    throw new Error(
-      "Balance context must be used within a BalanceProvider"
-    );
+    throw new Error("Balance context must be used within a BalanceProvider");
   }
 
   return balance;
