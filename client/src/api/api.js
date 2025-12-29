@@ -49,6 +49,20 @@ export const returnBook = async (bookId) => {
   }
 };
 
+export const deleteBook = async (bookId) => {
+  try {
+    const res = await axios.delete(path + "books/" + bookId);
+    return {
+      status: res.status,
+    };
+  } catch (err) {
+    return {
+      data: err.response?.data,
+      status: err.response?.status || 500,
+    };
+  }
+};
+
 export const getUsersBooks = async (userId) => {
   const res = await axios.get(path + "users/" + userId + "/books");
   return {
