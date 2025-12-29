@@ -49,10 +49,17 @@ function Customers() {
                     name: customer.username,
                     headers: "Email: " + customer.email,
                   }}
-                  btnData="View Books"
-                  showBtn={customer.isLate}
                   showIcon={true}
-                  onClickBtn={() => viewUserBooks(customer.id)}
+                  buttons={
+                    customer.isLate
+                      ? [
+                          {
+                            label: "View Books",
+                            onClick: () => viewUserBooks(customer.id),
+                          },
+                        ]
+                      : []
+                  }
                 />
               ))
             ) : (

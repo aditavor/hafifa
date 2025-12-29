@@ -1,6 +1,6 @@
 import "./Card.scss";
 
-function Card({ data, onClickBtn, btnData, showIcon, showBtn }) {
+function Card({ data, buttons = [], showIcon }) {
   return (
     <div className="card">
       <div className="card-header">
@@ -8,14 +8,15 @@ function Card({ data, onClickBtn, btnData, showIcon, showBtn }) {
         {showIcon && <i className="trash-icon fa-regular fa-trash-can"></i>}
       </div>
       <p className="headers">{data.headers}</p>
-      {showBtn && (
+      {buttons.map((btn, index) => (
         <button
-          className="borrow-btn"
-          onClick={() => onClickBtn(data.id, data.name)}
+          key={index}
+          className={"btn"}
+          onClick={() => btn.onClick(data.id, data.name)}
         >
-          {btnData}
+          {btn.label}
         </button>
-      )}
+      ))}
     </div>
   );
 }

@@ -66,13 +66,22 @@ function LibBooks({ books, loading, updateBook }) {
                   name: book.name,
                   headers: "Pages: " + book.pages + "\nPrice: " + book.price,
                 }}
-                btnData={"Borrow Book"}
-                onClickBtn={() =>
-                  handleBorrow(book.id, book.name, Number(book.price))
-                }
                 showIcon={isWorker() && isAvailable(book)}
-                showBtn={isAvailable(book)}
-                isBook={true}
+                buttons={
+                  isAvailable(book)
+                    ? [
+                        {
+                          label: "Borrow Book",
+                          onClick: () =>
+                            handleBorrow(
+                              book.id,
+                              book.name,
+                              Number(book.price)
+                            ),
+                        },
+                      ]
+                    : []
+                }
               />
             ))
           ) : (
