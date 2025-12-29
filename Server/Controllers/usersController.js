@@ -74,6 +74,27 @@ exports.getReaders = async (req, res) => {
   }
 };
 
+exports.deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    console.log("Deleting users");
+    const deleted = await userService.deleteUser(userId);
+
+    if (deleted) {
+      console.log("Successfully deleted user: " + userId);
+      res.status(200).json({
+        message: "User " + userId + " deleted successfully",
+      });
+    } else {
+      res.status(400).json({
+        message: "Cant delete user: " + userId,
+      });
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
 exports.getBalance = async (req, res) => {
   try {
     const { userId } = req.params;

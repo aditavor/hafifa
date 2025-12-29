@@ -63,6 +63,20 @@ export const deleteBook = async (bookId) => {
   }
 };
 
+export const deleteUser = async (userId) => {
+  try {
+    const res = await axios.delete(path + "users/" + userId);
+    return {
+      status: res.status,
+    };
+  } catch (err) {
+    return {
+      data: err.response?.data,
+      status: err.response?.status || 500,
+    };
+  }
+};
+
 export const getUsersBooks = async (userId) => {
   const res = await axios.get(path + "users/" + userId + "/books");
   return {

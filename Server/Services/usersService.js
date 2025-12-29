@@ -14,6 +14,14 @@ exports.createUser = async (username, password, email, isWorker) => {
   });
 };
 
+exports.deleteUser = async (userId) => {
+  const deleted = await LibUser.destroy({
+    where: { id: userId },
+  });
+
+  return deleted !== 0;
+};
+
 exports.getReaders = async () => {
   return await LibUser.findAll({
     attributes: [

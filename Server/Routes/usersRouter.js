@@ -21,4 +21,7 @@ router.get("/:userId/balance", userController.getBalance);
 // Update user balance
 router.put("/:userId/balance/:amount", userController.updateBalance);
 
+// Delete user
+router.delete("/:userId", userController.deleteUser);
+
 module.exports = router;
