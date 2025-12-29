@@ -34,7 +34,7 @@ exports.deleteBook = async (req, res) => {
     if (deleted) {
       console.log("Successfully deleted book: " + bookId);
       res.status(200).json({
-        message: "Book " + bookId + " borrowed successfully",
+        message: "Book " + bookId + " deleted successfully",
       });
     } else {
       res.status(400).json({

@@ -25,7 +25,7 @@ exports.createAuthor = async (req, res) => {
     });
 
     if (result.success) {
-      console.log("Successfully created author: " + name);
+      console.log("Successfully created author: " + result.data.id);
       return res.status(201).json({
         message: "Author created successfully",
         author: result.data,
