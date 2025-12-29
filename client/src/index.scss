@@ -142,10 +142,21 @@ body {
 
 .list-item {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding: 12px;
   margin-bottom: 8px;
   background: white;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.trash-icon {
+  font-size: 19px;
+  color: #888;
+  cursor: pointer;
+  margin-left: auto;
+
+  &:hover {
+    color: red;
+  }
 }
