@@ -20,6 +20,7 @@ exports.getReaders = async () => {
       "id",
       "username",
       "email",
+      "balance",
       [
         Sequelize.literal(`
         EXISTS (
