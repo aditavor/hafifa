@@ -3,10 +3,10 @@ import Card from "../Card/Card";
 import { useState, useMemo } from "react";
 import { toast } from "react-toastify";
 import { userId, isWorker } from "../../Utils/systemUtils";
-import { borrowBook } from "../../api/api";
+import { borrowBook, deleteBook } from "../../api/api";
 import { useBalance } from "../../context/Balance/useBalance";
 
-function LibBooks({ books, loading, updateBook }) {
+function LibBooks({ books, loading, updateBook, deleteBook: deleteBookCtx }) {
   const [search, setSearch] = useState("");
   const { balance, addToBalance } = useBalance();
 
@@ -48,7 +48,26 @@ function LibBooks({ books, loading, updateBook }) {
     }
   };
 
-  const handleDelete = async (bookId) => {};
+  const handleDelete = async (bookId, bookName) => {
+    try {
+      const { status } = await deleteBook(bookId);
+
+      if (status !== 200) {
+        console.error("Failed to delete book");
+        return;
+      }
+
+      deleteBookCtx(bookId);
+
+      toast.success("Book " + bookName + " deleted successfully", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div className="container">
@@ -66,7 +85,9 @@ function LibBooks({ books, loading, updateBook }) {
                   name: book.name,
                   headers: "Pages: " + book.pages + "\nPrice: " + book.price,
                 }}
-                showIcon={isWorker() && isAvailable(book)}
+                onDelete={
+                  isWorker() && isAvailable(book) ? handleDelete : undefined
+                }
                 buttons={
                   isAvailable(book)
                     ? [
