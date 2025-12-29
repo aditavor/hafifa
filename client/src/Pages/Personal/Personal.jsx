@@ -70,7 +70,6 @@ function Personal() {
                     name: book.name,
                     headers: "Borrow Date: " + book.borrow_date,
                   }}
-                  showIcon={false}
                   buttons={[
                     {
                       label: "Return Book",

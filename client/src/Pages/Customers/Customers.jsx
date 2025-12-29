@@ -78,7 +78,7 @@ function Customers() {
                       " \nBalance: " +
                       customer.balance,
                   }}
-                  showIcon={true}
+                  onDelete={true}
                   buttons={[
                     {
                       label: "Add ₪",
