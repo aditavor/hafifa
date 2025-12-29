@@ -27,9 +27,13 @@ export function BooksProvider({ children }) {
     );
   };
 
+  const deleteBook = (bookId) => {
+    setBooks((prev) => prev.filter((book) => book.id !== bookId));
+  };
+
   return (
     <BooksContext.Provider
-      value={{ books, loading, addBook, updateBook }}
+      value={{ books, loading, addBook, updateBook, deleteBook }}
     >
       {children}
     </BooksContext.Provider>

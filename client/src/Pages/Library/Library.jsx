@@ -5,7 +5,13 @@ import { useAuthors } from "../../context/Authors/useAuthors";
 import { useBooks } from "../../context/Books/useBooks";
 
 function Library() {
-  const { books, addBook, updateBook, loading: booksLoading } = useBooks();
+  const {
+    books,
+    addBook,
+    updateBook,
+    loading: booksLoading,
+    deleteBook,
+  } = useBooks();
   const { authors, loading: authorsLoading } = useAuthors();
 
   return (
@@ -22,6 +28,7 @@ function Library() {
           books={books}
           updateBook={updateBook}
           loading={booksLoading}
+          deleteBook={deleteBook}
         />
       </div>
     </>
