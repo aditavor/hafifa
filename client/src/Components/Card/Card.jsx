@@ -8,15 +8,17 @@ function Card({ data, buttons = [], showIcon }) {
         {showIcon && <i className="trash-icon fa-regular fa-trash-can"></i>}
       </div>
       <p className="headers">{data.headers}</p>
-      {buttons.map((btn, index) => (
-        <button
-          key={index}
-          className={"btn"}
-          onClick={() => btn.onClick(data.id, data.name)}
-        >
-          {btn.label}
-        </button>
-      ))}
+      <div className="buttons">
+        {buttons.map((btn, index) => (
+          <button
+            key={index}
+            className={"btn"}
+            onClick={() => btn.onClick(data.id, data.name)}
+          >
+            {btn.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
