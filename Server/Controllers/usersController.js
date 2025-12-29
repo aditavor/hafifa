@@ -65,7 +65,9 @@ exports.login = async (req, res) => {
 
 exports.getReaders = async (req, res) => {
   try {
+    console.log("Getting users");
     const users = await userService.getReaders();
+    console.log("Successfully got " + users.length + " library users");
     return res.json(users || []);
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -75,7 +77,9 @@ exports.getReaders = async (req, res) => {
 exports.getBalance = async (req, res) => {
   try {
     const { userId } = req.params;
+    console.log("Getting user " + userId + " balance");
     const balance = await userService.getBalance(userId);
+    console.log("Successfully got users balance");
     return res.json(balance);
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -85,14 +89,16 @@ exports.getBalance = async (req, res) => {
 exports.updateBalance = async (req, res) => {
   try {
     const { userId, amount } = req.params;
+    console.log("Updating user " + userId + " balance");
     const balance = await userService.updateBalance(userId, amount);
+    console.log("Successfully updated user " + userId + " balance");
 
     if (balance) {
       res.status(202).json({
         message: "Balance updated successfully",
         balance: amount,
       });
-    } 
+    }
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }

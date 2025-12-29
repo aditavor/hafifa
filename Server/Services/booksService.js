@@ -36,6 +36,14 @@ exports.borrowBook = async (userId, bookId) => {
   return updatedBook ?? null;
 };
 
+exports.deleteBook = async (bookId) => {
+  const deleted = await LibBook.destroy({
+    where: { id: bookId },
+  });
+
+  return deleted !== 0;
+};
+
 exports.returnBook = async (bookId) => {
   const [, [updatedBook]] = await LibBook.update(
     {

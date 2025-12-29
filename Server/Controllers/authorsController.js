@@ -13,20 +13,19 @@ exports.getAllAuthors = async (req, res) => {
 
 exports.createAuthor = async (req, res) => {
   try {
-    console.log("Creating author");
     const { name } = req.body;
     if (!name) {
       return res.status(400).json({
         message: "Missing data",
       });
     }
+    console.log("Creating author");
     const result = await authorsService.postAuthor({
       name,
     });
 
     if (result.success) {
       console.log("Successfully created author: " + name);
-
       return res.status(201).json({
         message: "Author created successfully",
         author: result.data,
