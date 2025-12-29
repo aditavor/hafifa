@@ -1,0 +1,46 @@
+const authorsService = require("../Services/authorsService");
+
+exports.getAllAuthors = async (req, res) => {
+  try {
+    console.log("Getting all authors");
+    const authors = await authorsService.getAllAuthors();
+    console.log("Successfully got " + authors.length + " authors");
+    return res.json(authors || []);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+exports.createAuthor = async (req, res) => {
+  try {
+    console.log("Creating author");
+    const { name } = req.body;
+    if (!name) {
+      return res.status(400).json({
+        message: "Missing data",
+      });
+    }
+    const result = await authorsService.postAuthor({
+      name,
+    });
+
+    if (result.success) {
+      console.log("Successfully created author: " + name);
+
+      return res.status(201).json({
+        message: "Author created successfully",
+        author: result.data,
+      });
+    }
+    return res.status(400).json({
+      error: "Failed to create author",
+    });
+  } catch (err) {
+    if (err.name === "SequelizeUniqueConstraintError") {
+      return res.status(409).json({
+        message: "This author already exists",
+      });
+    }
+    res.status(500).json({ error: err.message });
+  }
+};

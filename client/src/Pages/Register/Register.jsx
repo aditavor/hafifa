@@ -1,0 +1,161 @@
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import "../authentication.scss";
+import { register } from "../../api/api";
+import {
+  saveLoggedUser,
+  validateEmailFormat,
+  validateUsernameFormat,
+} from "../../Utils/authUtils";
+import { useBalance } from "../../context/Balance/useBalance";
+
+function Register() {
+  const navigate = useNavigate();
+  const [password, setPassword] = useState("");
+  const [validatePassword, setValidatePassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [securityCode, setSecurityCode] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+  const { setBalance } = useBalance();
+
+  const handleOnChange = () => {
+    if (!isChecked) {
+      setSecurityCode("");
+    }
+    setIsChecked(!isChecked); // Toggle the state
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!username || !password || !email) {
+      setError("Enter username and password");
+      return;
+    }
+
+    if (password !== validatePassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    if (!validateUsernameFormat(username)) {
+      setError("Username must be 8-24 letters and number");
+      return;
+    }
+
+    if (!validateEmailFormat(email)) {
+      setError("Email format is invalid");
+      return;
+    }
+
+    const { data, status } = await register(
+      username,
+      password,
+      email,
+      securityCode
+    );
+
+    if (status !== 201) {
+      setError(data.message || "Register error");
+      return;
+    }
+
+    saveLoggedUser(
+      data.user.id,
+      data.user.is_worker,
+      data.user.balance,
+      setBalance
+    );
+
+    const message = `Registered to user ${username} ${
+      data.user.is_worker ? "as worker" : ""
+    }`;
+
+    toast.success(message, {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+    });
+
+    navigate("/");
+  };
+
+  return (
+    <div className="auth-container">
+      <form className="auth-card" onSubmit={handleSubmit}>
+        <h2 className="auth-title">Register</h2>
+
+        {error && <p className="auth-error">{error}</p>}
+
+        <label className="auth-label">Username</label>
+        <input
+          type="text"
+          className="auth-input"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+
+        <label className="auth-label">Email</label>
+        <input
+          type="text"
+          className="auth-input"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <label className="auth-label">Password</label>
+        <input
+          type="password"
+          className="auth-input"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <label className="auth-label">Vaidate Password</label>
+        <input
+          type="password"
+          className="auth-input"
+          value={validatePassword}
+          onChange={(e) => setValidatePassword(e.target.value)}
+        />
+
+        <div>
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={handleOnChange}
+          />
+          Are you a worker?
+        </div>
+
+        {isChecked && (
+          <>
+            <label className="auth-label">Security code- ONE try...</label>
+            <input
+              type="text"
+              className="auth-input"
+              value={securityCode}
+              onChange={(e) => setSecurityCode(e.target.value)}
+            />
+          </>
+        )}
+
+        <div className="auth">
+          <p>Already have an account?</p>
+          <Link to="/login" className="link">
+            Login
+          </Link>
+        </div>
+        <button type="submit" className="auth-button">
+          Register
+        </button>
+      </form>
+    </div>
+  );
+}
+
+export default Register;

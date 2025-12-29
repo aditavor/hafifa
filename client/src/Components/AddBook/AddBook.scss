@@ -1,0 +1,23 @@
+.catalog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.08);
+
+  .text-section {
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    p {
+      margin: 8px 0 0 0;
+      color: #555;
+      font-size: 14px;
+    }
+  }
+}
