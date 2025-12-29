@@ -51,6 +51,7 @@ function Customers() {
                   }}
                   btnData="View Books"
                   showBtn={customer.isLate}
+                  showIcon={true}
                   onClickBtn={() => viewUserBooks(customer.id)}
                 />
               ))

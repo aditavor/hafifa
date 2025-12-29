@@ -51,6 +51,7 @@ function Publishers() {
             authors.map((author) => (
               <li key={author.id} className="list-item">
                 <span>{author.name}</span>
+                <i className="trash-icon fa-regular fa-trash-can"></i>
               </li>
             ))
           ) : (
