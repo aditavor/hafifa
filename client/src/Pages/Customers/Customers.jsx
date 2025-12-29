@@ -1,13 +1,23 @@
 import { useEffect, useState } from "react";
-import { getAllUsers, getUserstimeoutBooks } from "../../api/api";
+import {
+  getAllUsers,
+  getUserstimeoutBooks,
+  updateBalance,
+} from "../../api/api";
+import { userId } from "../../Utils/systemUtils";
 import Card from "../../Components/Card/Card";
 import Modal from "../../Components/Modal/Modal";
+import ChangeBalanceModal from "../../Components/ChangeBalanceModal/ChangeBalanceModal";
+import { useBalance } from "../../context/Balance/useBalance";
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [addBalanceOpen, setAddBalanceOpen] = useState(false);
+  const [userToAdd, setUserToAdd] = useState({});
   const [usersBookOpen, setUsersBookOpen] = useState(false);
   const [openUsersBooks, setOpenUsersBooks] = useState([]);
+  const { addToBalance } = useBalance();
 
   const fetchCustomers = async () => {
     setLoading(true);
@@ -26,6 +36,21 @@ function Customers() {
     setOpenUsersBooks(books);
 
     setLoading(false);
+  };
+
+  const addToBalanceModal = async (value) => {
+    const newBalance = (Number(userToAdd.balance) ?? 0) + Number(value);
+    setCustomers((prevUsers) =>
+      prevUsers.map((user) =>
+        user.id === userToAdd.id ? { ...user, balance: newBalance } : user
+      )
+    );
+
+    if (userToAdd.id === Number(userId())) {
+      addToBalance(value);
+    } else {
+      await updateBalance(userToAdd.id, newBalance);
+    }
   };
 
   useEffect(() => {
@@ -47,19 +72,30 @@ function Customers() {
                   data={{
                     id: customer.id,
                     name: customer.username,
-                    headers: "Email: " + customer.email,
+                    headers:
+                      "Email: " +
+                      customer.email +
+                      " \nBalance: " +
+                      customer.balance,
                   }}
                   showIcon={true}
-                  buttons={
-                    customer.isLate
+                  buttons={[
+                    {
+                      label: "Add ₪",
+                      onClick: () => {
+                        setAddBalanceOpen(true);
+                        setUserToAdd(customer);
+                      },
+                    },
+                    ...(customer.isLate
                       ? [
                           {
-                            label: "View Books",
+                            label: "View Late Books",
                             onClick: () => viewUserBooks(customer.id),
                           },
                         ]
-                      : []
-                  }
+                      : []),
+                  ]}
                 />
               ))
             ) : (
@@ -85,6 +121,14 @@ function Customers() {
           </Modal>
         )}
       </div>
+
+      {addBalanceOpen && (
+        <ChangeBalanceModal
+          addToBalance={addToBalanceModal}
+          usersBalance={userToAdd.balance}
+          setOpen={setAddBalanceOpen}
+        />
+      )}
     </>
   );
 }
