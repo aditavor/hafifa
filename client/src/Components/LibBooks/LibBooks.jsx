@@ -20,6 +20,7 @@ function LibBooks({ books, loading, updateBook }) {
 
     try {
       if (balance < bookPrice) {
+        console.log(balance, bookPrice);
         toast.error("You cant borrow book " + bookName, {
           position: "bottom-right",
           autoClose: 3000,
@@ -85,7 +86,9 @@ function LibBooks({ books, loading, updateBook }) {
                   headers: "Pages: " + book.pages,
                 }}
                 btnData={"Borrow Book"}
-                onClickBtn={() => handleBorrow(book.id, book.name, book.price)}
+                onClickBtn={() =>
+                  handleBorrow(book.id, book.name, Number(book.price))
+                }
                 showIcon={isWorker()}
                 showBtn={isAvailable(book)}
                 isBook={true}
