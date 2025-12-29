@@ -4,11 +4,15 @@ import { toast } from "react-toastify";
 import { userId } from "../../Utils/systemUtils";
 import { returnBook, getUsersBooks } from "../../api/api";
 import { useBooks } from "../../context/Books/useBooks";
+import ChangeBalanceModal from "../../Components/ChangeBalanceModal/ChangeBalanceModal";
+import { useBalance } from "../../context/Balance/useBalance";
 
 function Personal() {
   const [books, setBooks] = useState([]);
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const { updateBook } = useBooks();
+  const { balance, addToBalance } = useBalance();
 
   const fetchBooks = async () => {
     setLoading(true);
@@ -66,10 +70,13 @@ function Personal() {
                     name: book.name,
                     headers: "Borrow Date: " + book.borrow_date,
                   }}
-                  btnData={"Return Book"}
-                  onClickBtn={handleReturn}
                   showIcon={false}
-                  showBtn={true}
+                  buttons={[
+                    {
+                      label: "Return Book",
+                      onClick: handleReturn,
+                    },
+                  ]}
                 />
               ))
             ) : (
@@ -77,6 +84,16 @@ function Personal() {
             )}
           </div>
         </div>
+        <button className="to-library" onClick={() => setOpen(true)}>
+          Add To Balance
+        </button>
+        {open && (
+          <ChangeBalanceModal
+            addToBalance={addToBalance}
+            usersBalance={balance}
+            setOpen={setOpen}
+          />
+        )}
       </div>
     </>
   );
