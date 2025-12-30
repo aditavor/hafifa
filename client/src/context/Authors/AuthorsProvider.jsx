@@ -21,11 +21,11 @@ export function AuthorsProvider({ children }) {
     setAuthors((prev) => [...prev, newAuthor]);
   };
 
-  const addRevenue = (value, authorId) => {
+  const addRevenue = (authorId, value) => {
     setAuthors((prev) =>
       prev.map((author) =>
         author.id === authorId
-          ? { ...author, revenue: author.revenue + value }
+          ? { ...author, revenue: Number(author.revenue) + value }
           : author
       )
     );
@@ -37,7 +37,14 @@ export function AuthorsProvider({ children }) {
 
   return (
     <AuthorsContext.Provider
-      value={{ authors, loading, fetchAuthors, addAuthor, deleteAuthor, addRevenue }}
+      value={{
+        authors,
+        loading,
+        fetchAuthors,
+        addAuthor,
+        deleteAuthor,
+        addRevenue,
+      }}
     >
       {children}
     </AuthorsContext.Provider>

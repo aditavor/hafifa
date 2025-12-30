@@ -4,7 +4,11 @@ import { useBooks } from "../../context/Books/useBooks";
 import Card from "../../Components/Card/Card";
 import { toast } from "react-toastify";
 import { userId, isWorker } from "../../Utils/systemUtils";
-import { borrowBook, deleteBook as deleteBookServer } from "../../api/api";
+import {
+  borrowBook,
+  deleteBook as deleteBookServer,
+  addRevenue as addRevenueServer,
+} from "../../api/api";
 import { useBalance } from "../../context/Balance/useBalance";
 import LibEntities from "../../Components/LibEntities/LibEntities";
 
@@ -16,7 +20,11 @@ function Library() {
     loading: booksLoading,
     deleteBook: deleteBookClient,
   } = useBooks();
-  const { authors, loading: authorsLoading, addRevenue } = useAuthors();
+  const {
+    authors,
+    loading: authorsLoading,
+    addRevenue: addRevenueClient,
+  } = useAuthors();
   const { balance, addToBalance } = useBalance();
 
   const handleBorrow = async (bookId, bookName, bookPrice) => {
@@ -31,25 +39,31 @@ function Library() {
         });
         return;
       }
-      const { data: borrowData, status: borrowStatus } = await borrowBook(bookId, id);
+      const { data: borrowData, status: borrowStatus } = await borrowBook(
+        bookId,
+        id
+      );
 
       if (borrowStatus !== 202) {
         console.error("Failed to borrow book");
         return;
       }
 
-      addRevenue(borrowData.book.author_id, borrowData.book.price);
+      addRevenueClient(borrowData.book.author_id, Number(borrowData.book.price));
       updateBook(borrowData.book);
       addToBalance(-1 * borrowData.book.price);
 
-      const { data: updatedAuthor, status: addRevenueStatus } = await borrowBook(bookId, id);
+      const { status: addRevenueStatus } = await addRevenueServer(
+        borrowData.book.author_id,
+        borrowData.book.price
+      );
 
       if (addRevenueStatus !== 202) {
         console.error("Failed to borrow book");
         return;
       }
 
-      toast.success("Book " + data.book.name + " borrowed successfully", {
+      toast.success("Book " + borrowData.book.name + " borrowed successfully", {
         position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,

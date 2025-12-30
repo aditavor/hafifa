@@ -77,7 +77,10 @@ function Publishers() {
           ) : authors.length !== 0 ? (
             authors.map((author) => (
               <li key={author.id} className="list-item">
-                <span>{author.name}</span>
+                <span>
+                  <strong>{author.name}</strong>
+                </span>
+                <span>revenue: {author.revenue}</span>
                 {isWorker() && (
                   <i
                     className="trash-icon fa-regular fa-trash-can"
