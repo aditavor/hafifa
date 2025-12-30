@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { userId as loggedUser } from "../../Utils/systemUtils";
 import { useNavigate } from "react-router-dom";
 import LibEntities from "../../Components/LibEntities/LibEntities";
+import DeleteAccountModal from "../../Components/DeleteAccountModal/DeleteAccountModal";
 
 function Customers() {
   const navigate = useNavigate();
@@ -45,9 +46,17 @@ function Customers() {
     setLoading(false);
   };
 
-  const handleDelete = async (userId, name) => {
+  const manageDeleteUser = (userId, name) => {
     const isSelf = userId === Number(loggedUser());
 
+    if (isSelf) {
+      setDeleteItselfOpen(true);
+    } else {
+      handleDelete(userId, name);
+    }
+  };
+
+  const handleDelete = async (userId, name) => {
     try {
       const { status } = await deleteUser(userId);
 
@@ -58,17 +67,14 @@ function Customers() {
 
       setCustomers((prev) => prev.filter((user) => user.id !== userId));
 
-      toast.success("User " + name + " deleted successfully", {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-      });
-
-
-      if (isSelf) {
-        localStorage.clear();
-        navigate("/login");
-      }
+      toast.success(
+        (name ? "User " + name : "Your own account ") + "deleted successfully",
+        {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+        }
+      );
     } catch (err) {
       console.error(err);
     }
@@ -97,7 +103,7 @@ function Customers() {
         name: customer.name,
         headers: "Email: " + customer.email + " \nBalance: " + customer.balance,
       }}
-      onDelete={handleDelete}
+      onDelete={manageDeleteUser}
       buttons={[
         {
           label: "Add ₪",
@@ -156,6 +162,21 @@ function Customers() {
           usersBalance={userToAdd.balance}
           setOpen={setAddBalanceOpen}
         />
+      )}
+
+      {deleteItselfOpen && (
+        <Modal setOpen={setDeleteItselfOpen}>
+          <DeleteAccountModal
+            onConfirm={() => {
+              setAddBalanceOpen(false);
+              navigate("/login");
+              localStorage.clear();
+              handleDelete;
+            }}
+            onCancel={() => setDeleteItselfOpen(false)}
+            userId={Number(loggedUser())}
+          />
+        </Modal>
       )}
     </>
   );

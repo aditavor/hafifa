@@ -1,0 +1,28 @@
+.warn-wrap {
+  &.danger {
+    h2 {
+      color: #c62828;
+    }
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+
+    button {
+      padding: 8px 16px;
+      border: none;
+      cursor: pointer;
+
+      &.danger-btn {
+        background: #c62828;
+        color: white;
+      }
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+}
