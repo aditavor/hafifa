@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  deleteUser,
   getAllUsers,
   getUserstimeoutBooks,
   updateBalance,
@@ -9,14 +10,19 @@ import Card from "../../Components/Card/Card";
 import Modal from "../../Components/Modal/Modal";
 import ChangeBalanceModal from "../../Components/ChangeBalanceModal/ChangeBalanceModal";
 import { useBalance } from "../../context/Balance/useBalance";
+import { toast } from "react-toastify";
+import { userId as loggedUser } from "../../Utils/systemUtils";
+import { useNavigate } from "react-router-dom";
 
 function Customers() {
+  const navigate = useNavigate();
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [addBalanceOpen, setAddBalanceOpen] = useState(false);
   const [userToAdd, setUserToAdd] = useState({});
   const [usersBookOpen, setUsersBookOpen] = useState(false);
   const [openUsersBooks, setOpenUsersBooks] = useState([]);
+  const [deleteItselfOpen, setDeleteItselfOpen] = useState(false);
   const { addToBalance } = useBalance();
 
   const fetchCustomers = async () => {
@@ -36,6 +42,36 @@ function Customers() {
     setOpenUsersBooks(books);
 
     setLoading(false);
+  };
+
+  const handleDelete = async (userId, username) => {
+    const isSelf = userId === Number(loggedUser());
+
+    try {
+      const { status } = await deleteUser(userId);
+
+      if (status !== 200) {
+        console.error("Failed to delete user");
+        return;
+      }
+
+      setCustomers((prev) => prev.filter((user) => user.id !== userId));
+
+      toast.success("User " + username + " deleted successfully", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+      });
+
+      console.log(isSelf);
+
+      if (isSelf) {
+        localStorage.clear();
+        navigate("/login");
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const addToBalanceModal = async (value) => {
@@ -78,7 +114,7 @@ function Customers() {
                       " \nBalance: " +
                       customer.balance,
                   }}
-                  onDelete={true}
+                  onDelete={handleDelete}
                   buttons={[
                     {
                       label: "Add ₪",
