@@ -12,12 +12,10 @@ import ChangeBalanceModal from "../../Components/ChangeBalanceModal/ChangeBalanc
 import { useBalance } from "../../context/Balance/useBalance";
 import { toast } from "react-toastify";
 import { userId as loggedUser } from "../../Utils/systemUtils";
-import { useNavigate } from "react-router-dom";
 import LibEntities from "../../Components/LibEntities/LibEntities";
 import DeleteAccountModal from "../../Components/DeleteAccountModal/DeleteAccountModal";
 
 function Customers() {
-  const navigate = useNavigate();
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [addBalanceOpen, setAddBalanceOpen] = useState(false);
@@ -57,6 +55,7 @@ function Customers() {
   };
 
   const handleDelete = async (userId, name) => {
+    console.log("dalating");
     try {
       const { status } = await deleteUser(userId);
 
@@ -167,13 +166,8 @@ function Customers() {
       {deleteItselfOpen && (
         <Modal setOpen={setDeleteItselfOpen}>
           <DeleteAccountModal
-            onConfirm={() => {
-              setAddBalanceOpen(false);
-              navigate("/login");
-              localStorage.clear();
-              handleDelete;
-            }}
-            onCancel={() => setDeleteItselfOpen(false)}
+            handleDelete={handleDelete}
+            setDeleteItselfOpen={setDeleteItselfOpen}
             userId={Number(loggedUser())}
           />
         </Modal>
