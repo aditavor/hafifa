@@ -15,3 +15,17 @@ exports.getAllAuthors = async () => {
 
   return authors;
 };
+
+exports.deleteAuthor = async (authorId) => {
+  console.log(authorId);
+  console.log(authorId);
+  console.log(authorId);
+  console.log(authorId);
+  console.log(authorId);
+  console.log(authorId);
+  const deleted = await LibAuthor.destroy({
+    where: { id: authorId },
+  });
+
+  return deleted !== 0;
+};

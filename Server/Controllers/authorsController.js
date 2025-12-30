@@ -11,6 +11,27 @@ exports.getAllAuthors = async (req, res) => {
   }
 };
 
+exports.deleteAuthor = async (req, res) => {
+  try {
+    const { authorId } = req.params;
+    console.log("Deleting author");
+    const deleted = await authorsService.deleteAuthor(authorId);
+    if (deleted) {
+      console.log("Successfully deleted author: " + authorId);
+      res.status(200).json({
+        message: "Author " + authorId + " deleted successfully",
+      });
+    } else {
+      console.log("Cant delete an author: " + authorId);
+      res.status(400).json({
+        message: "Cant delete an author: " + authorId,
+      });
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
 exports.createAuthor = async (req, res) => {
   try {
     const { name } = req.body;
