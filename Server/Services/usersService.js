@@ -1,7 +1,7 @@
 const LibUser = require("../Models/LibUser");
 const { Sequelize } = require("sequelize");
 
-exports.findByUsername = async (name) => {
+exports.findByName = async (name) => {
   return await LibUser.findOne({ where: { name } });
 };
 

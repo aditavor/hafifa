@@ -2,10 +2,11 @@ const userService = require("../Services/usersService");
 
 exports.register = async (req, res) => {
   const SECURITY_CODE = "a";
+
   try {
     const { name, password, email, securityCode } = req.body;
 
-    // Check if the username exists
+    // Check if the name exists
     const exists = await userService.findByName(name);
     if (exists) {
       return res.status(400).json({ message: "User already exists" });
@@ -42,7 +43,7 @@ exports.login = async (req, res) => {
 
     // Find the user
     console.log("Logging in to user " + name);
-    const user = await userService.findByUsername(name);
+    const user = await userService.findByName(name);
     if (!user) {
       return res.status(400).json({ message: "Invalid username or password" });
     }
