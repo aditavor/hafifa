@@ -21,9 +21,13 @@ export function AuthorsProvider({ children }) {
     setAuthors((prev) => [...prev, newAuthor]);
   };
 
+  const deleteAuthor = (authorId) => {
+    setAuthors((prev) => prev.filter((author) => author.id !== authorId));
+  };
+
   return (
     <AuthorsContext.Provider
-      value={{ authors, loading, fetchAuthors, addAuthor }}
+      value={{ authors, loading, fetchAuthors, addAuthor, deleteAuthor }}
     >
       {children}
     </AuthorsContext.Provider>
