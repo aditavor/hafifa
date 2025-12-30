@@ -7,6 +7,7 @@ exports.getAllBooks = async (req, res) => {
     console.log("Successfully got " + books.length + " books");
     return res.json(books || []);
   } catch (err) {
+    console.log(err.message);
     return res.status(500).json({ error: err.message });
   }
 };
@@ -21,6 +22,7 @@ exports.getUserstimeoutBooks = async (req, res) => {
     );
     return res.json(books || []);
   } catch (err) {
+    console.log(err.message);
     return res.status(500).json({ error: err.message });
   }
 };
@@ -37,11 +39,13 @@ exports.deleteBook = async (req, res) => {
         message: "Book " + bookId + " deleted successfully",
       });
     } else {
+      console.log("Cant delete a book: " + bookId);
       res.status(400).json({
         message: "Cant delete a book: " + bookId,
       });
     }
   } catch (err) {
+    console.log(err.message);
     return res.status(500).json({ error: err.message });
   }
 };
@@ -54,6 +58,7 @@ exports.borrowBook = async (req, res) => {
     const updatedBook = await bookService.borrowBook(userId, bookId);
 
     if (!updatedBook) {
+      console.log(err.message);
       return res.status(400).json({
         message: "Cant borrow book with id: " + bookId,
       });
@@ -65,6 +70,7 @@ exports.borrowBook = async (req, res) => {
       });
     }
   } catch (err) {
+    console.log(err.message);
     res.status(500).json({ error: err.message });
   }
 };
@@ -76,6 +82,7 @@ exports.returnBook = async (req, res) => {
     const updatedBook = await bookService.returnBook(bookId);
 
     if (!updatedBook) {
+      console.log("Cant return book with id: " + bookId);
       return res.status(409).json({
         message: "Cant return book with id: " + bookId,
       });
@@ -87,6 +94,7 @@ exports.returnBook = async (req, res) => {
       });
     }
   } catch (err) {
+    console.log(err.message);
     res.status(500).json({ error: err.message });
   }
 };
@@ -109,10 +117,12 @@ exports.postBook = async (req, res) => {
         book: result.data,
       });
     }
+    console.log("Failed to create book");
     return res.status(400).json({
       error: "Failed to create book",
     });
   } catch (err) {
+    console.log(err.message);
     if (err.name === "SequelizeUniqueConstraintError") {
       return res.status(409).json({
         message: "This book already exists",
@@ -129,6 +139,7 @@ exports.getMostPopularBooks = async (req, res) => {
     console.log("Successfully got " + books.length + " books");
     return res.json(books || []);
   } catch (err) {
+    console.log(err.message);
     return res.status(500).json({ error: err.message });
   }
 };
@@ -143,6 +154,7 @@ exports.getUserBooks = async (req, res) => {
     );
     return res.json(books || []);
   } catch (err) {
+    console.log(err.message);
     return res.status(500).json({ error: err.message });
   }
 };

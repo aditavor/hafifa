@@ -55,7 +55,6 @@ function Customers() {
   };
 
   const handleDelete = async (userId, name) => {
-    console.log("dalating");
     try {
       const { status } = await deleteUser(userId);
 

@@ -8,7 +8,7 @@ import { useAuthors } from "../../context/Authors/useAuthors";
 import { useBooks } from "../../context/Books/useBooks";
 
 function Publishers() {
-  const [authorName, setAuthorName] = useState([]);
+  const [authorName, setAuthorName] = useState("");
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
   const {

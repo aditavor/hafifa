@@ -33,6 +33,7 @@ exports.register = async (req, res) => {
       },
     });
   } catch (err) {
+    console.log(err.message);
     return res.status(500).json({ error: err.message });
   }
 };
@@ -45,11 +46,13 @@ exports.login = async (req, res) => {
     console.log("Logging in to user " + name);
     const user = await userService.findByName(name);
     if (!user) {
+      console.log("Cant create a user");
       return res.status(400).json({ message: "Invalid username or password" });
     }
 
     // Validate password
     if (password !== user.password) {
+      console.log("Cant create a user");
       return res.status(400).json({ message: "Invalid username or password" });
     }
 
@@ -60,6 +63,7 @@ exports.login = async (req, res) => {
       user: { id: user.id, is_worker: user.is_worker, balance: user.balance },
     });
   } catch (err) {
+    console.log(err.message);
     return res.status(500).json({ error: err.message });
   }
 };
@@ -71,6 +75,7 @@ exports.getReaders = async (req, res) => {
     console.log("Successfully got " + users.length + " library users");
     return res.json(users || []);
   } catch (err) {
+    console.log(err.message);
     return res.status(500).json({ error: err.message });
   }
 };
@@ -87,11 +92,13 @@ exports.deleteUser = async (req, res) => {
         message: "User " + userId + " deleted successfully",
       });
     } else {
+      console.log("Cant delete user: " + userId);
       res.status(400).json({
         message: "Cant delete user: " + userId,
       });
     }
   } catch (err) {
+    console.log(err.message);
     return res.status(500).json({ error: err.message });
   }
 };
@@ -104,6 +111,7 @@ exports.getBalance = async (req, res) => {
     console.log("Successfully got users balance");
     return res.json(balance);
   } catch (err) {
+    console.log(err.message);
     return res.status(500).json({ error: err.message });
   }
 };
@@ -113,15 +121,16 @@ exports.updateBalance = async (req, res) => {
     const { userId, amount } = req.params;
     console.log("Updating user " + userId + " balance");
     const balance = await userService.updateBalance(userId, amount);
-    console.log("Successfully updated user " + userId + " balance");
 
     if (balance) {
+      console.log("Successfully updated user " + userId + " balance");
       res.status(202).json({
         message: "Balance updated successfully",
         balance: amount,
       });
     }
   } catch (err) {
+    console.log(err.message);
     return res.status(500).json({ error: err.message });
   }
 };

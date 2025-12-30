@@ -7,6 +7,7 @@ exports.getAllAuthors = async (req, res) => {
     console.log("Successfully got " + authors.length + " authors");
     return res.json(authors || []);
   } catch (err) {
+    console.log(err.message);
     return res.status(500).json({ error: err.message });
   }
 };
@@ -28,6 +29,7 @@ exports.deleteAuthor = async (req, res) => {
       });
     }
   } catch (err) {
+    console.log(err.message);
     return res.status(500).json({ error: err.message });
   }
 };
@@ -52,10 +54,12 @@ exports.createAuthor = async (req, res) => {
         author: result.data,
       });
     }
+    console.log("Failed to create author");
     return res.status(400).json({
       error: "Failed to create author",
     });
   } catch (err) {
+    console.log(err.message);
     if (err.name === "SequelizeUniqueConstraintError") {
       return res.status(409).json({
         message: "This author already exists",

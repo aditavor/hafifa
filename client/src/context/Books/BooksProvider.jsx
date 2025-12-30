@@ -32,7 +32,6 @@ export function BooksProvider({ children }) {
   };
 
   const deleteBooksByAuthor = (authorId) => {
-    console.log(books);
     setBooks((prev) =>
       prev.filter((book) => Number(book.author_id) !== Number(authorId))
     );

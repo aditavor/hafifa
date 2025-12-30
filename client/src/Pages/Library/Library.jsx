@@ -24,7 +24,6 @@ function Library() {
 
     try {
       if (balance < bookPrice) {
-        console.log(balance, bookPrice);
         toast.error("You cant borrow book " + bookName, {
           position: "bottom-right",
           autoClose: 3000,
