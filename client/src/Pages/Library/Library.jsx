@@ -14,7 +14,7 @@ function Library() {
     addBook,
     updateBook,
     loading: booksLoading,
-    deleteBookClient: deleteBook,
+    deleteBook: deleteBookClient,
   } = useBooks();
   const { authors, loading: authorsLoading } = useAuthors();
   const { balance, addToBalance } = useBalance();
