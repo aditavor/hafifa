@@ -3,7 +3,7 @@ const { Op, Sequelize } = require("sequelize");
 
 exports.getAllBooks = async () => {
   const allBooks = await LibBook.findAll({
-    attributes: ["id", "name", "price", "user_id", "borrows", "pages"],
+    attributes: ["id", "name", "price", "user_id", "borrows", "pages", "author_id"],
   });
 
   return allBooks;
