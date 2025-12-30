@@ -64,7 +64,6 @@ function Customers() {
         hideProgressBar: false,
       });
 
-      console.log(isSelf);
 
       if (isSelf) {
         localStorage.clear();
