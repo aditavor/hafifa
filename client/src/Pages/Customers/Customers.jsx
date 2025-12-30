@@ -13,6 +13,7 @@ import { useBalance } from "../../context/Balance/useBalance";
 import { toast } from "react-toastify";
 import { userId as loggedUser } from "../../Utils/systemUtils";
 import { useNavigate } from "react-router-dom";
+import LibEntities from "../../Components/LibEntities/LibEntities";
 
 function Customers() {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ function Customers() {
     setLoading(false);
   };
 
-  const handleDelete = async (userId, username) => {
+  const handleDelete = async (userId, name) => {
     const isSelf = userId === Number(loggedUser());
 
     try {
@@ -57,7 +58,7 @@ function Customers() {
 
       setCustomers((prev) => prev.filter((user) => user.id !== userId));
 
-      toast.success("User " + username + " deleted successfully", {
+      toast.success("User " + name + " deleted successfully", {
         position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -89,6 +90,35 @@ function Customers() {
     }
   };
 
+  const renderBookCard = (customer) => (
+    <Card
+      key={customer.id}
+      data={{
+        id: customer.id,
+        name: customer.name,
+        headers: "Email: " + customer.email + " \nBalance: " + customer.balance,
+      }}
+      onDelete={handleDelete}
+      buttons={[
+        {
+          label: "Add ₪",
+          onClick: () => {
+            setAddBalanceOpen(true);
+            setUserToAdd(customer);
+          },
+        },
+        ...(customer.isLate
+          ? [
+              {
+                label: "View Late Books",
+                onClick: () => viewUserBooks(customer.id),
+              },
+            ]
+          : []),
+      ]}
+    />
+  );
+
   useEffect(() => {
     fetchCustomers();
   }, []);
@@ -97,48 +127,11 @@ function Customers() {
     <>
       <div className="page-container">
         <h2 className="title">Library customers:</h2>
-        <div className="container">
-          <div className="container-item">
-            {loading ? (
-              <p>Loading...</p>
-            ) : customers.length !== 0 ? (
-              customers.map((customer) => (
-                <Card
-                  key={customer.id}
-                  data={{
-                    id: customer.id,
-                    name: customer.username,
-                    headers:
-                      "Email: " +
-                      customer.email +
-                      " \nBalance: " +
-                      customer.balance,
-                  }}
-                  onDelete={handleDelete}
-                  buttons={[
-                    {
-                      label: "Add ₪",
-                      onClick: () => {
-                        setAddBalanceOpen(true);
-                        setUserToAdd(customer);
-                      },
-                    },
-                    ...(customer.isLate
-                      ? [
-                          {
-                            label: "View Late Books",
-                            onClick: () => viewUserBooks(customer.id),
-                          },
-                        ]
-                      : []),
-                  ]}
-                />
-              ))
-            ) : (
-              <p>No Users</p>
-            )}
-          </div>
-        </div>
+        <LibEntities
+          entities={customers}
+          loading={loading}
+          children={renderBookCard}
+        />
 
         {usersBookOpen && (
           <Modal setOpen={setUsersBookOpen}>

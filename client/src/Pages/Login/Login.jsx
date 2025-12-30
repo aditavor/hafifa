@@ -9,7 +9,7 @@ import { useBalance } from "../../context/Balance/useBalance";
 function Login() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [error, setError] = useState("");
   const { setBalance } = useBalance();
 
@@ -17,12 +17,12 @@ function Login() {
     e.preventDefault();
     setError("");
 
-    if (!username || !password) {
+    if (!name || !password) {
       setError("Enter username and password");
       return;
     }
 
-    const { data, status } = await login(username, password);
+    const { data, status } = await login(name, password);
     if (status !== 200) {
       setError(data.message || "Login error");
       return;
@@ -35,7 +35,7 @@ function Login() {
       setBalance
     );
 
-    toast.success("Logged in to " + username, {
+    toast.success("Logged in to " + name, {
       position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -54,8 +54,8 @@ function Login() {
         <input
           type="text"
           className="auth-input"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
         <label className="auth-label">Password</label>

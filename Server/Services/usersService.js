@@ -1,13 +1,13 @@
 const LibUser = require("../Models/LibUser");
 const { Sequelize } = require("sequelize");
 
-exports.findByUsername = async (username) => {
-  return await LibUser.findOne({ where: { username } });
+exports.findByUsername = async (name) => {
+  return await LibUser.findOne({ where: { name } });
 };
 
-exports.createUser = async (username, password, email, isWorker) => {
+exports.createUser = async (name, password, email, isWorker) => {
   return await LibUser.create({
-    username,
+    name,
     password,
     email,
     is_worker: isWorker,
@@ -26,7 +26,7 @@ exports.getReaders = async () => {
   return await LibUser.findAll({
     attributes: [
       "id",
-      "username",
+      "name",
       "email",
       "balance",
       [

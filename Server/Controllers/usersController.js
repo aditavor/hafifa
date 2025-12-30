@@ -3,10 +3,10 @@ const userService = require("../Services/usersService");
 exports.register = async (req, res) => {
   const SECURITY_CODE = "a";
   try {
-    const { username, password, email, securityCode } = req.body;
+    const { name, password, email, securityCode } = req.body;
 
     // Check if the username exists
-    const exists = await userService.findByUsername(username);
+    const exists = await userService.findByName(name);
     if (exists) {
       return res.status(400).json({ message: "User already exists" });
     }
@@ -15,13 +15,13 @@ exports.register = async (req, res) => {
     console.log("Creating user");
 
     const newUser = await userService.createUser(
-      username,
+      name,
       password,
       email,
       securityCode === SECURITY_CODE
     );
 
-    console.log("Successfully created user " + username);
+    console.log("Successfully created user " + name);
 
     return res.status(201).json({
       message: "User created successfully",
@@ -38,11 +38,11 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { name, password } = req.body;
 
     // Find the user
-    console.log("Logging in to user " + username);
-    const user = await userService.findByUsername(username);
+    console.log("Logging in to user " + name);
+    const user = await userService.findByUsername(name);
     if (!user) {
       return res.status(400).json({ message: "Invalid username or password" });
     }
@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: "Invalid username or password" });
     }
 
-    console.log("Successfully logged in to user " + username);
+    console.log("Successfully logged in to user " + name);
 
     return res.json({
       message: "Login successful",
