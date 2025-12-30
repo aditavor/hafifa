@@ -13,7 +13,7 @@ const DeleteAccountModal = ({ handleDelete, setDeleteItselfOpen, userId }) => {
 
   return (
     <div className="warn-wrap">
-      <h2>⚠️Delete Your Own Account⚠️</h2>
+      <h2>⚠️Delete Your Account⚠️</h2>
 
       <h4>
         This action is <strong>irreversible</strong>.
