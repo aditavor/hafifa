@@ -16,7 +16,7 @@ function Library() {
     loading: booksLoading,
     deleteBook: deleteBookClient,
   } = useBooks();
-  const { authors, loading: authorsLoading } = useAuthors();
+  const { authors, loading: authorsLoading, addRevenue } = useAuthors();
   const { balance, addToBalance } = useBalance();
 
   const handleBorrow = async (bookId, bookName, bookPrice) => {
@@ -31,15 +31,23 @@ function Library() {
         });
         return;
       }
-      const { data, status } = await borrowBook(bookId, id);
+      const { data: borrowData, status: borrowStatus } = await borrowBook(bookId, id);
 
-      if (status !== 202) {
+      if (borrowStatus !== 202) {
         console.error("Failed to borrow book");
         return;
       }
 
-      updateBook(data.book);
-      addToBalance(-1 * data.book.price);
+      addRevenue(borrowData.book.author_id, borrowData.book.price);
+      updateBook(borrowData.book);
+      addToBalance(-1 * borrowData.book.price);
+
+      const { data: updatedAuthor, status: addRevenueStatus } = await borrowBook(bookId, id);
+
+      if (addRevenueStatus !== 202) {
+        console.error("Failed to borrow book");
+        return;
+      }
 
       toast.success("Book " + data.book.name + " borrowed successfully", {
         position: "bottom-right",
@@ -57,7 +65,7 @@ function Library() {
       if (status !== 200) {
         console.error("Failed to delete book");
         return;
-      } 
+      }
       deleteBookClient(bookId);
 
       toast.success("Book " + bookName + " deleted successfully", {

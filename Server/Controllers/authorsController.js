@@ -12,6 +12,30 @@ exports.getAllAuthors = async (req, res) => {
   }
 };
 
+exports.addRevenue = async (req, res) => {
+  try {
+    const { authorId, amount } = req.params;
+    console.log("Adding revenue");
+    const updatedAuthor = await authorsService.addRevenue(authorId, amount);
+
+    if (!updatedAuthor) {
+      console.log(err.message);
+      return res.status(400).json({
+        message: "Cant add avenue to author " + authorId,
+      });
+    } else {
+      console.log("Successfully added " + amount + " to author " + authorId);
+      res.status(202).json({
+        message: "Added " + amount + " to author " + authorId,
+        author: updatedAuthor,
+      });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.deleteAuthor = async (req, res) => {
   try {
     const { authorId } = req.params;

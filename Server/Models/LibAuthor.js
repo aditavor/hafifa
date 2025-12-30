@@ -15,6 +15,12 @@ const LibAuthor = sequelize.define(
       unique: true,
       allowNull: false,
     },
+
+    revenue: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+      defaultValue: 0,
+    },
   },
   {
     tableName: "lib_authors",

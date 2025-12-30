@@ -49,6 +49,21 @@ export const returnBook = async (bookId) => {
   }
 };
 
+export const addRevenue = async (authorId, amount) => {
+  try {
+    const res = await axios.put(path + "authors/" + authorId + "/addRevenue/" + amount);
+    return {
+      data: res.data,
+      status: res.status,
+    };
+  } catch (err) {
+    return {
+      data: err.response?.data,
+      status: err.response?.status || 500,
+    };
+  }
+};
+
 export const deleteBook = async (bookId) => {
   try {
     const res = await axios.delete(path + "books/" + bookId);

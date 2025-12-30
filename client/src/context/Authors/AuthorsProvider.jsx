@@ -21,13 +21,23 @@ export function AuthorsProvider({ children }) {
     setAuthors((prev) => [...prev, newAuthor]);
   };
 
+  const addRevenue = (value, authorId) => {
+    setAuthors((prev) =>
+      prev.map((author) =>
+        author.id === authorId
+          ? { ...author, revenue: author.revenue + value }
+          : author
+      )
+    );
+  };
+
   const deleteAuthor = (authorId) => {
     setAuthors((prev) => prev.filter((author) => author.id !== authorId));
   };
 
   return (
     <AuthorsContext.Provider
-      value={{ authors, loading, fetchAuthors, addAuthor, deleteAuthor }}
+      value={{ authors, loading, fetchAuthors, addAuthor, deleteAuthor, addRevenue }}
     >
       {children}
     </AuthorsContext.Provider>
