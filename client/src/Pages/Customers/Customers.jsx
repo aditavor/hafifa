@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  deleteUser,
   getAllUsers,
   getUserstimeoutBooks,
   updateBalance,
@@ -9,6 +10,10 @@ import Card from "../../Components/Card/Card";
 import Modal from "../../Components/Modal/Modal";
 import ChangeBalanceModal from "../../Components/ChangeBalanceModal/ChangeBalanceModal";
 import { useBalance } from "../../context/Balance/useBalance";
+import { toast } from "react-toastify";
+import { userId as loggedUser } from "../../Utils/systemUtils";
+import LibEntities from "../../Components/LibEntities/LibEntities";
+import DeleteAccountModal from "../../Components/DeleteAccountModal/DeleteAccountModal";
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
@@ -17,6 +22,7 @@ function Customers() {
   const [userToAdd, setUserToAdd] = useState({});
   const [usersBookOpen, setUsersBookOpen] = useState(false);
   const [openUsersBooks, setOpenUsersBooks] = useState([]);
+  const [deleteItselfOpen, setDeleteItselfOpen] = useState(false);
   const { addToBalance } = useBalance();
 
   const fetchCustomers = async () => {
@@ -38,6 +44,40 @@ function Customers() {
     setLoading(false);
   };
 
+  const manageDeleteUser = (userId, name) => {
+    const isSelf = userId === Number(loggedUser());
+
+    if (isSelf) {
+      setDeleteItselfOpen(true);
+    } else {
+      handleDelete(userId, name);
+    }
+  };
+
+  const handleDelete = async (userId, name) => {
+    try {
+      const { status } = await deleteUser(userId);
+
+      if (status !== 200) {
+        console.error("Failed to delete user");
+        return;
+      }
+
+      setCustomers((prev) => prev.filter((user) => user.id !== userId));
+
+      toast.success(
+        (name ? "User " + name : "Your own account ") + "deleted successfully",
+        {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+        }
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const addToBalanceModal = async (value) => {
     const newBalance = (Number(userToAdd.balance) ?? 0) + Number(value);
     setCustomers((prevUsers) =>
@@ -53,6 +93,35 @@ function Customers() {
     }
   };
 
+  const renderBookCard = (customer) => (
+    <Card
+      key={customer.id}
+      data={{
+        id: customer.id,
+        name: customer.name,
+        headers: "Email: " + customer.email + " \nBalance: " + customer.balance,
+      }}
+      onDelete={manageDeleteUser}
+      buttons={[
+        {
+          label: "Add ₪",
+          onClick: () => {
+            setAddBalanceOpen(true);
+            setUserToAdd(customer);
+          },
+        },
+        ...(customer.isLate
+          ? [
+              {
+                label: "View Late Books",
+                onClick: () => viewUserBooks(customer.id),
+              },
+            ]
+          : []),
+      ]}
+    />
+  );
+
   useEffect(() => {
     fetchCustomers();
   }, []);
@@ -61,48 +130,11 @@ function Customers() {
     <>
       <div className="page-container">
         <h2 className="title">Library customers:</h2>
-        <div className="container">
-          <div className="container-item">
-            {loading ? (
-              <p>Loading...</p>
-            ) : customers.length !== 0 ? (
-              customers.map((customer) => (
-                <Card
-                  key={customer.id}
-                  data={{
-                    id: customer.id,
-                    name: customer.username,
-                    headers:
-                      "Email: " +
-                      customer.email +
-                      " \nBalance: " +
-                      customer.balance,
-                  }}
-                  showIcon={true}
-                  buttons={[
-                    {
-                      label: "Add ₪",
-                      onClick: () => {
-                        setAddBalanceOpen(true);
-                        setUserToAdd(customer);
-                      },
-                    },
-                    ...(customer.isLate
-                      ? [
-                          {
-                            label: "View Late Books",
-                            onClick: () => viewUserBooks(customer.id),
-                          },
-                        ]
-                      : []),
-                  ]}
-                />
-              ))
-            ) : (
-              <p>No Users</p>
-            )}
-          </div>
-        </div>
+        <LibEntities
+          entities={customers}
+          loading={loading}
+          children={renderBookCard}
+        />
 
         {usersBookOpen && (
           <Modal setOpen={setUsersBookOpen}>
@@ -128,6 +160,16 @@ function Customers() {
           usersBalance={userToAdd.balance}
           setOpen={setAddBalanceOpen}
         />
+      )}
+
+      {deleteItselfOpen && (
+        <Modal setOpen={setDeleteItselfOpen}>
+          <DeleteAccountModal
+            handleDelete={handleDelete}
+            setDeleteItselfOpen={setDeleteItselfOpen}
+            userId={Number(loggedUser())}
+          />
+        </Modal>
       )}
     </>
   );

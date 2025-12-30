@@ -49,6 +49,48 @@ export const returnBook = async (bookId) => {
   }
 };
 
+export const deleteBook = async (bookId) => {
+  try {
+    const res = await axios.delete(path + "books/" + bookId);
+    return {
+      status: res.status,
+    };
+  } catch (err) {
+    return {
+      data: err.response?.data,
+      status: err.response?.status || 500,
+    };
+  }
+};
+
+export const deleteUser = async (userId) => {
+  try {
+    const res = await axios.delete(path + "users/" + userId);
+    return {
+      status: res.status,
+    };
+  } catch (err) {
+    return {
+      data: err.response?.data,
+      status: err.response?.status || 500,
+    };
+  }
+};
+
+export const deleteAuthor = async (authorId) => {
+  try {
+    const res = await axios.delete(path + "authors/" + authorId);
+    return {
+      status: res.status,
+    };
+  } catch (err) {
+    return {
+      data: err.response?.data,
+      status: err.response?.status || 500,
+    };
+  }
+};
+
 export const getUsersBooks = async (userId) => {
   const res = await axios.get(path + "users/" + userId + "/books");
   return {
@@ -101,9 +143,9 @@ export const addPost = async (name, price, authorId, pages) => {
   }
 };
 
-export const login = async (username, password) => {
+export const login = async (name, password) => {
   try {
-    const res = await axios.post(path + "users/login", { username, password });
+    const res = await axios.post(path + "users/login", { name, password });
     return {
       data: res.data,
       status: res.status,
@@ -116,10 +158,10 @@ export const login = async (username, password) => {
   }
 };
 
-export const register = async (username, password, email, securityCode) => {
+export const register = async (name, password, email, securityCode) => {
   try {
     const res = await axios.post(path + "users/register", {
-      username,
+      name,
       password,
       email,
       securityCode,

@@ -14,7 +14,7 @@ function Register() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [validatePassword, setValidatePassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [securityCode, setSecurityCode] = useState("");
@@ -32,7 +32,7 @@ function Register() {
     e.preventDefault();
     setError("");
 
-    if (!username || !password || !email) {
+    if (!name || !password || !email) {
       setError("Enter username and password");
       return;
     }
@@ -42,7 +42,7 @@ function Register() {
       return;
     }
 
-    if (!validateUsernameFormat(username)) {
+    if (!validateUsernameFormat(name)) {
       setError("Username must be 8-24 letters and number");
       return;
     }
@@ -53,7 +53,7 @@ function Register() {
     }
 
     const { data, status } = await register(
-      username,
+      name,
       password,
       email,
       securityCode
@@ -71,7 +71,7 @@ function Register() {
       setBalance
     );
 
-    const message = `Registered to user ${username} ${
+    const message = `Registered to user ${name} ${
       data.user.is_worker ? "as worker" : ""
     }`;
 
@@ -95,8 +95,8 @@ function Register() {
         <input
           type="text"
           className="auth-input"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
         <label className="auth-label">Email</label>
