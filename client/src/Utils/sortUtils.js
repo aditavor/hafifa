@@ -16,11 +16,11 @@ export const BOOK_SORT_OPTIONS = {
     sortFn: (a, b) => b.name.localeCompare(a.name),
   },
   AVAILABLE: {
-    label: "Available",
+    label: "available",
     sortFn: (a, b) => (a.user_id ? 1 : 0) - (b.user_id ? 1 : 0),
   },
   UNAVAILABLE: {
-    label: "Unavailable",
+    label: "unavailable",
     sortFn: (a, b) => (b.user_id ? 1 : 0) - (a.user_id ? 1 : 0),
   },
 };
