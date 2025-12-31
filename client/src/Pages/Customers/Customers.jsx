@@ -130,11 +130,13 @@ function Customers() {
     <>
       <div className="page-container">
         <h2 className="title">Library customers:</h2>
-        <LibEntities
-          entities={customers}
-          loading={loading}
-          children={renderBookCard}
-        />
+        <div className="container">
+          <LibEntities
+            entities={customers}
+            loading={loading}
+            children={renderBookCard}
+          />
+        </div>
 
         {usersBookOpen && (
           <Modal setOpen={setUsersBookOpen}>

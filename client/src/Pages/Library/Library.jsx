@@ -128,11 +128,14 @@ function Library() {
           handleBookAdded={addBook}
         />
       )}
-      <LibEntities
-        entities={books}
-        loading={booksLoading}
-        children={renderBookCard}
-      />
+
+      <div className="container">
+        <LibEntities
+          entities={books}
+          loading={booksLoading}
+          children={renderBookCard}
+        />
+      </div>
     </div>
   );
 }

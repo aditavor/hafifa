@@ -10,7 +10,7 @@ function LibEntities({ entities, loading, children }) {
   );
 
   return (
-    <div className="container">
+    <>
       <SearchBar value={search} onChange={setSearch} />
       <div className="container-item">
         {loading ? (
@@ -25,7 +25,7 @@ function LibEntities({ entities, loading, children }) {
           <p>No Entities in library</p>
         )}
       </div>
-    </div>
+    </>
   );
 }
 
