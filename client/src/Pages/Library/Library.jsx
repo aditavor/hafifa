@@ -11,6 +11,7 @@ import {
 } from "../../api/api";
 import { useBalance } from "../../context/Balance/useBalance";
 import LibEntities from "../../Components/LibEntities/LibEntities";
+import { BOOK_SORT_OPTIONS } from "../../Utils/sortUtils";
 
 function Library() {
   const {
@@ -134,6 +135,7 @@ function Library() {
           entities={books}
           loading={booksLoading}
           children={renderBookCard}
+          sortOptions={BOOK_SORT_OPTIONS}
         />
       </div>
     </div>
