@@ -68,56 +68,54 @@ function Publishers() {
   };
 
   return (
-    <>
-      <div className="page-container">
-        <h2 className="title">Library publishers:</h2>
-        <ul className="list">
-          {loading ? (
-            <p>Loading...</p>
-          ) : authors.length !== 0 ? (
-            authors.map((author) => (
-              <li key={author.id} className="list-item">
-                <span>
-                  <strong>{author.name}</strong>
-                </span>
-                <span>revenue: {author.revenue}</span>
-                {isWorker() && (
-                  <i
-                    className="trash-icon fa-regular fa-trash-can"
-                    onClick={() => handleDelete(author.id, author.name)}
-                  ></i>
-                )}
-              </li>
-            ))
-          ) : (
-            <p>No Publishers in library</p>
-          )}
-          {isWorker() && (
-            <li
-              className="add-btn"
-              onClick={() => {
-                setOpen(true);
-                setAuthorName("");
-                setError("");
-              }}
-            >
-              + Add A Publisher
+    <div className="page-container">
+      <h2 className="title">Library publishers:</h2>
+      <ul className="list">
+        {loading ? (
+          <p>Loading...</p>
+        ) : authors.length !== 0 ? (
+          authors.map((author) => (
+            <li key={author.id} className="list-item">
+              <span>
+                <strong>{author.name}</strong>
+              </span>
+              <span>revenue: {author.revenue}</span>
+              {isWorker() && (
+                <i
+                  className="trash-icon fa-regular fa-trash-can"
+                  onClick={() => handleDelete(author.id, author.name)}
+                ></i>
+              )}
             </li>
-          )}
-        </ul>
-        {open && (
-          <Modal setOpen={setOpen}>
-            <AddAuthor
-              error={error}
-              setOpen={setOpen}
-              authorName={authorName}
-              setAuthorName={setAuthorName}
-              handleSubmit={handleSubmit}
-            />
-          </Modal>
+          ))
+        ) : (
+          <p>No Publishers in library</p>
         )}
-      </div>
-    </>
+        {isWorker() && (
+          <li
+            className="add-btn"
+            onClick={() => {
+              setOpen(true);
+              setAuthorName("");
+              setError("");
+            }}
+          >
+            + Add A Publisher
+          </li>
+        )}
+      </ul>
+      {open && (
+        <Modal setOpen={setOpen}>
+          <AddAuthor
+            error={error}
+            setOpen={setOpen}
+            authorName={authorName}
+            setAuthorName={setAuthorName}
+            handleSubmit={handleSubmit}
+          />
+        </Modal>
+      )}
+    </div>
   );
 }
 
