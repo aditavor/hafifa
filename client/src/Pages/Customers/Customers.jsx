@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { userId as loggedUser } from "../../Utils/systemUtils";
 import LibEntities from "../../Components/LibEntities/LibEntities";
 import DeleteAccountModal from "../../Components/DeleteAccountModal/DeleteAccountModal";
+import { USER_SORT_OPTIONS } from "../../Utils/sortUtils";
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
@@ -135,6 +136,7 @@ function Customers() {
             entities={customers}
             loading={loading}
             children={renderBookCard}
+            sortOptions={USER_SORT_OPTIONS}
           />
         </div>
 

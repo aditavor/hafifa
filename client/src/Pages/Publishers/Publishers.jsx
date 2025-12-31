@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useAuthors } from "../../context/Authors/useAuthors";
 import { useBooks } from "../../context/Books/useBooks";
 import LibEntities from "../../Components/LibEntities/LibEntities";
+import { AUTHOR_SORT_OPTIONS } from "../../Utils/sortUtils";
 
 function Publishers() {
   const [authorName, setAuthorName] = useState("");
@@ -91,6 +92,7 @@ function Publishers() {
           entities={authors}
           loading={loading}
           children={renderAuthorList}
+          sortOptions={AUTHOR_SORT_OPTIONS}
         />
         {isWorker() && (
           <li
