@@ -25,7 +25,7 @@ export function AuthorsProvider({ children }) {
     setAuthors((prev) =>
       prev.map((author) =>
         author.id === authorId
-          ? { ...author, revenue: Number(author.revenue) + value }
+          ? { ...author, revenue: Number(author.revenue) + Number(value) }
           : author
       )
     );

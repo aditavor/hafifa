@@ -49,7 +49,7 @@ function Library() {
         return;
       }
 
-      addRevenueClient(borrowData.book.author_id, Number(borrowData.book.price));
+      addRevenueClient(borrowData.book.author_id, borrowData.book.price);
       updateBook(borrowData.book);
       addToBalance(-1 * borrowData.book.price);
 
@@ -120,22 +120,23 @@ function Library() {
   );
 
   return (
-    <>
-      <div className="page-container">
-        {isWorker() && (
-          <AddBook
-            loading={authorsLoading}
-            authors={authors}
-            handleBookAdded={addBook}
-          />
-        )}
+    <div className="page-container">
+      {isWorker() && (
+        <AddBook
+          loading={authorsLoading}
+          authors={authors}
+          handleBookAdded={addBook}
+        />
+      )}
+
+      <div className="container">
         <LibEntities
           entities={books}
           loading={booksLoading}
           children={renderBookCard}
         />
       </div>
-    </>
+    </div>
   );
 }
 
