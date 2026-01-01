@@ -1,7 +1,13 @@
+import Modal from "../Modal/Modal";
 import "./DeleteAccountModal.scss";
 import { useNavigate } from "react-router-dom";
 
-const DeleteAccountModal = ({ handleDelete, setDeleteItselfOpen, userId }) => {
+const DeleteAccountModal = ({
+  setOpen,
+  handleDelete,
+  setDeleteItselfOpen,
+  userId,
+}) => {
   const navigate = useNavigate();
 
   const deleteAccount = () => {
@@ -12,20 +18,22 @@ const DeleteAccountModal = ({ handleDelete, setDeleteItselfOpen, userId }) => {
   };
 
   return (
-    <div className="warn-wrap">
-      <h2>⚠️Delete Your Account⚠️</h2>
+    <Modal setOpen={setOpen}>
+      <div className="warn-wrap">
+        <h2>⚠️Delete Your Account⚠️</h2>
 
-      <h4>
-        This action is <strong>irreversible</strong>.
-      </h4>
+        <h4>
+          This action is <strong>irreversible</strong>.
+        </h4>
 
-      <div className="modal-actions">
-        <button onClick={() => setDeleteItselfOpen(false)}>Cancel</button>
-        <button className="danger-btn" onClick={() => deleteAccount(userId)}>
-          Yes, Log me out and delete my account
-        </button>
+        <div className="modal-actions">
+          <button onClick={() => setDeleteItselfOpen(false)}>Cancel</button>
+          <button className="danger-btn" onClick={() => deleteAccount(userId)}>
+            Yes, Log me out and delete my account
+          </button>
+        </div>
       </div>
-    </div>
+    </Modal>
   );
 };
 
