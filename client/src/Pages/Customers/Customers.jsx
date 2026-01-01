@@ -11,7 +11,7 @@ import Modal from "../../Components/Modal/Modal";
 import ChangeBalanceModal from "../../Components/ChangeBalanceModal/ChangeBalanceModal";
 import { useBalance } from "../../context/Balance/useBalance";
 import { toast } from "react-toastify";
-import { userId as loggedUser } from "../../Utils/systemUtils";
+import { userId as loggedUserId } from "../../Utils/systemUtils";
 import LibEntities from "../../Components/LibEntities/LibEntities";
 import DeleteAccountModal from "../../Components/DeleteAccountModal/DeleteAccountModal";
 import { USER_SORT_OPTIONS } from "../../Utils/sortUtils";
@@ -46,9 +46,8 @@ function Customers() {
   };
 
   const manageDeleteUser = (userId, name) => {
-    const isSelf = userId === Number(loggedUser());
-
-    if (isSelf) {
+    if (userId === Number(loggedUserId())) {
+      //If user deleting himself
       setDeleteItselfOpen(true);
     } else {
       handleDelete(userId, name);
@@ -167,13 +166,12 @@ function Customers() {
       )}
 
       {deleteItselfOpen && (
-        <Modal setOpen={setDeleteItselfOpen}>
-          <DeleteAccountModal
-            handleDelete={handleDelete}
-            setDeleteItselfOpen={setDeleteItselfOpen}
-            userId={Number(loggedUser())}
-          />
-        </Modal>
+        <DeleteAccountModal
+          setOpen={setDeleteItselfOpen}
+          handleDelete={handleDelete}
+          setDeleteItselfOpen={setDeleteItselfOpen}
+          userId={Number(loggedUserId())}
+        />
       )}
     </>
   );

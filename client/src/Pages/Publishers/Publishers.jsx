@@ -108,15 +108,13 @@ function Publishers() {
         )}
       </ul>
       {open && (
-        <Modal setOpen={setOpen}>
-          <AddAuthor
-            error={error}
-            setOpen={setOpen}
-            authorName={authorName}
-            setAuthorName={setAuthorName}
-            handleSubmit={handleSubmit}
-          />
-        </Modal>
+        <AddAuthor
+          error={error}
+          setOpen={setOpen}
+          authorName={authorName}
+          setAuthorName={setAuthorName}
+          handleSubmit={handleSubmit}
+        />
       )}
     </div>
   );

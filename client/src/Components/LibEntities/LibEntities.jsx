@@ -16,7 +16,7 @@ function LibEntities({ entities, loading, children, sortOptions }) {
     let result = filteredEntities;
 
     if (sortKey && sortOptions?.[sortKey]) {
-      result = [...result].sort(sortOptions[sortKey].sortFn);
+      result = [...result].sort(sortOptions[sortKey].sortData);
     }
 
     return result;

@@ -29,12 +29,6 @@ exports.addRevenue = async (authorId, amount) => {
 };
 
 exports.deleteAuthor = async (authorId) => {
-  console.log(authorId);
-  console.log(authorId);
-  console.log(authorId);
-  console.log(authorId);
-  console.log(authorId);
-  console.log(authorId);
   const deleted = await LibAuthor.destroy({
     where: { id: authorId },
   });
