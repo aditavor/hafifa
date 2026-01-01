@@ -1,4 +1,10 @@
+const defaultSort = (a, b) => a.name.localeCompare(b.name);
+
 export const BOOK_SORT_OPTIONS = {
+  DEFAULT: {
+    label: "Sort by...",
+    sortData: defaultSort,
+  },
   PRICE_ASC: {
     label: "Price 🡓",
     sortData: (a, b) => a.price - b.price,
@@ -9,7 +15,7 @@ export const BOOK_SORT_OPTIONS = {
   },
   NAME_ASC: {
     label: "name A-Z",
-    sortData: (a, b) => a.name.localeCompare(b.name),
+    sortData: defaultSort,
   },
   NAME_DESC: {
     label: "name Z-A",
@@ -26,9 +32,13 @@ export const BOOK_SORT_OPTIONS = {
 };
 
 export const USER_SORT_OPTIONS = {
+  DEFAULT: {
+    label: "Sort by...",
+    sortData: defaultSort,
+  },
   USERNAME_ASC: {
     label: "username 🡓",
-    sortData: (a, b) => a.name.localeCompare(b.name),
+    sortData: defaultSort,
   },
   USERNAME_DESC: {
     label: "username 🡑",
@@ -49,9 +59,13 @@ export const USER_SORT_OPTIONS = {
 };
 
 export const AUTHOR_SORT_OPTIONS = {
+  DEFAULT: {
+    label: "Sort by...",
+    sortData: defaultSort,
+  },
   USERNAME_ASC: {
     label: "name 🡓",
-    sortData: (a, b) => a.name.localeCompare(b.name),
+    sortData: defaultSort,
   },
   USERNAME_DESC: {
     label: "name 🡑",

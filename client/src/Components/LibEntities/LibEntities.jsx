@@ -5,7 +5,7 @@ import SelectOptionsBar from "../SelectOptionsBar/SelectOptionsBar";
 
 function LibEntities({ entities, loading, children, sortOptions }) {
   const [search, setSearch] = useState("");
-  const [sortKey, setSortKey] = useState("");
+  const [sortKey, setSortKey] = useState("DEFAULT");
 
   const filteredEntities = useMemo(
     () => filterEntities(entities, search),
