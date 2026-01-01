@@ -1,9 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../DBConnection");
 
-const LibAuthor = require("./LibAuthor");
-const LibUser = require("./LibUser");
-
 const LibBook = sequelize.define(
   "LibBook",
   {
@@ -69,21 +66,5 @@ const LibBook = sequelize.define(
     ],
   }
 );
-
-// Book and author connection
-LibBook.belongsTo(LibAuthor, {
-  foreignKey: "author_id",
-  as: "author",
-  onUpdate: "CASCADE",
-  onDelete: "CASCADE",
-});
-
-// Book and user connection
-LibBook.belongsTo(LibUser, {
-  foreignKey: "user_id",
-  as: "user",
-  onUpdate: "CASCADE",
-  onDelete: "SET NULL",
-});
 
 module.exports = LibBook;

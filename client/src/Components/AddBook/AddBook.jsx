@@ -8,8 +8,8 @@ function AddBook({ authors, loading, handleBookAdded }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [authorId, setAuthorId] = useState("");
-  const [price, setPrice] = useState("");
-  const [pages, setPages] = useState("");
+  const [price, setPrice] = useState(0);
+  const [pages, setPages] = useState(0);
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {

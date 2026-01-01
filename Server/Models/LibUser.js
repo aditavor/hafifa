@@ -9,7 +9,7 @@ const LibUser = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    username: {
+    name: {
       type: DataTypes.TEXT,
       allowNull: false,
       unique: true,

@@ -54,48 +54,45 @@ function Personal() {
   };
 
   return (
-    <>
-      <div className="page-container">
-        <h2 className="title">Books you borrowed:</h2>
-        <div className="container">
-          <div className="container-item">
-            {loading ? (
-              <p>Loading...</p>
-            ) : books.length > 0 ? (
-              books.map((book) => (
-                <Card
-                  key={book.id}
-                  data={{
-                    id: book.id,
-                    name: book.name,
-                    headers: "Borrow Date: " + book.borrow_date,
-                  }}
-                  showIcon={false}
-                  buttons={[
-                    {
-                      label: "Return Book",
-                      onClick: handleReturn,
-                    },
-                  ]}
-                />
-              ))
-            ) : (
-              <p>You didnt borrowed any book</p>
-            )}
-          </div>
+    <div className="page-container">
+      <h2 className="title">Books you borrowed:</h2>
+      <div className="container">
+        <div className="container-item">
+          {loading ? (
+            <p>Loading...</p>
+          ) : books.length > 0 ? (
+            books.map((book) => (
+              <Card
+                key={book.id}
+                data={{
+                  id: book.id,
+                  name: book.name,
+                  headers: "Borrow Date: " + book.borrow_date,
+                }}
+                buttons={[
+                  {
+                    label: "Return Book",
+                    onClick: handleReturn,
+                  },
+                ]}
+              />
+            ))
+          ) : (
+            <p>You didnt borrowed any book</p>
+          )}
         </div>
-        <button className="lib-btn" onClick={() => setOpen(true)}>
-          Add To Balance
-        </button>
-        {open && (
-          <ChangeBalanceModal
-            addToBalance={addToBalance}
-            usersBalance={balance}
-            setOpen={setOpen}
-          />
-        )}
       </div>
-    </>
+      <button className="lib-btn" onClick={() => setOpen(true)}>
+        Add To Balance
+      </button>
+      {open && (
+        <ChangeBalanceModal
+          addToBalance={addToBalance}
+          usersBalance={balance}
+          setOpen={setOpen}
+        />
+      )}
+    </div>
   );
 }
 

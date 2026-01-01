@@ -14,7 +14,7 @@ function Register() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [validatePassword, setValidatePassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [securityCode, setSecurityCode] = useState("");
@@ -28,32 +28,33 @@ function Register() {
     setIsChecked(!isChecked); // Toggle the state
   };
 
+  const validateForm = () => {
+    const validations = [
+      { valid: name && password && email, message: "Enter username, password and email" },
+      { valid: password === validatePassword,  message: "Passwords do not match", },
+      { valid: validateUsernameFormat(name), message: "Username must be 8-24 letters and numbers", },
+      { valid: validateEmailFormat(email), message: "Email format is invalid" },
+    ];
+
+    for (const v of validations) {
+      if (!v.valid) {
+        return v.message;
+      }
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (!username || !password || !email) {
-      setError("Enter username and password");
-      return;
-    }
-
-    if (password !== validatePassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    if (!validateUsernameFormat(username)) {
-      setError("Username must be 8-24 letters and number");
-      return;
-    }
-
-    if (!validateEmailFormat(email)) {
-      setError("Email format is invalid");
-      return;
+    const error = validateForm();
+    if (error) { // Form is invalid
+      setError(error);
+      return; 
     }
 
     const { data, status } = await register(
-      username,
+      name,
       password,
       email,
       securityCode
@@ -71,7 +72,7 @@ function Register() {
       setBalance
     );
 
-    const message = `Registered to user ${username} ${
+    const message = `Registered to user ${name} ${
       data.user.is_worker ? "as worker" : ""
     }`;
 
@@ -95,8 +96,8 @@ function Register() {
         <input
           type="text"
           className="auth-input"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
         <label className="auth-label">Email</label>

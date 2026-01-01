@@ -1,6 +1,6 @@
-export const validateUsernameFormat = (username) => {
+export const validateUsernameFormat = (name) => {
   const usernameRegex = /^[A-Za-z0-9]{8,24}$/;
-  return usernameRegex.test(username);
+  return usernameRegex.test(name);
 };
 
 export const validateEmailFormat = (email) => {

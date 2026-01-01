@@ -7,6 +7,7 @@ const cors = require("cors");
 require("./Models/LibUser");
 require("./Models/LibAuthor");
 require("./Models/LibBook");
+require("./Models/associations");
 
 // Midllewares
 app.use(cors());

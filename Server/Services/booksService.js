@@ -3,7 +3,7 @@ const { Op, Sequelize } = require("sequelize");
 
 exports.getAllBooks = async () => {
   const allBooks = await LibBook.findAll({
-    attributes: ["id", "name", "price", "user_id", "borrows", "pages"],
+    attributes: ["id", "name", "price", "user_id", "borrows", "pages", "author_id"],
   });
 
   return allBooks;
@@ -34,6 +34,14 @@ exports.borrowBook = async (userId, bookId) => {
   );
 
   return updatedBook ?? null;
+};
+
+exports.deleteBook = async (bookId) => {
+  const deleted = await LibBook.destroy({
+    where: { id: bookId },
+  });
+
+  return deleted !== 0;
 };
 
 exports.returnBook = async (bookId) => {

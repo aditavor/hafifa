@@ -1,3 +1,5 @@
+import "./Modal.scss";
+
 function Modal({ setOpen, children }) {
   return (
     <div className="modal-overlay" onClick={() => setOpen(false)}>

@@ -3,7 +3,7 @@ import "./SearchBar.scss";
 function SearchBar({ value, onChange }) {
   return (
     <div className="searchbar">
-      <i className="searchIcon fa-solid fa-magnifying-glass"></i>
+      <i className="controlIcon fa-solid fa-magnifying-glass"></i>
       <input
         type="text"
         placeholder="Search..."

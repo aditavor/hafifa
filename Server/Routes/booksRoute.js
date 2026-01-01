@@ -20,4 +20,7 @@ router.post("/", booksController.postBook);
 // Get top 10 most popular books
 router.get("/bestSellers", booksController.getMostPopularBooks);
 
+// Get top 10 most popular books
+router.delete("/:bookId", booksController.deleteBook);
+
 module.exports = router;
