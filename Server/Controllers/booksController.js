@@ -2,11 +2,19 @@ const bookService = require("../Services/booksService");
 
 exports.getAllBooks = async (req, res) => {
   try {
-    const { orderBy, sortType } = req.query;
+    const { orderBy, sortType, page, limit } = req.query;
     console.log("Getting all book");
-    const books = await bookService.getAllBooks(orderBy, sortType);
-    console.log("Successfully got " + books.length + " books");
-    return res.json(books || []);
+    const result = await bookService.getAllBooks(
+      orderBy,
+      sortType,
+      Number(page),
+      Number(limit)
+    );
+    console.log("Successfully got " + result.rows.length + " books");
+    return res.json({
+      rows: result.rows || [],
+      count: result.count,
+    });
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ error: err.message });

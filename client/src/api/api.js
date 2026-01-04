@@ -1,9 +1,9 @@
 const path = "http://localhost:3000/";
 import axios from "axios";
 
-export const getAllBooks = async (orderBy, sortType) => {
+export const getAllBooks = async (orderBy, sortType, page , limit) => {
   const res = await axios.get(path + "books", {
-    params: { orderBy, sortType },
+    params: { orderBy, sortType, page, limit },
   });
   return {
     data: res.data,

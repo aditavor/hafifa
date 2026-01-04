@@ -1,8 +1,9 @@
 const LibBook = require("../Models/LibBook");
 const { Op, Sequelize } = require("sequelize");
 
-exports.getAllBooks = async (orderBy, sortType) => {
-  const allBooks = await LibBook.findAll({
+exports.getAllBooks = async (orderBy, sortType, page, limit) => {
+  const offset = (page - 1) * limit;
+  const result = await LibBook.findAndCountAll({
     attributes: [
       "id",
       "name",
@@ -12,10 +13,12 @@ exports.getAllBooks = async (orderBy, sortType) => {
       "pages",
       "author_id",
     ],
+    limit,
+    offset,
     order: [[orderBy || "name", sortType || "ASC"]],
   });
 
-  return allBooks;
+  return result;
 };
 
 exports.getUserstimeoutBooks = async (userId) => {

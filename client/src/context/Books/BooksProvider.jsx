@@ -7,17 +7,23 @@ export function BooksProvider({ children }) {
   const [orderBy, setOrderBy] = useState("name");
   const [sortType, setSortType] = useState("ASC");
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const limit = 9;
+  const [total, setTotal] = useState(0);
 
   const fetchBooks = async () => {
     setLoading(true);
-    const { data } = await getAllBooks(orderBy, sortType);
-    setBooks(data);
+    const { data } = await getAllBooks(orderBy, sortType, page, limit);
+    setBooks(data.rows);
+    setTotal(data.count);
     setLoading(false);
   };
 
   useEffect(() => {
     fetchBooks();
-  }, [orderBy, sortType]);
+  }, [orderBy, sortType, page]);
+
+  const totalPages = Math.ceil(total / limit);
 
   const addBook = (newBook) => {
     setBooks((prev) => [...prev, newBook]);
@@ -50,6 +56,9 @@ export function BooksProvider({ children }) {
         deleteBooksByAuthor,
         setSortType,
         setOrderBy,
+        page,
+        totalPages,
+        setPage,
       }}
     >
       {children}

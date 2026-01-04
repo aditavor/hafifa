@@ -12,6 +12,7 @@ import {
 import { useBalance } from "../../context/Balance/useBalance";
 import LibEntities from "../../Components/LibEntities/LibEntities";
 import { BOOK_SORT_OPTIONS } from "../../Utils/sortUtils";
+import Pagination from "../../Components/Pagination/Pagination";
 
 function Library() {
   const {
@@ -22,6 +23,9 @@ function Library() {
     deleteBook: deleteBookClient,
     setSortType,
     setOrderBy,
+    page,
+    totalPages,
+    setPage,
   } = useBooks();
   const {
     authors,
@@ -142,6 +146,12 @@ function Library() {
           setOrderBy={setOrderBy}
         />
       </div>
+
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
+      />
     </div>
   );
 }
