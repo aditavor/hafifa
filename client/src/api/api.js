@@ -110,8 +110,10 @@ export const deleteAuthor = async (authorId) => {
   }
 };
 
-export const getUsersBooks = async (userId) => {
-  const res = await axios.get(path + "users/" + userId + "/books");
+export const getUsersBooks = async (userId, orderBy, sortType) => {
+  const res = await axios.get(path + "users/" + userId + "/books", {
+    params: { orderBy, sortType },
+  });
   return {
     data: res.data,
     status: res.status,

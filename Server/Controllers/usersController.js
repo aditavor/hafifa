@@ -70,7 +70,7 @@ exports.login = async (req, res) => {
 
 exports.getReaders = async (req, res) => {
   try {
-        const { orderBy, sortType } = req.query;
+    const { orderBy, sortType } = req.query;
 
     console.log("Getting users");
     const users = await userService.getReaders(orderBy, sortType);

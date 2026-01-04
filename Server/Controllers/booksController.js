@@ -148,8 +148,9 @@ exports.getMostPopularBooks = async (req, res) => {
 exports.getUserBooks = async (req, res) => {
   try {
     const { userId } = req.params;
+    const { orderBy, sortType } = req.query;
     console.log("Getting user's books");
-    const books = await bookService.getUserBooks(userId);
+    const books = await bookService.getUserBooks(userId, orderBy, sortType);
     console.log(
       "Successfully got " + books.length + " books for user- " + userId
     );

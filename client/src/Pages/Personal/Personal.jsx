@@ -6,6 +6,8 @@ import { returnBook, getUsersBooks } from "../../api/api";
 import { useBooks } from "../../context/Books/useBooks";
 import ChangeBalanceModal from "../../Components/ChangeBalanceModal/ChangeBalanceModal";
 import { useBalance } from "../../context/Balance/useBalance";
+import LibEntities from "../../Components/LibEntities/LibEntities";
+import { PERSONAL_SORT_OPTIONS } from "../../Utils/sortUtils";
 
 function Personal() {
   const [books, setBooks] = useState([]);
@@ -13,11 +15,13 @@ function Personal() {
   const [loading, setLoading] = useState(true);
   const { updateBook } = useBooks();
   const { balance, addToBalance } = useBalance();
+    const [sortType, setSortType] = useState("ASC");
+    const [orderBy, setOrderBy] = useState("name");
 
   const fetchBooks = async () => {
     setLoading(true);
 
-    const { data } = await getUsersBooks(userId());
+    const { data } = await getUsersBooks(userId(), orderBy, sortType);
     setBooks(data);
 
     setLoading(false);
@@ -25,7 +29,7 @@ function Personal() {
 
   useEffect(() => {
     fetchBooks();
-  }, []);
+  }, [orderBy, sortType]);
 
   const handleReturn = async (bookId) => {
     try {
@@ -48,6 +52,23 @@ function Personal() {
     }
   };
 
+  const renderBookCard = (book) => (
+    <Card
+      key={book.id}
+      data={{
+        id: book.id,
+        name: book.name,
+        headers: "Borrow Date: " + book.borrow_date,
+      }}
+      buttons={[
+        {
+          label: "Return Book",
+          onClick: handleReturn,
+        },
+      ]}
+    />
+  );
+
   const handleBookReturned = (returnedBook) => {
     updateBook(returnedBook);
     setBooks(books.filter((book) => book.id !== returnedBook.id));
@@ -57,30 +78,14 @@ function Personal() {
     <div className="page-container">
       <h2 className="title">Books you borrowed:</h2>
       <div className="container">
-        <div className="container-item">
-          {loading ? (
-            <p>Loading...</p>
-          ) : books.length > 0 ? (
-            books.map((book) => (
-              <Card
-                key={book.id}
-                data={{
-                  id: book.id,
-                  name: book.name,
-                  headers: "Borrow Date: " + book.borrow_date,
-                }}
-                buttons={[
-                  {
-                    label: "Return Book",
-                    onClick: handleReturn,
-                  },
-                ]}
-              />
-            ))
-          ) : (
-            <p>You didnt borrowed any book</p>
-          )}
-        </div>
+        <LibEntities
+          entities={books}
+          loading={loading}
+          children={renderBookCard}
+          sortOptions={PERSONAL_SORT_OPTIONS}
+          setSortType={setSortType}
+          setOrderBy={setOrderBy}
+        />
       </div>
       <button className="lib-btn" onClick={() => setOpen(true)}>
         Add To Balance

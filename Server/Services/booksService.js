@@ -86,12 +86,13 @@ exports.getMostPopularBooks = async () => {
   return popularBooks;
 };
 
-exports.getUserBooks = async (userId) => {
+exports.getUserBooks = async (userId, orderBy, sortType) => {
   const books = await LibBook.findAll({
     attributes: ["id", "name", "borrow_date"],
     where: {
       user_id: userId,
     },
+    order: [[orderBy, sortType]],
   });
 
   return books;

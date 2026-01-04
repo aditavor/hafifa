@@ -91,3 +91,31 @@ export const AUTHOR_SORT_OPTIONS = {
     sortType: "DESC",
   },
 };
+
+export const PERSONAL_SORT_OPTIONS = {
+  DEFAULT: {
+    label: "Sort by...",
+    orderBy: "name",
+    sortType: "ASC",
+  },
+  NAME_ASC: {
+    label: "name 🡓",
+    orderBy: "name",
+    sortType: "ASC",
+  },
+  NAME_DESC: {
+    label: "name 🡑",
+    orderBy: "name",
+    sortType: "DESC",
+  },
+  BORROW_DATE_ASC: {
+    label: "borrow date 🡓",
+    orderBy: "borrow_date",
+    sortType: "ASC",
+  },
+  BORROW_DATE_DESC: {
+    label: "borrow date 🡑",
+    orderBy: "borrow_date",
+    sortType: "DESC",
+  },
+};
