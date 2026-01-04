@@ -20,6 +20,8 @@ function Library() {
     updateBook,
     loading: booksLoading,
     deleteBook: deleteBookClient,
+    setSortType,
+    setOrderBy,
   } = useBooks();
   const {
     authors,
@@ -136,6 +138,8 @@ function Library() {
           loading={booksLoading}
           children={renderBookCard}
           sortOptions={BOOK_SORT_OPTIONS}
+          setSortType={setSortType}
+          setOrderBy={setOrderBy}
         />
       </div>
     </div>

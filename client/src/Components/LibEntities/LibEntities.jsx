@@ -3,7 +3,14 @@ import { useState, useMemo } from "react";
 import "./LibEntities.scss";
 import SelectOptionsBar from "../SelectOptionsBar/SelectOptionsBar";
 
-function LibEntities({ entities, loading, children, sortOptions }) {
+function LibEntities({
+  entities,
+  loading,
+  children,
+  sortOptions,
+  setSortType,
+  setOrderBy,
+}) {
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState("DEFAULT");
 
@@ -11,16 +18,6 @@ function LibEntities({ entities, loading, children, sortOptions }) {
     () => filterEntities(entities, search),
     [entities, search]
   );
-
-  const processedEntities = useMemo(() => {
-    let result = filteredEntities;
-
-    if (sortKey && sortOptions?.[sortKey]) {
-      result = [...result].sort(sortOptions[sortKey].sortData);
-    }
-
-    return result;
-  }, [entities, search, sortKey, sortOptions]);
 
   return (
     <>
@@ -31,6 +28,8 @@ function LibEntities({ entities, loading, children, sortOptions }) {
             sortKey={sortKey}
             setSortKey={setSortKey}
             sortOptions={sortOptions}
+            setSortType={setSortType}
+            setOrderBy={setOrderBy}
           />
         )}
       </div>
@@ -38,8 +37,8 @@ function LibEntities({ entities, loading, children, sortOptions }) {
         {loading ? (
           <p>Loading...</p>
         ) : entities.length > 0 ? (
-          processedEntities.length > 0 ? (
-            processedEntities.map((book) => children(book))
+          filteredEntities.length > 0 ? (
+            filteredEntities.map((book) => children(book))
           ) : (
             <p>No match results</p>
           )

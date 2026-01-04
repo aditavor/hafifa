@@ -1,9 +1,18 @@
 const LibBook = require("../Models/LibBook");
 const { Op, Sequelize } = require("sequelize");
 
-exports.getAllBooks = async () => {
+exports.getAllBooks = async (orderBy, sortType) => {
   const allBooks = await LibBook.findAll({
-    attributes: ["id", "name", "price", "user_id", "borrows", "pages", "author_id"],
+    attributes: [
+      "id",
+      "name",
+      "price",
+      "user_id",
+      "borrows",
+      "pages",
+      "author_id",
+    ],
+    order: [[orderBy || "name", sortType || "ASC"]],
   });
 
   return allBooks;

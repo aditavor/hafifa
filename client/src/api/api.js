@@ -1,8 +1,10 @@
 const path = "http://localhost:3000/";
 import axios from "axios";
 
-export const getAllBooks = async () => {
-  const res = await axios.get(path + "books");
+export const getAllBooks = async (orderBy, sortType) => {
+  const res = await axios.get(path + "books", {
+    params: { orderBy, sortType },
+  });
   return {
     data: res.data,
     status: res.status,
@@ -51,7 +53,9 @@ export const returnBook = async (bookId) => {
 
 export const addRevenue = async (authorId, amount) => {
   try {
-    const res = await axios.put(path + "authors/" + authorId + "/addRevenue/" + amount);
+    const res = await axios.put(
+      path + "authors/" + authorId + "/addRevenue/" + amount
+    );
     return {
       data: res.data,
       status: res.status,
@@ -114,8 +118,10 @@ export const getUsersBooks = async (userId) => {
   };
 };
 
-export const getAllUsers = async () => {
-  const res = await axios.get(path + "users");
+export const getAllUsers = async (orderBy, sortType) => {
+  const res = await axios.get(path + "users", {
+    params: { orderBy, sortType },
+  });
   return {
     data: res.data,
     status: res.status,
@@ -130,8 +136,10 @@ export const bestSellersBooks = async () => {
   };
 };
 
-export const getAllAuthors = async () => {
-  const res = await axios.get(path + "authors");
+export const getAllAuthors = async (orderBy, sortType) => {
+  const res = await axios.get(path + "authors", {
+    params: { orderBy, sortType },
+  });
   return {
     data: res.data,
     status: res.status,

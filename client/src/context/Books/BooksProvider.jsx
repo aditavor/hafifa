@@ -4,18 +4,20 @@ import { getAllBooks } from "../../api/api";
 
 export function BooksProvider({ children }) {
   const [books, setBooks] = useState([]);
+  const [orderBy, setOrderBy] = useState("name");
+  const [sortType, setSortType] = useState("ASC");
   const [loading, setLoading] = useState(false);
 
   const fetchBooks = async () => {
     setLoading(true);
-    const { data } = await getAllBooks();
+    const { data } = await getAllBooks(orderBy, sortType);
     setBooks(data);
     setLoading(false);
   };
 
   useEffect(() => {
     fetchBooks();
-  }, []);
+  }, [orderBy, sortType]);
 
   const addBook = (newBook) => {
     setBooks((prev) => [...prev, newBook]);
@@ -39,7 +41,16 @@ export function BooksProvider({ children }) {
 
   return (
     <BooksContext.Provider
-      value={{ books, loading, addBook, updateBook, deleteBook, deleteBooksByAuthor }}
+      value={{
+        books,
+        loading,
+        addBook,
+        updateBook,
+        deleteBook,
+        deleteBooksByAuthor,
+        setSortType,
+        setOrderBy,
+      }}
     >
       {children}
     </BooksContext.Provider>

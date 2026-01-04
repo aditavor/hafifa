@@ -24,12 +24,14 @@ function Customers() {
   const [usersBookOpen, setUsersBookOpen] = useState(false);
   const [openUsersBooks, setOpenUsersBooks] = useState([]);
   const [deleteItselfOpen, setDeleteItselfOpen] = useState(false);
+  const [sortType, setSortType] = useState("ASC");
+  const [orderBy, setOrderBy] = useState("name");
   const { addToBalance } = useBalance();
 
   const fetchCustomers = async () => {
     setLoading(true);
 
-    const { data } = await getAllUsers();
+    const { data } = await getAllUsers(orderBy, sortType);
     setCustomers(data);
 
     setLoading(false);
@@ -124,7 +126,7 @@ function Customers() {
 
   useEffect(() => {
     fetchCustomers();
-  }, []);
+  }, [sortType, orderBy]);
 
   return (
     <>
@@ -136,6 +138,8 @@ function Customers() {
             loading={loading}
             children={renderBookCard}
             sortOptions={USER_SORT_OPTIONS}
+            setOrderBy={setOrderBy}
+            setSortType={setSortType}
           />
         </div>
 

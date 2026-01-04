@@ -9,9 +9,10 @@ exports.postAuthor = async (authorData) => {
   };
 };
 
-exports.getAllAuthors = async () => {
+exports.getAllAuthors = async (orderBy, sortType) => {
   const authors = await LibAuthor.findAll({
     attributes: ["id", "name", "revenue"],
+    order: [[orderBy || "name", sortType || "ASC"]],
   });
 
   return authors;

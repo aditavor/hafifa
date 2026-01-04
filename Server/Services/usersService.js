@@ -22,7 +22,7 @@ exports.deleteUser = async (userId) => {
   return deleted !== 0;
 };
 
-exports.getReaders = async () => {
+exports.getReaders = async (orderBy, sortType) => {
   return await LibUser.findAll({
     attributes: [
       "id",
@@ -41,6 +41,7 @@ exports.getReaders = async () => {
         "isLate",
       ],
     ],
+    order: [[orderBy, sortType]],
   });
 };
 

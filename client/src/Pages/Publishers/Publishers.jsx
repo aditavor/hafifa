@@ -2,7 +2,6 @@ import { useState } from "react";
 import AddAuthor from "../../Components/AddAuthor/AddAuthor";
 import { isWorker } from "../../Utils/systemUtils";
 import { addAuthor, deleteAuthor as deleteAuthorServer } from "../../api/api";
-import Modal from "../../Components/Modal/Modal";
 import { toast } from "react-toastify";
 import { useAuthors } from "../../context/Authors/useAuthors";
 import { useBooks } from "../../context/Books/useBooks";
@@ -18,6 +17,8 @@ function Publishers() {
     loading,
     addAuthor: addAuthorCtx,
     deleteAuthor: deleteAuthorClient,
+    setOrderBy,
+    setSortType,
   } = useAuthors();
   const { deleteBooksByAuthor } = useBooks();
 
@@ -93,6 +94,8 @@ function Publishers() {
           loading={loading}
           children={renderAuthorList}
           sortOptions={AUTHOR_SORT_OPTIONS}
+          setOrderBy={setOrderBy}
+          setSortType={setSortType}
         />
         {isWorker() && (
           <li

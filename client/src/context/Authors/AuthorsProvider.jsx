@@ -5,17 +5,19 @@ import { getAllAuthors } from "../../api/api";
 export function AuthorsProvider({ children }) {
   const [authors, setAuthors] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [sortType, setSortType] = useState("ASC");
+  const [orderBy, setOrderBy] = useState("name");
 
   const fetchAuthors = async () => {
     setLoading(true);
-    const { data } = await getAllAuthors();
+    const { data } = await getAllAuthors(orderBy, sortType);
     setAuthors(data);
     setLoading(false);
   };
 
   useEffect(() => {
     fetchAuthors();
-  }, []);
+  }, [sortType, orderBy]);
 
   const addAuthor = (newAuthor) => {
     setAuthors((prev) => [...prev, newAuthor]);
@@ -44,6 +46,8 @@ export function AuthorsProvider({ children }) {
         addAuthor,
         deleteAuthor,
         addRevenue,
+        setSortType,
+        setOrderBy,
       }}
     >
       {children}
