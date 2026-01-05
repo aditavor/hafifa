@@ -143,14 +143,11 @@ function Library() {
           sortOptions={BOOK_SORT_OPTIONS}
           setSortType={setSortType}
           setOrderBy={setOrderBy}
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
         />
       </div>
-
-      <Pagination
-        page={page}
-        totalPages={totalPages}
-        onPageChange={setPage}
-      />
     </div>
   );
 }

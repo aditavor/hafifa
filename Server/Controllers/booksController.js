@@ -153,13 +153,19 @@ exports.getMostPopularBooks = async (req, res) => {
 exports.getUserBooks = async (req, res) => {
   try {
     const { userId } = req.params;
-    const { orderBy, sortType } = req.query;
+    const { orderBy, sortType, page, limit } = req.query;
     console.log("Getting user's books");
-    const books = await bookService.getUserBooks(userId, orderBy, sortType);
-    console.log(
-      "Successfully got " + books.length + " books for user- " + userId
+    const result = await bookService.getUserBooks(
+      userId,
+      orderBy,
+      sortType,
+      Number(page),
+      Number(limit)
     );
-    return res.json(books || []);
+    console.log(
+      "Successfully got " + result.rows.length + " books for user " + userId
+    );
+    return res.json({ rows: result.rows || [], count: result.count });
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ error: err.message });

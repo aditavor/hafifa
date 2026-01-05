@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { BooksContext } from "./BooksContext";
 import { getAllBooks } from "../../api/api";
+import { calcTotalPages } from "../../Utils/systemUtils";
 
 export function BooksProvider({ children }) {
   const [books, setBooks] = useState([]);
@@ -23,7 +24,11 @@ export function BooksProvider({ children }) {
     fetchBooks();
   }, [orderBy, sortType, page]);
 
-  const totalPages = Math.ceil(total / limit);
+  useEffect(() => {
+    setPage(1);
+  }, [sortType, orderBy]);
+
+  const totalPages = calcTotalPages(total, limit);
 
   const updateBook = (newBook) => {
     setBooks((prev) =>

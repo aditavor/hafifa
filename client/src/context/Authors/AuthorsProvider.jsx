@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { AuthorsContext } from "./AuthorsContext";
 import { getAllAuthors } from "../../api/api";
+import { calcTotalPages } from "../../Utils/systemUtils";
 
 export function AuthorsProvider({ children }) {
   const [authors, setAuthors] = useState([]);
@@ -23,7 +24,12 @@ export function AuthorsProvider({ children }) {
     fetchAuthors();
   }, [sortType, orderBy, page]);
 
-  const totalPages = Math.ceil(total / limit);
+  useEffect(() => {
+    setPage(1);
+  }, [sortType, orderBy]);
+
+const totalPages = calcTotalPages(total, limit);
+
 
   const addRevenue = (authorId, value) => {
     setAuthors((prev) =>

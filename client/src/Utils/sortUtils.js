@@ -27,12 +27,12 @@ export const BOOK_SORT_OPTIONS = {
   AVAILABLE: {
     label: "available",
     orderBy: "user_id",
-    sortType: "ASC",
+    sortType: "DESC",
   },
   UNAVAILABLE: {
     label: "unavailable",
     orderBy: "user_id",
-    sortType: "DESC",
+    sortType: "ASC",
   },
 };
 

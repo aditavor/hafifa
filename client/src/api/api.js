@@ -110,9 +110,9 @@ export const deleteAuthor = async (authorId) => {
   }
 };
 
-export const getUsersBooks = async (userId, orderBy, sortType) => {
+export const getUsersBooks = async (userId, orderBy, sortType, page, limit) => {
   const res = await axios.get(path + "users/" + userId + "/books", {
-    params: { orderBy, sortType },
+    params: { orderBy, sortType, page, limit },
   });
   return {
     data: res.data,
@@ -120,9 +120,9 @@ export const getUsersBooks = async (userId, orderBy, sortType) => {
   };
 };
 
-export const getAllUsers = async (orderBy, sortType) => {
+export const getAllUsers = async (orderBy, sortType, page, limit) => {
   const res = await axios.get(path + "users", {
-    params: { orderBy, sortType },
+    params: { orderBy, sortType, page, limit },
   });
   return {
     data: res.data,

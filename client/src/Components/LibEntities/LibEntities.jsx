@@ -2,6 +2,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import { useState, useMemo } from "react";
 import "./LibEntities.scss";
 import SelectOptionsBar from "../SelectOptionsBar/SelectOptionsBar";
+import Pagination from "../Pagination/Pagination";
 
 function LibEntities({
   entities,
@@ -10,6 +11,9 @@ function LibEntities({
   sortOptions,
   setSortType,
   setOrderBy,
+  page,
+  totalPages,
+  onPageChange,
 }) {
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState("DEFAULT");
@@ -46,6 +50,12 @@ function LibEntities({
           <p>No Entities in library</p>
         )}
       </div>
+
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        onPageChange={onPageChange}
+      />
     </>
   );
 }

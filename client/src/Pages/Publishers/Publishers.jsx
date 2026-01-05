@@ -99,6 +99,9 @@ function Publishers() {
           sortOptions={AUTHOR_SORT_OPTIONS}
           setOrderBy={setOrderBy}
           setSortType={setSortType}
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
         />
 
         {isWorker() && (
@@ -114,7 +117,6 @@ function Publishers() {
           </li>
         )}
       </ul>
-      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
       {open && (
         <AddAuthor
           error={error}

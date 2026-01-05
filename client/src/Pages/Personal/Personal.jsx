@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "../../Components/Card/Card";
 import { toast } from "react-toastify";
-import { userId } from "../../Utils/systemUtils";
+import { calcTotalPages, userId } from "../../Utils/systemUtils";
 import { returnBook, getUsersBooks } from "../../api/api";
 import { useBooks } from "../../context/Books/useBooks";
 import ChangeBalanceModal from "../../Components/ChangeBalanceModal/ChangeBalanceModal";
@@ -15,21 +15,37 @@ function Personal() {
   const [loading, setLoading] = useState(true);
   const { updateBook } = useBooks();
   const { balance, addToBalance } = useBalance();
-    const [sortType, setSortType] = useState("ASC");
-    const [orderBy, setOrderBy] = useState("name");
+  const [sortType, setSortType] = useState("ASC");
+  const [orderBy, setOrderBy] = useState("name");
+  const [page, setPage] = useState(1);
+  const limit = 9;
+  const [total, setTotal] = useState(0);
 
   const fetchBooks = async () => {
     setLoading(true);
 
-    const { data } = await getUsersBooks(userId(), orderBy, sortType);
-    setBooks(data);
+    const { data } = await getUsersBooks(
+      userId(),
+      orderBy,
+      sortType,
+      page,
+      limit
+    );
+    setBooks(data.rows);
+    setTotal(data.count);
 
     setLoading(false);
   };
 
+  const totalPages = calcTotalPages(total, limit);
+
   useEffect(() => {
     fetchBooks();
-  }, [orderBy, sortType]);
+  }, [orderBy, sortType, page]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [sortType, orderBy]);
 
   const handleReturn = async (bookId) => {
     try {
@@ -85,6 +101,9 @@ function Personal() {
           sortOptions={PERSONAL_SORT_OPTIONS}
           setSortType={setSortType}
           setOrderBy={setOrderBy}
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
         />
       </div>
       <button className="lib-btn" onClick={() => setOpen(true)}>

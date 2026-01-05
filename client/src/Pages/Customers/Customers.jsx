@@ -5,7 +5,7 @@ import {
   getUserstimeoutBooks,
   updateBalance,
 } from "../../api/api";
-import { userId } from "../../Utils/systemUtils";
+import { calcTotalPages, userId } from "../../Utils/systemUtils";
 import Card from "../../Components/Card/Card";
 import Modal from "../../Components/Modal/Modal";
 import ChangeBalanceModal from "../../Components/ChangeBalanceModal/ChangeBalanceModal";
@@ -15,6 +15,7 @@ import { userId as loggedUserId } from "../../Utils/systemUtils";
 import LibEntities from "../../Components/LibEntities/LibEntities";
 import DeleteAccountModal from "../../Components/DeleteAccountModal/DeleteAccountModal";
 import { USER_SORT_OPTIONS } from "../../Utils/sortUtils";
+import Pagination from "../../Components/Pagination/Pagination";
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
@@ -27,15 +28,21 @@ function Customers() {
   const [sortType, setSortType] = useState("ASC");
   const [orderBy, setOrderBy] = useState("name");
   const { addToBalance } = useBalance();
+  const [page, setPage] = useState(1);
+  const limit = 9;
+  const [total, setTotal] = useState(0);
 
   const fetchCustomers = async () => {
     setLoading(true);
 
-    const { data } = await getAllUsers(orderBy, sortType);
-    setCustomers(data);
+    const { data } = await getAllUsers(orderBy, sortType, page, limit);
+    setCustomers(data.rows);
+    setTotal(data.count);
 
     setLoading(false);
   };
+
+  const totalPages = calcTotalPages(total, limit);
 
   const viewUserBooks = async (userId) => {
     setLoading(true);
@@ -126,6 +133,10 @@ function Customers() {
 
   useEffect(() => {
     fetchCustomers();
+  }, [sortType, orderBy, page]);
+
+  useEffect(() => {
+    setPage(1);
   }, [sortType, orderBy]);
 
   return (
@@ -140,6 +151,9 @@ function Customers() {
             sortOptions={USER_SORT_OPTIONS}
             setOrderBy={setOrderBy}
             setSortType={setSortType}
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
           />
         </div>
 
