@@ -18,22 +18,21 @@ body {
   gap: 23px;
   margin-top: 28px;
   flex-direction: column;
-}
 
-.container {
-  padding: 6px 20px;
-  display: grid;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.08);
-  width: fit-content;
-
-  .container-item {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+  .container {
+    padding: 6px 20px;
+    display: grid;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.08);
     width: fit-content;
-    padding: 20px;
+
+    .container-item {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      width: fit-content;
+    }
   }
 }
 
