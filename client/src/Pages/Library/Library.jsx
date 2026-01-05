@@ -17,10 +17,9 @@ import Pagination from "../../Components/Pagination/Pagination";
 function Library() {
   const {
     books,
-    addBook,
+    fetchBooks,
     updateBook,
     loading: booksLoading,
-    deleteBook: deleteBookClient,
     setSortType,
     setOrderBy,
     page,
@@ -87,7 +86,7 @@ function Library() {
         console.error("Failed to delete book");
         return;
       }
-      deleteBookClient(bookId);
+      fetchBooks();
 
       toast.success("Book " + bookName + " deleted successfully", {
         position: "bottom-right",
@@ -132,7 +131,7 @@ function Library() {
         <AddBook
           loading={authorsLoading}
           authors={authors}
-          handleBookAdded={addBook}
+          handleBookAdded={fetchBooks}
         />
       )}
 

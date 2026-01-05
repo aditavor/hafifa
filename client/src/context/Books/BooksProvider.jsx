@@ -25,23 +25,9 @@ export function BooksProvider({ children }) {
 
   const totalPages = Math.ceil(total / limit);
 
-  const addBook = (newBook) => {
-    setBooks((prev) => [...prev, newBook]);
-  };
-
   const updateBook = (newBook) => {
     setBooks((prev) =>
       prev.map((book) => (book.id === newBook.id ? newBook : book))
-    );
-  };
-
-  const deleteBook = (bookId) => {
-    setBooks((prev) => prev.filter((book) => book.id !== bookId));
-  };
-
-  const deleteBooksByAuthor = (authorId) => {
-    setBooks((prev) =>
-      prev.filter((book) => Number(book.author_id) !== Number(authorId))
     );
   };
 
@@ -50,10 +36,8 @@ export function BooksProvider({ children }) {
       value={{
         books,
         loading,
-        addBook,
         updateBook,
-        deleteBook,
-        deleteBooksByAuthor,
+        fetchBooks,
         setSortType,
         setOrderBy,
         page,

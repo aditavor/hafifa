@@ -16,15 +16,14 @@ function Publishers() {
   const {
     authors,
     loading,
-    addAuthor: addAuthorCtx,
-    deleteAuthor: deleteAuthorClient,
+    fetchAuthors,
     setOrderBy,
     setSortType,
     setPage,
     totalPages,
     page,
   } = useAuthors();
-  const { deleteBooksByAuthor } = useBooks();
+  const { fetchBooks } = useBooks();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,13 +41,13 @@ function Publishers() {
       return;
     }
 
-    toast.success("Added new author " + authorName, {
+    toast.success("Adinovich: new author " + authorName, {
       position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
     });
 
-    addAuthorCtx(data.author);
+    fetchAuthors();
     setOpen(false);
     setAuthorName("");
     setError("");
@@ -61,8 +60,8 @@ function Publishers() {
         console.error("Failed to delete author");
         return;
       }
-      deleteAuthorClient(authorId);
-      deleteBooksByAuthor(authorId);
+      fetchAuthors();
+      fetchBooks();
 
       toast.success("Author " + name + " deleted successfully", {
         position: "bottom-right",

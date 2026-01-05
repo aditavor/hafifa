@@ -25,10 +25,6 @@ export function AuthorsProvider({ children }) {
 
   const totalPages = Math.ceil(total / limit);
 
-  const addAuthor = (newAuthor) => {
-    setAuthors((prev) => [...prev, newAuthor]);
-  };
-
   const addRevenue = (authorId, value) => {
     setAuthors((prev) =>
       prev.map((author) =>
@@ -39,18 +35,12 @@ export function AuthorsProvider({ children }) {
     );
   };
 
-  const deleteAuthor = (authorId) => {
-    setAuthors((prev) => prev.filter((author) => author.id !== authorId));
-  };
-
   return (
     <AuthorsContext.Provider
       value={{
         authors,
         loading,
         fetchAuthors,
-        addAuthor,
-        deleteAuthor,
         addRevenue,
         totalPages,
         page,
