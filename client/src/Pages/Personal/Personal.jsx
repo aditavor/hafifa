@@ -87,7 +87,7 @@ function Personal() {
 
   const handleBookReturned = (returnedBook) => {
     updateBook(returnedBook);
-    setBooks(books.filter((book) => book.id !== returnedBook.id));
+    fetchBooks();
   };
 
   return (
