@@ -1,3 +1,5 @@
+import "./Pagination.scss"
+
 function Pagination({ page, totalPages, onPageChange }) {
   if (totalPages <= 1) return null;
 
