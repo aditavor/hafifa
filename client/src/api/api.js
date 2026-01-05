@@ -1,7 +1,7 @@
 const path = "http://localhost:3000/";
 import axios from "axios";
 
-export const getAllBooks = async (orderBy, sortType, page , limit) => {
+export const getAllBooks = async (orderBy, sortType, page, limit) => {
   const res = await axios.get(path + "books", {
     params: { orderBy, sortType, page, limit },
   });
@@ -138,9 +138,9 @@ export const bestSellersBooks = async () => {
   };
 };
 
-export const getAllAuthors = async (orderBy, sortType) => {
+export const getAllAuthors = async (orderBy, sortType, page, limit) => {
   const res = await axios.get(path + "authors", {
-    params: { orderBy, sortType },
+    params: { orderBy, sortType, page, limit },
   });
   return {
     data: res.data,

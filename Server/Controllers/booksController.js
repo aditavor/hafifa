@@ -3,7 +3,7 @@ const bookService = require("../Services/booksService");
 exports.getAllBooks = async (req, res) => {
   try {
     const { orderBy, sortType, page, limit } = req.query;
-    console.log("Getting all book");
+    console.log("Getting page book");
     const result = await bookService.getAllBooks(
       orderBy,
       sortType,
@@ -11,10 +11,7 @@ exports.getAllBooks = async (req, res) => {
       Number(limit)
     );
     console.log("Successfully got " + result.rows.length + " books");
-    return res.json({
-      rows: result.rows || [],
-      count: result.count,
-    });
+    return res.json({ rows: result.rows || [], count: result.count });
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ error: err.message });

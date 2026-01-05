@@ -83,12 +83,12 @@ export const AUTHOR_SORT_OPTIONS = {
   REVENUE_ASC: {
     label: "revenue 🡓",
     orderBy: "revenue",
-    sortType: "ASC",
+    sortType: "DESC",
   },
   REVENUE_DESC: {
     label: "revenue 🡑",
     orderBy: "revenue",
-    sortType: "DESC",
+    sortType: "ASC",
   },
 };
 

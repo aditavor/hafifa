@@ -7,6 +7,7 @@ import { useAuthors } from "../../context/Authors/useAuthors";
 import { useBooks } from "../../context/Books/useBooks";
 import LibEntities from "../../Components/LibEntities/LibEntities";
 import { AUTHOR_SORT_OPTIONS } from "../../Utils/sortUtils";
+import Pagination from "../../Components/Pagination/Pagination";
 
 function Publishers() {
   const [authorName, setAuthorName] = useState("");
@@ -19,6 +20,9 @@ function Publishers() {
     deleteAuthor: deleteAuthorClient,
     setOrderBy,
     setSortType,
+    setPage,
+    totalPages,
+    page,
   } = useAuthors();
   const { deleteBooksByAuthor } = useBooks();
 
@@ -97,6 +101,7 @@ function Publishers() {
           setOrderBy={setOrderBy}
           setSortType={setSortType}
         />
+
         {isWorker() && (
           <li
             className="add-btn"
@@ -110,6 +115,7 @@ function Publishers() {
           </li>
         )}
       </ul>
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
       {open && (
         <AddAuthor
           error={error}
