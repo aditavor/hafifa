@@ -23,7 +23,6 @@ exports.deleteUser = async (userId) => {
 };
 
 exports.getReaders = async (orderBy, sortType, page, limit) => {
-  const offset = (page - 1) * limit;
   const result = await LibUser.findAndCountAll({
     attributes: [
       "id",
@@ -42,11 +41,11 @@ exports.getReaders = async (orderBy, sortType, page, limit) => {
         "isLate",
       ],
     ],
-    limit,
-    offset,
+    ...(limit && { limit }),
+    ...(limit && { offset: (page - 1) * limit }),
     order: [[orderBy, sortType]],
   });
-  
+
   return result;
 };
 

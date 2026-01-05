@@ -7,7 +7,6 @@ import { useAuthors } from "../../context/Authors/useAuthors";
 import { useBooks } from "../../context/Books/useBooks";
 import LibEntities from "../../Components/LibEntities/LibEntities";
 import { AUTHOR_SORT_OPTIONS } from "../../Utils/sortUtils";
-import Pagination from "../../Components/Pagination/Pagination";
 
 function Publishers() {
   const [authorName, setAuthorName] = useState("");
@@ -22,8 +21,9 @@ function Publishers() {
     setPage,
     totalPages,
     page,
+    limit: authorsLimit,
   } = useAuthors();
-  const { fetchBooks } = useBooks();
+  const { fetchBooks, limit: booksLimit } = useBooks();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +47,7 @@ function Publishers() {
       hideProgressBar: false,
     });
 
-    fetchAuthors();
+    fetchAuthors(authorsLimit);
     setOpen(false);
     setAuthorName("");
     setError("");
@@ -60,8 +60,8 @@ function Publishers() {
         console.error("Failed to delete author");
         return;
       }
-      fetchAuthors();
-      fetchBooks();
+      fetchAuthors(authorsLimit);
+      fetchBooks(booksLimit);
 
       toast.success("Author " + name + " deleted successfully", {
         position: "bottom-right",
@@ -102,6 +102,8 @@ function Publishers() {
           page={page}
           totalPages={totalPages}
           onPageChange={setPage}
+          fetchData={fetchAuthors}
+          limit={authorsLimit}
         />
 
         {isWorker() && (

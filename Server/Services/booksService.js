@@ -1,8 +1,7 @@
 const LibBook = require("../Models/LibBook");
 const { Op, Sequelize } = require("sequelize");
 
-exports.getAllBooks = async (orderBy, sortType, page, limit) => {
-  const offset = (page - 1) * limit;
+exports.getBooks = async (orderBy, sortType, page, limit) => {
   const result = await LibBook.findAndCountAll({
     attributes: [
       "id",
@@ -13,8 +12,8 @@ exports.getAllBooks = async (orderBy, sortType, page, limit) => {
       "pages",
       "author_id",
     ],
-    limit,
-    offset,
+    ...(limit && { limit }),
+    ...(limit && { offset: (page - 1) * limit }),
     order: [[orderBy || "name", sortType || "ASC"]],
   });
 
@@ -90,14 +89,13 @@ exports.getMostPopularBooks = async () => {
 };
 
 exports.getUserBooks = async (userId, orderBy, sortType, page, limit) => {
-  const offset = (page - 1) * limit;
   const result = await LibBook.findAndCountAll({
     attributes: ["id", "name", "borrow_date"],
     where: {
       user_id: userId,
     },
-    limit,
-    offset,
+    ...(limit && { limit }),
+    ...(limit && { offset: (page - 1) * limit }),
     order: [[orderBy, sortType]],
   });
 

@@ -1,14 +1,13 @@
 const bookService = require("../Services/booksService");
 
-exports.getAllBooks = async (req, res) => {
+exports.getBooks = async (req, res) => {
   try {
     const { orderBy, sortType, page, limit } = req.query;
-    console.log("Getting page book");
-    const result = await bookService.getAllBooks(
+    const result = await bookService.getBooks(
       orderBy,
       sortType,
       Number(page),
-      Number(limit)
+      limit ? Number(limit) : undefined
     );
     console.log("Successfully got " + result.rows.length + " books");
     return res.json({ rows: result.rows || [], count: result.count });
@@ -160,7 +159,7 @@ exports.getUserBooks = async (req, res) => {
       orderBy,
       sortType,
       Number(page),
-      Number(limit)
+      limit ? Number(limit) : undefined
     );
     console.log(
       "Successfully got " + result.rows.length + " books for user " + userId

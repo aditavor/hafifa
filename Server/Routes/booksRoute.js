@@ -3,7 +3,7 @@ const router = express.Router();
 const booksController = require("../Controllers/booksController");
 
 // Get books
-router.get("/", booksController.getAllBooks);
+router.get("/", booksController.getBooks);
 
 // Get user's timeout books
 router.get("/:userId/timeout", booksController.getUserstimeoutBooks);

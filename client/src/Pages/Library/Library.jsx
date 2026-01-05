@@ -12,7 +12,6 @@ import {
 import { useBalance } from "../../context/Balance/useBalance";
 import LibEntities from "../../Components/LibEntities/LibEntities";
 import { BOOK_SORT_OPTIONS } from "../../Utils/sortUtils";
-import Pagination from "../../Components/Pagination/Pagination";
 
 function Library() {
   const {
@@ -25,11 +24,13 @@ function Library() {
     page,
     totalPages,
     setPage,
+    limit
   } = useBooks();
   const {
     authors,
     loading: authorsLoading,
     addRevenue: addRevenueClient,
+    fetchAuthors
   } = useAuthors();
   const { balance, addToBalance } = useBalance();
 
@@ -132,6 +133,7 @@ function Library() {
           loading={authorsLoading}
           authors={authors}
           handleBookAdded={fetchBooks}
+          fetchData={fetchAuthors}
         />
       )}
 
@@ -146,6 +148,8 @@ function Library() {
           page={page}
           totalPages={totalPages}
           onPageChange={setPage}
+          fetchData={fetchBooks}
+          limit={limit}
         />
       </div>
     </div>

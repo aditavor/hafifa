@@ -12,7 +12,7 @@ export function AuthorsProvider({ children }) {
   const limit = 5;
   const [total, setTotal] = useState(0);
 
-  const fetchAuthors = async () => {
+  const fetchAuthors = async (limit = undefined) => {
     setLoading(true);
     const { data } = await getAllAuthors(orderBy, sortType, page, limit);
     setAuthors(data.rows);
@@ -21,15 +21,14 @@ export function AuthorsProvider({ children }) {
   };
 
   useEffect(() => {
-    fetchAuthors();
+    fetchAuthors(limit);
   }, [sortType, orderBy, page]);
 
   useEffect(() => {
     setPage(1);
   }, [sortType, orderBy]);
 
-const totalPages = calcTotalPages(total, limit);
-
+  const totalPages = calcTotalPages(total, limit);
 
   const addRevenue = (authorId, value) => {
     setAuthors((prev) =>
@@ -53,6 +52,7 @@ const totalPages = calcTotalPages(total, limit);
         setPage,
         setSortType,
         setOrderBy,
+        limit,
       }}
     >
       {children}

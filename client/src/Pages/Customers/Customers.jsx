@@ -15,7 +15,6 @@ import { userId as loggedUserId } from "../../Utils/systemUtils";
 import LibEntities from "../../Components/LibEntities/LibEntities";
 import DeleteAccountModal from "../../Components/DeleteAccountModal/DeleteAccountModal";
 import { USER_SORT_OPTIONS } from "../../Utils/sortUtils";
-import Pagination from "../../Components/Pagination/Pagination";
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
@@ -32,7 +31,7 @@ function Customers() {
   const limit = 9;
   const [total, setTotal] = useState(0);
 
-  const fetchCustomers = async () => {
+  const fetchCustomers = async (limit = undefined) => {
     setLoading(true);
 
     const { data } = await getAllUsers(orderBy, sortType, page, limit);
@@ -75,7 +74,7 @@ function Customers() {
       setCustomers((prev) => prev.filter((user) => user.id !== userId));
 
       toast.success(
-        (name ? "User " + name : "Your own account ") + "deleted successfully",
+        (name ? "User " + name : "Your own account") + " deleted successfully",
         {
           position: "bottom-right",
           autoClose: 3000,
@@ -132,7 +131,7 @@ function Customers() {
   );
 
   useEffect(() => {
-    fetchCustomers();
+    fetchCustomers(limit);
   }, [sortType, orderBy, page]);
 
   useEffect(() => {
@@ -154,6 +153,8 @@ function Customers() {
             page={page}
             totalPages={totalPages}
             onPageChange={setPage}
+            fetchData={fetchCustomers}
+            limit={limit}
           />
         </div>
 

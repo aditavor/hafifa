@@ -1,5 +1,5 @@
 import SearchBar from "../SearchBar/SearchBar";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import "./LibEntities.scss";
 import SelectOptionsBar from "../SelectOptionsBar/SelectOptionsBar";
 import Pagination from "../Pagination/Pagination";
@@ -14,9 +14,19 @@ function LibEntities({
   page,
   totalPages,
   onPageChange,
+  fetchData,
+  limit,
 }) {
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState("DEFAULT");
+
+  useEffect(() => {
+    const fetch = async (limit) => {
+      await fetchData(search === "" ? limit : undefined);
+    };
+
+    fetch(limit);
+  }, [search === ""]);
 
   const filteredEntities = useMemo(
     () => filterEntities(entities, search),
@@ -51,11 +61,13 @@ function LibEntities({
         )}
       </div>
 
-      <Pagination
-        page={page}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-      />
+      {search === "" && (
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
+      )}
     </>
   );
 }

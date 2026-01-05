@@ -77,7 +77,7 @@ exports.getReaders = async (req, res) => {
       orderBy,
       sortType,
       Number(page),
-      Number(limit)
+      limit ? Number(limit) : undefined
     );
     console.log("Successfully got " + result.rows.length + " library users");
     return res.json({ rows: result.rows || [], count: result.count });

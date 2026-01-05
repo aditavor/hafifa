@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BooksContext } from "./BooksContext";
-import { getAllBooks } from "../../api/api";
+import { getBooks } from "../../api/api";
 import { calcTotalPages } from "../../Utils/systemUtils";
 
 export function BooksProvider({ children }) {
@@ -12,16 +12,16 @@ export function BooksProvider({ children }) {
   const limit = 9;
   const [total, setTotal] = useState(0);
 
-  const fetchBooks = async () => {
+  const fetchBooks = async (limit = undefined) => {
     setLoading(true);
-    const { data } = await getAllBooks(orderBy, sortType, page, limit);
+    const { data } = await getBooks(orderBy, sortType, page, limit);
     setBooks(data.rows);
     setTotal(data.count);
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchBooks();
+    fetchBooks(limit);
   }, [orderBy, sortType, page]);
 
   useEffect(() => {
@@ -48,6 +48,7 @@ export function BooksProvider({ children }) {
         page,
         totalPages,
         setPage,
+        limit,
       }}
     >
       {children}

@@ -8,7 +8,7 @@ exports.getAllAuthors = async (req, res) => {
       orderBy,
       sortType,
       Number(page),
-      Number(limit)
+      limit ? Number(limit) : undefined
     );
     console.log("Successfully got " + result.rows.length + " authors");
     return res.json({ rows: result.rows || [], count: result.count });
