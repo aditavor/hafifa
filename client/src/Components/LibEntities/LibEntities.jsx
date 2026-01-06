@@ -1,37 +1,26 @@
 import SearchBar from "../SearchBar/SearchBar";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import "./LibEntities.scss";
 import SelectOptionsBar from "../SelectOptionsBar/SelectOptionsBar";
-import Pagination from "../Pagination/Pagination";
 
-function LibEntities({
-  entities,
-  loading,
-  children,
-  sortOptions,
-  setSortType,
-  setOrderBy,
-  page,
-  totalPages,
-  onPageChange,
-  fetchData,
-  limit,
-}) {
+function LibEntities({ entities, loading, children, sortOptions }) {
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState("DEFAULT");
-
-  useEffect(() => {
-    const fetch = async (limit) => {
-      await fetchData(search === "" ? limit : undefined);
-    };
-
-    fetch(limit);
-  }, [search === ""]);
 
   const filteredEntities = useMemo(
     () => filterEntities(entities, search),
     [entities, search]
   );
+
+  const processedEntities = useMemo(() => {
+    let result = filteredEntities;
+
+    if (sortKey && sortOptions?.[sortKey]) {
+      result = [...result].sort(sortOptions[sortKey].sortData);
+    }
+
+    return result;
+  }, [entities, search, sortKey, sortOptions]);
 
   return (
     <>
@@ -42,8 +31,6 @@ function LibEntities({
             sortKey={sortKey}
             setSortKey={setSortKey}
             sortOptions={sortOptions}
-            setSortType={setSortType}
-            setOrderBy={setOrderBy}
           />
         )}
       </div>
@@ -51,8 +38,8 @@ function LibEntities({
         {loading ? (
           <p>Loading...</p>
         ) : entities.length > 0 ? (
-          filteredEntities.length > 0 ? (
-            filteredEntities.map((book) => children(book))
+          processedEntities.length > 0 ? (
+            processedEntities.map((book) => children(book))
           ) : (
             <p>No match results</p>
           )
@@ -60,14 +47,6 @@ function LibEntities({
           <p>No Entities in library</p>
         )}
       </div>
-
-      {search === "" && (
-        <Pagination
-          page={page}
-          totalPages={totalPages}
-          onPageChange={onPageChange}
-        />
-      )}
     </>
   );
 }

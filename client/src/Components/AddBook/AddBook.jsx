@@ -1,24 +1,16 @@
 import "./AddBook.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { addPost } from "../../api/api";
 import Modal from "../Modal/Modal";
 
-function AddBook({ authors, loading, handleBookAdded, fetchData }) {
+function AddBook({ authors, loading, handleBookAdded }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [authorId, setAuthorId] = useState("");
   const [price, setPrice] = useState(0);
   const [pages, setPages] = useState(0);
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    const fetch = async () => {
-      await fetchData();
-    };
-
-    fetch();
-  }, [open]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

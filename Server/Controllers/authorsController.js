@@ -2,16 +2,10 @@ const authorsService = require("../Services/authorsService");
 
 exports.getAllAuthors = async (req, res) => {
   try {
-    const { orderBy, sortType, page, limit } = req.query;
-    console.log("Getting page authors");
-    const result = await authorsService.getAllAuthors(
-      orderBy,
-      sortType,
-      Number(page),
-      limit ? Number(limit) : undefined
-    );
-    console.log("Successfully got " + result.rows.length + " authors");
-    return res.json({ rows: result.rows || [], count: result.count });
+    console.log("Getting all authors");
+    const authors = await authorsService.getAllAuthors();
+    console.log("Successfully got " + authors.length + " authors");
+    return res.json(authors || []);
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ error: err.message });

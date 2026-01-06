@@ -1,121 +1,82 @@
+const defaultSort = (a, b) => a.name.localeCompare(b.name);
+
 export const BOOK_SORT_OPTIONS = {
   DEFAULT: {
     label: "Sort by...",
-    orderBy: "name",
-    sortType: "ASC",
+    sortData: defaultSort,
   },
   PRICE_ASC: {
     label: "Price 🡓",
-    orderBy: "price",
-    sortType: "ASC",
+    sortData: (a, b) => a.price - b.price,
   },
   PRICE_DESC: {
     label: "Price 🡑",
-    orderBy: "price",
-    sortType: "DESC",
+    sortData: (a, b) => b.price - a.price,
   },
   NAME_ASC: {
     label: "name A-Z",
-    orderBy: "name",
-    sortType: "ASC",
+    sortData: defaultSort,
   },
   NAME_DESC: {
     label: "name Z-A",
-    orderBy: "name",
-    sortType: "DESC",
+    sortData: (a, b) => b.name.localeCompare(a.name),
   },
   AVAILABLE: {
     label: "available",
-    orderBy: "user_id",
-    sortType: "DESC",
+    sortData: (a, b) => (a.user_id ? 1 : 0) - (b.user_id ? 1 : 0),
   },
   UNAVAILABLE: {
     label: "unavailable",
-    orderBy: "user_id",
-    sortType: "ASC",
+    sortData: (a, b) => (b.user_id ? 1 : 0) - (a.user_id ? 1 : 0),
   },
 };
 
 export const USER_SORT_OPTIONS = {
   DEFAULT: {
     label: "Sort by...",
-    orderBy: "name",
-    sortType: "ASC",
+    sortData: defaultSort,
   },
   USERNAME_ASC: {
     label: "username 🡓",
-    orderBy: "name",
-    sortType: "ASC",
+    sortData: defaultSort,
   },
   USERNAME_DESC: {
     label: "username 🡑",
-    orderBy: "name",
-    sortType: "DESC",
+    sortData: (a, b) => b.name.localeCompare(a.name),
+  },
+  LATE_FIRST: {
+    label: "late users",
+    sortData: (a, b) => Number(b.isLate) - Number(a.isLate),
   },
   BALANCE_ASC: {
     label: "balance 🡓",
-    orderBy: "balance",
-    sortType: "ASC",
+    sortData: (a, b) => Number(b.balance) - Number(a.balance),
   },
   BALANCE_DESC: {
     label: "balance 🡑",
-    orderBy: "balance",
-    sortType: "DESC",
+    sortData: (a, b) => Number(a.balance) - Number(b.balance),
   },
 };
 
 export const AUTHOR_SORT_OPTIONS = {
   DEFAULT: {
     label: "Sort by...",
-    orderBy: "name",
-    sortType: "ASC",
+    sortData: defaultSort,
   },
   USERNAME_ASC: {
     label: "name 🡓",
-    orderBy: "name",
-    sortType: "ASC",
+    sortData: defaultSort,
   },
   USERNAME_DESC: {
     label: "name 🡑",
-    orderBy: "name",
-    sortType: "DESC",
+    sortData: (a, b) => b.name.localeCompare(a.name),
   },
   REVENUE_ASC: {
     label: "revenue 🡓",
-    orderBy: "revenue",
-    sortType: "DESC",
+    sortData: (a, b) => Number(b.revenue) - Number(a.revenue),
   },
   REVENUE_DESC: {
     label: "revenue 🡑",
-    orderBy: "revenue",
-    sortType: "ASC",
-  },
-};
-
-export const PERSONAL_SORT_OPTIONS = {
-  DEFAULT: {
-    label: "Sort by...",
-    orderBy: "name",
-    sortType: "ASC",
-  },
-  NAME_ASC: {
-    label: "name 🡓",
-    orderBy: "name",
-    sortType: "ASC",
-  },
-  NAME_DESC: {
-    label: "name 🡑",
-    orderBy: "name",
-    sortType: "DESC",
-  },
-  BORROW_DATE_ASC: {
-    label: "borrow date 🡓",
-    orderBy: "borrow_date",
-    sortType: "ASC",
-  },
-  BORROW_DATE_DESC: {
-    label: "borrow date 🡑",
-    orderBy: "borrow_date",
-    sortType: "DESC",
+    sortData: (a, b) => Number(a.revenue) - Number(b.revenue),
   },
 };

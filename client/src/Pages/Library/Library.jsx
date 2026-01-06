@@ -16,21 +16,15 @@ import { BOOK_SORT_OPTIONS } from "../../Utils/sortUtils";
 function Library() {
   const {
     books,
-    fetchBooks,
+    addBook,
     updateBook,
     loading: booksLoading,
-    setSortType,
-    setOrderBy,
-    page,
-    totalPages,
-    setPage,
-    limit
+    deleteBook: deleteBookClient,
   } = useBooks();
   const {
     authors,
     loading: authorsLoading,
     addRevenue: addRevenueClient,
-    fetchAuthors
   } = useAuthors();
   const { balance, addToBalance } = useBalance();
 
@@ -87,7 +81,7 @@ function Library() {
         console.error("Failed to delete book");
         return;
       }
-      fetchBooks();
+      deleteBookClient(bookId);
 
       toast.success("Book " + bookName + " deleted successfully", {
         position: "bottom-right",
@@ -132,8 +126,7 @@ function Library() {
         <AddBook
           loading={authorsLoading}
           authors={authors}
-          handleBookAdded={fetchBooks}
-          fetchData={fetchAuthors}
+          handleBookAdded={addBook}
         />
       )}
 
@@ -143,13 +136,6 @@ function Library() {
           loading={booksLoading}
           children={renderBookCard}
           sortOptions={BOOK_SORT_OPTIONS}
-          setSortType={setSortType}
-          setOrderBy={setOrderBy}
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-          fetchData={fetchBooks}
-          limit={limit}
         />
       </div>
     </div>

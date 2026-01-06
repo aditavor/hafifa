@@ -13,26 +13,27 @@ body {
 
 .page-container {
   margin: 0 auto;
-  padding: 0 22%;
+  padding: 0 240px;
   display: flex;
   gap: 23px;
   margin-top: 28px;
   flex-direction: column;
+}
 
-  .container {
-    padding: 6px 20px;
-    display: grid;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.08);
+.container {
+  padding: 6px 20px;
+  display: grid;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.08);
+  width: fit-content;
+
+  .container-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
     width: fit-content;
-
-    .container-item {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      width: fit-content;
-    }
+    padding: 20px;
   }
 }
 
@@ -57,6 +58,7 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
 .title {

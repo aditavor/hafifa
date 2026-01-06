@@ -1,34 +1,25 @@
 import { useState, useEffect } from "react";
 import { BooksContext } from "./BooksContext";
-import { getBooks } from "../../api/api";
-import { calcTotalPages } from "../../Utils/systemUtils";
+import { getAllBooks } from "../../api/api";
 
 export function BooksProvider({ children }) {
   const [books, setBooks] = useState([]);
-  const [orderBy, setOrderBy] = useState("name");
-  const [sortType, setSortType] = useState("ASC");
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const limit = 9;
-  const [total, setTotal] = useState(0);
 
-  const fetchBooks = async (limit = undefined) => {
+  const fetchBooks = async () => {
     setLoading(true);
-    const { data } = await getBooks(orderBy, sortType, page, limit);
-    setBooks(data.rows);
-    setTotal(data.count);
+    const { data } = await getAllBooks();
+    setBooks(data);
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchBooks(limit);
-  }, [orderBy, sortType, page]);
+    fetchBooks();
+  }, []);
 
-  useEffect(() => {
-    setPage(1);
-  }, [sortType, orderBy]);
-
-  const totalPages = calcTotalPages(total, limit);
+  const addBook = (newBook) => {
+    setBooks((prev) => [...prev, newBook]);
+  };
 
   const updateBook = (newBook) => {
     setBooks((prev) =>
@@ -36,20 +27,19 @@ export function BooksProvider({ children }) {
     );
   };
 
+  const deleteBook = (bookId) => {
+    setBooks((prev) => prev.filter((book) => book.id !== bookId));
+  };
+
+  const deleteBooksByAuthor = (authorId) => {
+    setBooks((prev) =>
+      prev.filter((book) => Number(book.author_id) !== Number(authorId))
+    );
+  };
+
   return (
     <BooksContext.Provider
-      value={{
-        books,
-        loading,
-        updateBook,
-        fetchBooks,
-        setSortType,
-        setOrderBy,
-        page,
-        totalPages,
-        setPage,
-        limit,
-      }}
+      value={{ books, loading, addBook, updateBook, deleteBook, deleteBooksByAuthor }}
     >
       {children}
     </BooksContext.Provider>
