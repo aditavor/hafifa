@@ -2,7 +2,6 @@ import { useState } from "react";
 import AddAuthor from "../../Components/AddAuthor/AddAuthor";
 import { isWorker } from "../../Utils/systemUtils";
 import { addAuthor, deleteAuthor as deleteAuthorServer } from "../../api/api";
-import Modal from "../../Components/Modal/Modal";
 import { toast } from "react-toastify";
 import { useAuthors } from "../../context/Authors/useAuthors";
 import { useBooks } from "../../context/Books/useBooks";
@@ -16,10 +15,15 @@ function Publishers() {
   const {
     authors,
     loading,
-    addAuthor: addAuthorCtx,
-    deleteAuthor: deleteAuthorClient,
+    fetchAuthors,
+    setOrderBy,
+    setSortType,
+    setPage,
+    totalPages,
+    page,
+    limit: authorsLimit,
   } = useAuthors();
-  const { deleteBooksByAuthor } = useBooks();
+  const { fetchBooks, limit: booksLimit } = useBooks();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,13 +41,13 @@ function Publishers() {
       return;
     }
 
-    toast.success("Added new author " + authorName, {
+    toast.success("Adinovich: new author " + authorName, {
       position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
     });
 
-    addAuthorCtx(data.author);
+    fetchAuthors(authorsLimit);
     setOpen(false);
     setAuthorName("");
     setError("");
@@ -56,8 +60,8 @@ function Publishers() {
         console.error("Failed to delete author");
         return;
       }
-      deleteAuthorClient(authorId);
-      deleteBooksByAuthor(authorId);
+      fetchAuthors(authorsLimit);
+      fetchBooks(booksLimit);
 
       toast.success("Author " + name + " deleted successfully", {
         position: "bottom-right",
@@ -93,7 +97,15 @@ function Publishers() {
           loading={loading}
           children={renderAuthorList}
           sortOptions={AUTHOR_SORT_OPTIONS}
+          setOrderBy={setOrderBy}
+          setSortType={setSortType}
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+          fetchData={fetchAuthors}
+          limit={authorsLimit}
         />
+
         {isWorker() && (
           <li
             className="add-btn"
