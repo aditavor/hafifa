@@ -9,7 +9,7 @@ export function BooksProvider({ children }) {
   const [sortType, setSortType] = useState("ASC");
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const limit = 9;
+  const LIMIT = 9;
   const [total, setTotal] = useState(0);
 
   const fetchBooks = async (limit = undefined) => {
@@ -21,14 +21,14 @@ export function BooksProvider({ children }) {
   };
 
   useEffect(() => {
-    fetchBooks(limit);
+    fetchBooks(LIMIT);
   }, [orderBy, sortType, page]);
 
   useEffect(() => {
     setPage(1);
   }, [sortType, orderBy]);
 
-  const totalPages = calcTotalPages(total, limit);
+  const totalPages = calcTotalPages(total, LIMIT);
 
   const updateBook = (newBook) => {
     setBooks((prev) =>
@@ -48,7 +48,7 @@ export function BooksProvider({ children }) {
         page,
         totalPages,
         setPage,
-        limit,
+        LIMIT,
       }}
     >
       {children}
