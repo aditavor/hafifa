@@ -70,10 +70,17 @@ exports.login = async (req, res) => {
 
 exports.getReaders = async (req, res) => {
   try {
+    const { orderBy, sortType, page, limit } = req.query;
+
     console.log("Getting users");
-    const users = await userService.getReaders();
-    console.log("Successfully got " + users.length + " library users");
-    return res.json(users || []);
+    const result = await userService.getReaders(
+      orderBy,
+      sortType,
+      Number(page),
+      limit ? Number(limit) : undefined
+    );
+    console.log("Successfully got " + result.rows.length + " library users");
+    return res.json({ rows: result.rows || [], count: result.count });
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ error: err.message });
