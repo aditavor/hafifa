@@ -24,13 +24,13 @@ function Library() {
     page,
     totalPages,
     setPage,
-    limit
+    limit,
   } = useBooks();
   const {
     authors,
     loading: authorsLoading,
     addRevenue: addRevenueClient,
-    fetchAuthors
+    fetchAuthors,
   } = useAuthors();
   const { balance, addToBalance } = useBalance();
 
@@ -132,8 +132,9 @@ function Library() {
         <AddBook
           loading={authorsLoading}
           authors={authors}
-          handleBookAdded={fetchBooks}
-          fetchData={fetchAuthors}
+          fetchBooks={fetchBooks}
+          fetchAuthors={fetchAuthors}
+          booksLimit={limit}
         />
       )}
 
