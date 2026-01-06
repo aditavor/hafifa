@@ -3,7 +3,7 @@ const router = express.Router();
 const booksController = require("../Controllers/booksController");
 const userController = require("../Controllers/usersController");
 
-// Get readers 
+// Get all readers 
 router.get("/", userController.getReaders);
 
 // Register to new account

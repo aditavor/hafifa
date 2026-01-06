@@ -18,15 +18,15 @@
     padding: 0px 15px;
 
     li > * {
-      color: lightgray;
-      text-decoration: none;
-      font-size: 12px;
-      padding: 0px;
-      transition: 0.2s ease-in-out;
-    }
+        color: lightgray;
+        text-decoration: none;
+        font-size: 12px;
+        padding: 0px;
+        transition: 0.2s ease-in-out;
 
-    li > a:hover {
-      color: gray;
+        &:hover {
+          color: gray;
+        }
     }
   }
 }

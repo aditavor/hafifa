@@ -5,7 +5,7 @@ import {
   getUserstimeoutBooks,
   updateBalance,
 } from "../../api/api";
-import { calcTotalPages, userId } from "../../Utils/systemUtils";
+import { userId } from "../../Utils/systemUtils";
 import Card from "../../Components/Card/Card";
 import Modal from "../../Components/Modal/Modal";
 import ChangeBalanceModal from "../../Components/ChangeBalanceModal/ChangeBalanceModal";
@@ -24,24 +24,16 @@ function Customers() {
   const [usersBookOpen, setUsersBookOpen] = useState(false);
   const [openUsersBooks, setOpenUsersBooks] = useState([]);
   const [deleteItselfOpen, setDeleteItselfOpen] = useState(false);
-  const [sortType, setSortType] = useState("ASC");
-  const [orderBy, setOrderBy] = useState("name");
   const { addToBalance } = useBalance();
-  const [page, setPage] = useState(1);
-  const limit = 9;
-  const [total, setTotal] = useState(0);
 
-  const fetchCustomers = async (limit = undefined) => {
+  const fetchCustomers = async () => {
     setLoading(true);
 
-    const { data } = await getAllUsers(orderBy, sortType, page, limit);
-    setCustomers(data.rows);
-    setTotal(data.count);
+    const { data } = await getAllUsers();
+    setCustomers(data);
 
     setLoading(false);
   };
-
-  const totalPages = calcTotalPages(total, limit);
 
   const viewUserBooks = async (userId) => {
     setLoading(true);
@@ -74,7 +66,7 @@ function Customers() {
       setCustomers((prev) => prev.filter((user) => user.id !== userId));
 
       toast.success(
-        (name ? "User " + name : "Your own account") + " deleted successfully",
+        (name ? "User " + name : "Your own account ") + "deleted successfully",
         {
           position: "bottom-right",
           autoClose: 3000,
@@ -131,12 +123,8 @@ function Customers() {
   );
 
   useEffect(() => {
-    fetchCustomers(limit);
-  }, [sortType, orderBy, page]);
-
-  useEffect(() => {
-    setPage(1);
-  }, [sortType, orderBy]);
+    fetchCustomers();
+  }, []);
 
   return (
     <>
@@ -148,13 +136,6 @@ function Customers() {
             loading={loading}
             children={renderBookCard}
             sortOptions={USER_SORT_OPTIONS}
-            setOrderBy={setOrderBy}
-            setSortType={setSortType}
-            page={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
-            fetchData={fetchCustomers}
-            limit={limit}
           />
         </div>
 

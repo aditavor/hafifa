@@ -16,7 +16,7 @@ import { BOOK_SORT_OPTIONS } from "../../Utils/sortUtils";
 function Library() {
   const {
     books,
-    fetchBooks,
+    addBook,
     updateBook,
     loading: booksLoading,
     setSortType,
@@ -145,13 +145,6 @@ function Library() {
           loading={booksLoading}
           children={renderBookCard}
           sortOptions={BOOK_SORT_OPTIONS}
-          setSortType={setSortType}
-          setOrderBy={setOrderBy}
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-          fetchData={fetchBooks}
-          limit={limit}
         />
       </div>
     </div>

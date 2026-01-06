@@ -1,16 +1,11 @@
 const bookService = require("../Services/booksService");
 
-exports.getBooks = async (req, res) => {
+exports.getAllBooks = async (req, res) => {
   try {
-    const { orderBy, sortType, page, limit } = req.query;
-    const result = await bookService.getBooks(
-      orderBy,
-      sortType,
-      Number(page),
-      limit ? Number(limit) : undefined
-    );
-    console.log("Successfully got " + result.rows.length + " books");
-    return res.json({ rows: result.rows || [], count: result.count });
+    console.log("Getting all book");
+    const books = await bookService.getAllBooks();
+    console.log("Successfully got " + books.length + " books");
+    return res.json(books || []);
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ error: err.message });
@@ -152,19 +147,12 @@ exports.getMostPopularBooks = async (req, res) => {
 exports.getUserBooks = async (req, res) => {
   try {
     const { userId } = req.params;
-    const { orderBy, sortType, page, limit } = req.query;
     console.log("Getting user's books");
-    const result = await bookService.getUserBooks(
-      userId,
-      orderBy,
-      sortType,
-      Number(page),
-      limit ? Number(limit) : undefined
-    );
+    const books = await bookService.getUserBooks(userId);
     console.log(
-      "Successfully got " + result.rows.length + " books for user " + userId
+      "Successfully got " + books.length + " books for user- " + userId
     );
-    return res.json({ rows: result.rows || [], count: result.count });
+    return res.json(books || []);
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ error: err.message });

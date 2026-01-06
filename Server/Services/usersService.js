@@ -22,8 +22,8 @@ exports.deleteUser = async (userId) => {
   return deleted !== 0;
 };
 
-exports.getReaders = async (orderBy, sortType, page, limit) => {
-  const result = await LibUser.findAndCountAll({
+exports.getReaders = async () => {
+  return await LibUser.findAll({
     attributes: [
       "id",
       "name",
@@ -41,12 +41,7 @@ exports.getReaders = async (orderBy, sortType, page, limit) => {
         "isLate",
       ],
     ],
-    ...(limit && { limit }),
-    ...(limit && { offset: (page - 1) * limit }),
-    order: [[orderBy, sortType]],
   });
-
-  return result;
 };
 
 exports.getBalance = async (userId) => {

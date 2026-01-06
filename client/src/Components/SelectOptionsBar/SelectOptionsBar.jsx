@@ -1,22 +1,10 @@
 import "./SelectOptionsBar.scss";
 
-function SelectOptionsBar({
-  sortOptions,
-  setSortKey,
-  sortKey,
-  setSortType,
-  setOrderBy,
-}) {
-  const onChange = (e) => {
-    setSortKey(e.target.value);
-    setSortType(sortOptions[e.target.value].sortType);
-    setOrderBy(sortOptions[e.target.value].orderBy);
-  };
-
+function SelectOptionsBar({ sortOptions, setSortKey, sortKey }) {
   return (
     <div className="select-wrapper">
       <i className="controlIcon fa-solid fa-chevron-down select-icon"></i>
-      <select value={sortKey} onChange={onChange}>
+      <select value={sortKey} onChange={(e) => setSortKey(e.target.value)}>
         <option value="DEFAULT" disabled hidden>
           {sortOptions.DEFAULT.label}
         </option>

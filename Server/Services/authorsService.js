@@ -9,15 +9,12 @@ exports.postAuthor = async (authorData) => {
   };
 };
 
-exports.getAllAuthors = async (orderBy, sortType, page, limit) => {
-  const result = await LibAuthor.findAndCountAll({
+exports.getAllAuthors = async () => {
+  const authors = await LibAuthor.findAll({
     attributes: ["id", "name", "revenue"],
-    ...(limit && { limit }),
-    ...(limit && { offset: (page - 1) * limit }),
-    order: [[orderBy || "name", sortType || "ASC"]],
   });
 
-  return result;
+  return authors;
 };
 
 exports.addRevenue = async (authorId, amount) => {
