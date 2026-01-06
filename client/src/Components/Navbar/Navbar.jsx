@@ -21,7 +21,7 @@ function Navbar() {
         <ul className="nav-links">
           <li>
             <Link to="/login" onClick={() => localStorage.clear()}>
-              LogOut
+              Logout
             </Link>
           </li>
           <li>

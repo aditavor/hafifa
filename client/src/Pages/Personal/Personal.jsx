@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import Card from "../../Components/Card/Card";
 import { toast } from "react-toastify";
-import { userId } from "../../Utils/systemUtils";
+import { calcTotalPages, userId } from "../../Utils/systemUtils";
 import { returnBook, getUsersBooks } from "../../api/api";
 import { useBooks } from "../../context/Books/useBooks";
 import ChangeBalanceModal from "../../Components/ChangeBalanceModal/ChangeBalanceModal";
 import { useBalance } from "../../context/Balance/useBalance";
+import LibEntities from "../../Components/LibEntities/LibEntities";
+import { PERSONAL_SORT_OPTIONS } from "../../Utils/sortUtils";
 
 function Personal() {
   const [books, setBooks] = useState([]);
@@ -13,19 +15,37 @@ function Personal() {
   const [loading, setLoading] = useState(true);
   const { updateBook } = useBooks();
   const { balance, addToBalance } = useBalance();
+  const [sortType, setSortType] = useState("ASC");
+  const [orderBy, setOrderBy] = useState("name");
+  const [page, setPage] = useState(1);
+  const limit = 9;
+  const [total, setTotal] = useState(0);
 
-  const fetchBooks = async () => {
+  const fetchBooks = async (limit = undefined) => {
     setLoading(true);
 
-    const { data } = await getUsersBooks(userId());
-    setBooks(data);
+    const { data } = await getUsersBooks(
+      userId(),
+      orderBy,
+      sortType,
+      page,
+      limit
+    );
+    setBooks(data.rows);
+    setTotal(data.count);
 
     setLoading(false);
   };
 
+  const totalPages = calcTotalPages(total, limit);
+
   useEffect(() => {
-    fetchBooks();
-  }, []);
+    fetchBooks(limit);
+  }, [orderBy, sortType, page]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [sortType, orderBy]);
 
   const handleReturn = async (bookId) => {
     try {
@@ -48,39 +68,45 @@ function Personal() {
     }
   };
 
+  const renderBookCard = (book) => (
+    <Card
+      key={book.id}
+      data={{
+        id: book.id,
+        name: book.name,
+        headers: "Borrow Date: " + book.borrow_date,
+      }}
+      buttons={[
+        {
+          label: "Return Book",
+          onClick: handleReturn,
+        },
+      ]}
+    />
+  );
+
   const handleBookReturned = (returnedBook) => {
     updateBook(returnedBook);
-    setBooks(books.filter((book) => book.id !== returnedBook.id));
+    fetchBooks(limit);
   };
 
   return (
     <div className="page-container">
       <h2 className="title">Books you borrowed:</h2>
       <div className="container">
-        <div className="container-item">
-          {loading ? (
-            <p>Loading...</p>
-          ) : books.length > 0 ? (
-            books.map((book) => (
-              <Card
-                key={book.id}
-                data={{
-                  id: book.id,
-                  name: book.name,
-                  headers: "Borrow Date: " + book.borrow_date,
-                }}
-                buttons={[
-                  {
-                    label: "Return Book",
-                    onClick: handleReturn,
-                  },
-                ]}
-              />
-            ))
-          ) : (
-            <p>You didnt borrowed any book</p>
-          )}
-        </div>
+        <LibEntities
+          entities={books}
+          loading={loading}
+          children={renderBookCard}
+          sortOptions={PERSONAL_SORT_OPTIONS}
+          setSortType={setSortType}
+          setOrderBy={setOrderBy}
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+          fetchData={fetchBooks}
+          limit={limit}
+        />
       </div>
       <button className="lib-btn" onClick={() => setOpen(true)}>
         Add To Balance
