@@ -24,13 +24,13 @@ function Library() {
     page,
     totalPages,
     setPage,
-    limit
+    limit,
   } = useBooks();
   const {
     authors,
     loading: authorsLoading,
     addRevenue: addRevenueClient,
-    fetchAuthors
+    fetchAuthors,
   } = useAuthors();
   const { balance, addToBalance } = useBalance();
 
@@ -87,7 +87,7 @@ function Library() {
         console.error("Failed to delete book");
         return;
       }
-      fetchBooks();
+      fetchBooks(limit);
 
       toast.success("Book " + bookName + " deleted successfully", {
         position: "bottom-right",
@@ -133,7 +133,9 @@ function Library() {
           loading={authorsLoading}
           authors={authors}
           handleBookAdded={fetchBooks}
-          fetchData={fetchAuthors}
+          fetchAuthors={fetchAuthors}
+          fetchBooks={fetchBooks}
+          booksLimit={limit}
         />
       )}
 

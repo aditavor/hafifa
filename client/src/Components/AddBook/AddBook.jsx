@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { addPost } from "../../api/api";
 import Modal from "../Modal/Modal";
 
-function AddBook({ authors, loading, handleBookAdded, fetchData }) {
+function AddBook({ authors, loading, fetchAuthors, fetchBooks, booksLimit }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [authorId, setAuthorId] = useState("");
@@ -14,7 +14,7 @@ function AddBook({ authors, loading, handleBookAdded, fetchData }) {
 
   useEffect(() => {
     const fetch = async () => {
-      await fetchData();
+      await fetchAuthors();
     };
 
     fetch();
@@ -36,7 +36,7 @@ function AddBook({ authors, loading, handleBookAdded, fetchData }) {
       return;
     }
 
-    handleBookAdded(data.book);
+    fetchBooks(booksLimit);
 
     toast.success("Created new book " + name, {
       position: "bottom-right",
