@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const booksController = require("../Controllers/booksController");
 
-// Get all books
-router.get("/", booksController.getAllBooks);
+// Get books
+router.get("/", booksController.getBooks);
 
-// Get all user's timeout books
+// Get user's timeout books
 router.get("/:userId/timeout", booksController.getUserstimeoutBooks);
 
 // Borrow a book
