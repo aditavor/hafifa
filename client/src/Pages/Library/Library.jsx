@@ -87,7 +87,7 @@ function Library() {
         console.error("Failed to delete book");
         return;
       }
-      fetchBooks();
+      fetchBooks(limit);
 
       toast.success("Book " + bookName + " deleted successfully", {
         position: "bottom-right",
@@ -132,8 +132,9 @@ function Library() {
         <AddBook
           loading={authorsLoading}
           authors={authors}
-          fetchBooks={fetchBooks}
+          handleBookAdded={fetchBooks}
           fetchAuthors={fetchAuthors}
+          fetchBooks={fetchBooks}
           booksLimit={limit}
         />
       )}

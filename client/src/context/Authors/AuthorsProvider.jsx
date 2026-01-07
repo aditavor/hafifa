@@ -9,7 +9,7 @@ export function AuthorsProvider({ children }) {
   const [sortType, setSortType] = useState("ASC");
   const [orderBy, setOrderBy] = useState("name");
   const [page, setPage] = useState(1);
-  const limit = 5;
+  const LIMIT = 5;
   const [total, setTotal] = useState(0);
 
   const fetchAuthors = async (limit = undefined) => {
@@ -21,14 +21,14 @@ export function AuthorsProvider({ children }) {
   };
 
   useEffect(() => {
-    fetchAuthors(limit);
+    fetchAuthors(LIMIT);
   }, [sortType, orderBy, page]);
 
   useEffect(() => {
     setPage(1);
   }, [sortType, orderBy]);
 
-  const totalPages = calcTotalPages(total, limit);
+  const totalPages = calcTotalPages(total, LIMIT);
 
   const addRevenue = (authorId, value) => {
     setAuthors((prev) =>
@@ -52,7 +52,7 @@ export function AuthorsProvider({ children }) {
         setPage,
         setSortType,
         setOrderBy,
-        limit,
+        LIMIT,
       }}
     >
       {children}

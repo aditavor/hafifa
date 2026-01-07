@@ -18,7 +18,7 @@ function Personal() {
   const [sortType, setSortType] = useState("ASC");
   const [orderBy, setOrderBy] = useState("name");
   const [page, setPage] = useState(1);
-  const limit = 9;
+  const LIMIT = 9;
   const [total, setTotal] = useState(0);
 
   const fetchBooks = async (limit = undefined) => {
@@ -37,10 +37,10 @@ function Personal() {
     setLoading(false);
   };
 
-  const totalPages = calcTotalPages(total, limit);
+  const totalPages = calcTotalPages(total, LIMIT);
 
   useEffect(() => {
-    fetchBooks(limit);
+    fetchBooks(LIMIT);
   }, [orderBy, sortType, page]);
 
   useEffect(() => {
@@ -87,7 +87,7 @@ function Personal() {
 
   const handleBookReturned = (returnedBook) => {
     updateBook(returnedBook);
-    fetchBooks(limit);
+    fetchBooks(LIMIT);
   };
 
   return (
@@ -105,7 +105,7 @@ function Personal() {
           totalPages={totalPages}
           onPageChange={setPage}
           fetchData={fetchBooks}
-          limit={limit}
+          limit={LIMIT}
         />
       </div>
       <button className="lib-btn" onClick={() => setOpen(true)}>

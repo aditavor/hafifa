@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { addPost } from "../../api/api";
 import Modal from "../Modal/Modal";
 
-function AddBook({ authors, loading, fetchBooks, fetchAuthors, booksLimit }) {
+function AddBook({ authors, loading, fetchAuthors, fetchBooks, booksLimit }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [authorId, setAuthorId] = useState("");

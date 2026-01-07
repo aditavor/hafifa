@@ -28,7 +28,7 @@ function Customers() {
   const [orderBy, setOrderBy] = useState("name");
   const { addToBalance } = useBalance();
   const [page, setPage] = useState(1);
-  const limit = 9;
+  const LIMIT = 9;
   const [total, setTotal] = useState(0);
 
   const fetchCustomers = async (limit = undefined) => {
@@ -41,7 +41,7 @@ function Customers() {
     setLoading(false);
   };
 
-  const totalPages = calcTotalPages(total, limit);
+  const totalPages = calcTotalPages(total, LIMIT);
 
   const viewUserBooks = async (userId) => {
     setLoading(true);
@@ -131,7 +131,7 @@ function Customers() {
   );
 
   useEffect(() => {
-    fetchCustomers(limit);
+    fetchCustomers(LIMIT);
   }, [sortType, orderBy, page]);
 
   useEffect(() => {
@@ -154,7 +154,7 @@ function Customers() {
             totalPages={totalPages}
             onPageChange={setPage}
             fetchData={fetchCustomers}
-            limit={limit}
+            limit={LIMIT}
           />
         </div>
 
